@@ -1,0 +1,189 @@
+:root {
+  --color-bg: #fefefe;
+  --color-primary: #a3c9f9; 
+  --color-secondary: #f9c6d0;
+  --color-accent: #b5e6b5;   
+  --color-muted: #f0e5f5;    
+  --color-text: #333;        
+  --color-danger: #efbfbf;   
+  --radius: 1rem;
+  --shadow: 0 2px 6px rgba(0,0,0,0.1);
+  --transition: 0.2s ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Roboto, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  line-height: 1.6;
+}
+
+main.app {
+  max-width: 900px;
+  margin: auto;
+  padding: 1rem;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.logo {
+  height: 100px;
+  width: 100%;
+  object-fit: contain;
+  margin-bottom: 0.5rem;
+}
+
+h4 {
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+
+button {
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: var(--radius);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+.btn-accent {
+  background: var(--color-accent);
+}
+
+.btn-muted {
+  background: var(--color-muted);
+}
+
+.btn-danger {
+  background: var(--color-danger);
+}
+
+/* 💬 Frase armada */
+.bar {
+  background: var(--color-secondary);
+  padding: 1rem;
+  border-radius: var(--radius);
+  margin-bottom: 1.5rem;
+}
+
+.sentence {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.chip {
+  background: white;
+  border-radius: var(--radius);
+  padding: 0.3rem 0.8rem;
+  box-shadow: var(--shadow);
+  font-size: 0.9rem;
+}
+
+/* 📂 Categorías */
+.categories .row,
+.addPicto .row,
+.tts .row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin: 1rem 0;
+  align-items: center;
+}
+
+select,
+input[type="text"],
+textarea {
+  padding: 0.6rem;
+  border-radius: var(--radius);
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  flex: 1;
+}
+
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.tile {
+  background: var(--color-primary);
+  border-radius: var(--radius);
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+}
+
+.tile:hover {
+  background: var(--color-accent);
+  transform: translateY(-3px);
+}
+
+.tile .emoji {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.tile .label {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+
+textarea {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+}
+
+.rompecabeza {
+  height: 100%;
+  width: 100px;
+}
+
+footer {
+  text-align: center;
+  font-size: 0.8rem;
+  color: #666;
+  margin-top: 2rem;
+  padding: 1rem 0;
+  border-top: 1px solid #eee;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  button {
+    flex: 1;
+  }
+}

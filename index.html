@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="css/style.css">
+  <title>InTouch · Pictogramas + Texto a Voz</title>
+</head>
+<body>
+  <main class="app" role="main">
+  
+    <header>
+      <img src="img/logo.png" alt="Logo InTouch" class="logo"/>
+        <h4>Comunicación simple, inclusión real</h4>
+        <link rel="icon" type="img/Copia-de-InTouch.ico" href="img/Copia-de-InTouch.ico">
+    </header>
+
+    <section class="bar" aria-label="Frase armada">
+      <div id="sentence" class="sentence" aria-live="polite" aria-atomic="false">
+        <span class="chip"><small>Consejo:</small> toca pictogramas para armar y leer una frase.</span>
+      </div>
+    </section>
+
+    <section class="categories" aria-label="Categorías">
+      <div class="row">
+          <div class="controls">
+            <button id="speakSentence" class="btn-accent">▶ Leer</button>
+            <button id="clearSentence" class="btn-muted">× Borrar</button>
+          </div>
+        <label for="categorySelect">Filtrar por categoría:</label>
+        <select id="categorySelect">
+          <option value="all">Todas</option>
+          <option value="saludos">Saludos</option>
+          <option value="necesidades">Necesidades</option>
+          <option value="emociones">Emociones</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="addPicto" aria-label="Agregar pictograma">
+      <h2>Agregar pictograma</h2>
+      <div class="row">
+        <input type="text" id="pictoLabel" placeholder="Texto a pronunciar" />
+        <select id="pictoCategory">
+          <option value="saludos">Saludos</option>
+          <option value="necesidades">Necesidades</option>
+          <option value="emociones">Emociones</option>
+        </select>
+        <input type="file" id="pictoImage" accept="image/*" />
+        <button id="addPictoBtn">＋ Agregar</button>
+      </div>
+    </section>
+
+    <section aria-label="Pictogramas">
+      <div class="grid" id="pictogramGrid">
+        <button class="tile" data-say="Hola" data-cat="saludos" aria-label="Hola">
+          <div class="emoji">👋</div>
+          <div class="label">Hola</div>
+        </button>
+      </div>
+    </section>
+
+    <section class="tts" aria-label="Texto a voz libre">
+      <div class="row">
+        <label for="voiceSelect">Voz:</label>
+        <select id="voiceSelect" aria-label="Seleccionar voz"></select>
+        <label for="rate">Velocidad:</label>
+        <input id="rate" type="range" min="0.5" max="1.5" step="0.1" value="1" />
+        <label for="pitch">Tono:</label>
+        <input id="pitch" type="range" min="0.5" max="1.5" step="0.1" value="1" />
+      </div>
+      <textarea id="freeText" placeholder="Escribí un mensaje para leer en voz alta…"></textarea>
+      <div class="row">
+        <button id="speakText">▶ Leer texto</button>
+        <button id="stopSpeech" class="btn-danger">⏹ Detener</button>
+      </div>
+    </section>
+
+    <footer>
+      <p> © InTouch 2025 - Demo - Funciona sin conexión en navegadores modernos que soportan Web Speech API.</p>
+      <img src="img/InTouch.png" alt="InTouch" class="rompecabeza"/>
+    </footer>
+  </main>
+
+  <script src="javascript.js"></script>
+</body>
+</html>
