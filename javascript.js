@@ -105,7 +105,6 @@
       });
     });
 
-    // === Agregar pictogramas con imagen ===
     const addBtn = document.getElementById('addPictoBtn');
     addBtn.addEventListener('click', () => {
       const label = document.getElementById('pictoLabel').value.trim();
@@ -128,3 +127,11 @@
       document.getElementById('pictoLabel').value = '';
       fileInput.value = '';
     });
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker
+      .register("/sw.js")
+      .then(reg => console.log("Service Worker registrado:", reg))
+      .catch(err => console.log("Error al registrar Service Worker:", err));
+  });
+}
