@@ -91,7 +91,6 @@
       synth.cancel();
     });
 
-    // === Filtrar por categoría ===
     const categorySelect = document.getElementById('categorySelect');
     categorySelect.addEventListener('change', () => {
       const cat = categorySelect.value;
@@ -127,6 +126,8 @@
       document.getElementById('pictoLabel').value = '';
       fileInput.value = '';
     });
+
+
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
