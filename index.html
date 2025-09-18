@@ -1,23 +1,19 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <link rel="manifest" href="manifest.json">
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="css/style.css">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#a3c9f9">
   <title>InTouch · Pictogramas + Texto a Voz</title>
 </head>
 <body>
   <main class="app" role="main">
-
-
     <header>
       <img src="img/logo.png" alt="Logo InTouch" class="logo"/>
-      <h1>InTouch</h1>
       <h4>Comunicación simple, inclusión real</h4>
     </header>
-
-
     <section class="bar" aria-label="Frase armada">
       <div id="sentence" class="sentence" aria-live="polite" aria-atomic="false">
         <span class="chip"><small>Consejo:</small> toca pictogramas para armar y leer una frase.</span>
@@ -27,8 +23,6 @@
         <button id="clearSentence" class="btn-muted">🧹 Borrar</button>
       </div>
     </section>
-
-
     <section class="categories" aria-label="Categorías">
       <div class="row">
         <label for="categorySelect">Filtrar por categoría:</label>
@@ -42,12 +36,8 @@
         </select>
       </div>
     </section>
-
-
     <section aria-label="Pictogramas">
       <div class="grid" id="pictogramGrid">
-
-
         <button class="tile" data-say="Hola" data-cat="saludos" aria-label="Hola">
           <div class="emoji">👋</div>
           <div class="label">Hola</div>
@@ -56,8 +46,6 @@
           <div class="emoji">👋</div>
           <div class="label">Adiós</div>
         </button>
-
-
         <button class="tile" data-say="Quiero agua" data-cat="necesidades" aria-label="Quiero agua">
           <div class="emoji">💧</div>
           <div class="label">Agua</div>
@@ -66,8 +54,6 @@
           <div class="emoji">🍽️</div>
           <div class="label">Hambre</div>
         </button>
-
-
         <button class="tile" data-say="Estoy feliz" data-cat="emociones" aria-label="Estoy feliz">
           <div class="emoji">😊</div>
           <div class="label">Feliz</div>
@@ -80,8 +66,6 @@
           <div class="emoji">😠</div>
           <div class="label">Enojado</div>
         </button>
-
-
         <button class="tile" data-say="Quiero manzana" data-cat="comida" aria-label="Quiero manzana">
           <div class="emoji">🍎</div>
           <div class="label">Manzana</div>
@@ -90,8 +74,6 @@
           <div class="emoji">🍞</div>
           <div class="label">Pan</div>
         </button>
-
-
         <button class="tile" data-say="Quiero jugar" data-cat="acciones" aria-label="Quiero jugar">
           <div class="emoji">🎮</div>
           <div class="label">Jugar</div>
@@ -102,8 +84,6 @@
         </button>
       </div>
     </section>
-
-
     <section class="addPicto" aria-label="Agregar pictograma">
       <h2>Agregar pictograma</h2>
       <div class="row">
@@ -119,7 +99,6 @@
         <button id="addPictoBtn">＋ Agregar</button>
       </div>
     </section>
-
     <section class="tts" aria-label="Texto a voz libre">
       <h2>Texto libre</h2>
       <div class="row">
@@ -136,12 +115,10 @@
         <button id="stopSpeech" class="btn-danger">⏹ Detener</button>
       </div>
     </section>
-
     <footer>
       <img src="img/InTouch.png" alt="InTouch" class="rompecabeza"/>
       <p>Demo básica · Funciona sin conexión en navegadores modernos con Web Speech API.</p>
     </footer>
-
   </main>
   <script src="javascript.js"></script>
 </body>

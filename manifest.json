@@ -1,7 +1,7 @@
 {
   "name": "InTouch",
   "short_name": "InTouch",
-  "start_url": "./index.html",
+  "start_url": "/InTouch/index.html",
   "display": "fullscreen",
   "background_color": "#fefefe",
   "theme_color": "#a3c9f9",
