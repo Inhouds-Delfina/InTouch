@@ -1,11 +1,12 @@
 const synth = window.speechSynthesis;
 let voices = [];
 
-
+// Elegir voz en español preferida
 function pickSpanishVoice(vlist) {
   const byLang = (lang) => vlist.filter(v => (v.lang || '').toLowerCase().startsWith(lang));
   return byLang('es-ar')[0] || byLang('es-')[0] || vlist[0] || null;
 }
+
 
 
 function loadVoices() {
@@ -28,6 +29,7 @@ if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !=
 }
 
 
+
 function speak(text) {
   if (!text) return;
 
@@ -46,13 +48,16 @@ function speak(text) {
   utter.pitch = pitch;
 
 
+
   synth.cancel();
   synth.speak(utter);
 }
 
 
+
 const sentenceEl = document.getElementById('sentence');
 const grid = document.getElementById('pictogramGrid');
+
 
 
 function addChip(text) {
@@ -66,9 +71,11 @@ function addChip(text) {
 }
 
 
+
 function sentenceText() {
   return Array.from(sentenceEl.querySelectorAll('.chip')).map(c => c.textContent).join(' ');
 }
+
 
 
 grid.addEventListener('click', (e) => {
@@ -81,6 +88,7 @@ grid.addEventListener('click', (e) => {
 });
 
 
+
 grid.querySelectorAll('.tile').forEach(tile => {
   tile.tabIndex = 0;
   tile.addEventListener('keydown', (e) => {
@@ -90,6 +98,7 @@ grid.querySelectorAll('.tile').forEach(tile => {
     }
   });
 });
+
 
 
 document.getElementById('speakSentence').addEventListener('click', () => {
@@ -110,6 +119,7 @@ document.getElementById('stopSpeech').addEventListener('click', () => {
 });
 
 
+
 const categorySelect = document.getElementById('categorySelect');
 categorySelect.addEventListener('change', () => {
   const cat = categorySelect.value;
@@ -122,6 +132,7 @@ categorySelect.addEventListener('change', () => {
     }
   });
 });
+
 
 
 const addBtn = document.getElementById('addPictoBtn');
@@ -143,21 +154,30 @@ addBtn.addEventListener('click', () => {
     btn.innerHTML = `<img src="${imgSrc}" alt="${label}" class="picto-img"><div class="label">${label}</div>`;
     grid.appendChild(btn);
 
-    // 🚀 (Opcional) Enviar a tu servidor
-    /*
+
     const formData = new FormData();
     formData.append("texto", label);
     formData.append("categoria", cat);
     formData.append("imagen", fileInput.files[0]);
 
-    fetch("https://TU-SERVIDOR.com/api.php", {
+    fetch("https://intouch.escuelarobertoarlt.com/api.php", {
       method: "POST",
-      body: formData
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        texto: label,
+        categoria: cat,
+        imagen: imgSrc
+      })
     })
-    .then(res => res.json())
-    .then(data => console.log("Guardado en DB:", data))
-    .catch(err => console.error("Error al guardar:", err));
-    */
+      .then(res => res.json())
+      .then(data => {
+        console.log("Respuesta del servidor:", data);
+      })
+      .catch(err => console.error("Error guardando pictograma:", err));
+
+
   };
 
   reader.readAsDataURL(fileInput.files[0]);
@@ -171,7 +191,7 @@ addBtn.addEventListener('click', () => {
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker
-      .register("sw.js")
+      .register("sw.js") // 👈 ajustá la ruta según dónde esté tu sw.js
       .then(reg => console.log("Service Worker registrado:", reg))
       .catch(err => console.log("Error al registrar Service Worker:", err));
   });
