@@ -81,7 +81,7 @@ button:hover {
   background: var(--color-danger);
 }
 
-/* 💬 Frase armada */
+
 .bar {
   background: var(--color-secondary);
   padding: 1rem;
@@ -103,7 +103,7 @@ button:hover {
   font-size: 0.9rem;
 }
 
-/* 📂 Categorías */
+
 .categories .row,
 .addPicto .row,
 .tts .row {
