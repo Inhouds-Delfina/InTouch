@@ -170,13 +170,9 @@ textarea {
 textarea {
   width: 100%;
   min-height: 100px;
-  resize: vertical;
+  resize: horizontal;
 }
 
-.rompecabeza {
-  height: 100%;
-  width: 100px;
-}
 
 footer {
   text-align: center;

@@ -151,3 +151,13 @@ button {
   justify-content: space-between;
   gap: 5px;
 }
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  button {
+    flex: 1;
+  }
+}
