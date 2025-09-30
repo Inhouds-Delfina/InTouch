@@ -1,7 +1,7 @@
 const synth = window.speechSynthesis;
 let voices = [];
 
-// Elegir voz en español preferida
+
 function pickSpanishVoice(vlist) {
   const byLang = (lang) => vlist.filter(v => (v.lang || '').toLowerCase().startsWith(lang));
   return byLang('es-ar')[0] || byLang('es-')[0] || vlist[0] || null;
