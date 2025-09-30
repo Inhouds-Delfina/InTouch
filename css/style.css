@@ -5,7 +5,8 @@
   --color-accent: #b5e6b5;   
   --color-muted: #f0e5f5;    
   --color-text: #333;        
-  --color-danger: #efbfbf;   
+  --color-danger: #efbfbf;
+  --color-a: #f45b91;   
   --radius: 1rem;
   --shadow: 0 2px 6px rgba(0,0,0,0.1);
   --transition: 0.2s ease;
@@ -54,6 +55,14 @@ h4 {
   gap: 1rem;
 }
 
+a.admin-link {
+  display: inline-block;
+  margin-top: 1rem;
+  text-align: center;
+  color: var(--color-a);
+  text-decoration: none;
+  font-weight: bold;
+}
 
 button {
   padding: 0.6rem 1.2rem;

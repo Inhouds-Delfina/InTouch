@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="./img/logo_fondo.ico">
+  <link rel="stylesheet" href="css/abm.css">
+  <title>InTouch · Administración de Pictogramas</title>
+</head>
+<body>
+  <main class="admin-app">
+    <header>
+      <h1>Administración de Pictogramas</h1>
+      <p>Añadí, modificá o eliminá pictogramas en tu aplicación.</p>
+    </header>
+
+    <section class="picto-form">
+      <h2>＋ Añadir / Editar pictograma</h2>
+      <form id="pictoForm" enctype="multipart/form-data">
+        <input type="hidden" id="pictoId" name="id" value="">
+        
+        <div class="row">
+          <label for="texto">Texto:</label>
+          <input type="text" id="texto" name="texto" required>
+        </div>
+
+        <div class="row">
+          <label for="categoria">Categoría:</label>
+          <select id="categoria" name="categoria" required>
+            <option value="saludos">Saludos</option>
+            <option value="necesidades">Necesidades</option>
+            <option value="emociones">Emociones</option>
+            <option value="comida">Comida</option>
+            <option value="acciones">Acciones</option>
+          </select>
+        </div>
+
+        <div class="row">
+          <label for="imagen">Imagen:</label>
+          <input type="file" id="imagen" name="imagen" accept="image/*">
+        </div>
+
+        <div class="row">
+          <button type="submit">💾 Guardar</button>
+          <button type="reset">X Cancelar</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="picto-list">
+      <h2>Lista de pictogramas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Imagen</th>
+            <th>Texto</th>
+            <th>Categoría</th>
+          </tr>
+        </thead>
+        <tbody id="pictoTableBody">
+        </tbody>
+      </table>
+    </section>
+  </main>
+<script src="js/javascript.js"></script>
+</body>
+</html>
