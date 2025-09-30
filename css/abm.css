@@ -1,3 +1,11 @@
+:root {
+  --color-a: #f45b91;   
+  --radius: 1rem;
+  --shadow: 0 2px 6px rgba(0,0,0,0.1);
+  --transition: 0.2s ease;
+}
+
+
 * {
   margin: 0;
   padding: 0;
@@ -23,6 +31,14 @@ main {
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
 }
 
+a {
+  display: inline-block;
+  margin-top: 1rem;
+  text-align: center;
+  color: var(--color-a);
+  text-decoration: none;
+  font-weight: bold;
+}
 
 h1, h2 {
   text-align: center;
