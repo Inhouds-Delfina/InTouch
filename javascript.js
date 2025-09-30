@@ -196,7 +196,7 @@ if ("serviceWorker" in navigator) {
       .catch(err => console.log("Error al registrar Service Worker:", err));
   });
 }
-// ⚡ Ejemplo básico de carga de pictogramas desde tu API
+
 async function cargarPictos() {
   const res = await fetch("api.php");
   const data = await res.json();
