@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon" type="image/x-icon" href="./img/logo_fondo.ico">
+  <link rel="stylesheet" href="css/style.css">
+  <title>InTouch</title>
+</head>
+<body>
+  <main class="admin-app">
+    <header>
+      <h1>Texto Libre</h1>
+      <p>Escribí y escuchá cualquier texto.</p>
+    </header>
+    <a href="index.html">← Volver a la app</a>
+    <section class="text-to-speech">
+        <label for="voiceSelect">Voz:</label>
+        <select id="voiceSelect" aria-label="Seleccionar voz"></select>
+        <label for="rate">Velocidad:</label>
+        <input id="rate" type="range" min="0.5" max="1.5" step="0.1" value="1" />
+        <label for="pitch">Tono:</label>
+        <input id="pitch" type="range" min="0.5" max="1.5" step="0.1" value="1" />
+      </div>
+      <textarea id="freeText" placeholder="Escribí un mensaje para leer en voz alta…"></textarea>
+      <div class="row">
+        <button id="speakText">▶ Leer texto</button>
+        <button id="stopSpeech" class="btn-danger">⏹ Detener</button>
+      </div>
+    </section>
+    </section>
+  </main>
+<script src="js/javascript.js"></script>
+</body>
+</html>
