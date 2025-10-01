@@ -13,7 +13,7 @@
   <main class="app" role="main">
     <header>
       <img src="img/logo.png" alt="Logo InTouch" class="logo"/>
-      <h4>Comunicación simple, inclusión real</h4>
+      <h4 class="chip">Comunicación simple, inclusión real</h4>
     </header>
     <section class="bar" aria-label="Frase armada">
       <div id="sentence" class="sentence" aria-live="polite" aria-atomic="false">
@@ -85,6 +85,38 @@
           <div class="label">Dormir</div>
         </button>
       </div>
+    </section>
+    <section class="addPicto" aria-label="Agregar pictograma">
+      <h2>Agregar pictograma</h2>
+      <div class="row">
+        <input type="text" id="pictoLabel" placeholder="Texto a pronunciar" />
+        <select id="pictoCategory">
+          <option value="saludos">Saludos</option>
+          <option value="necesidades">Necesidades</option>
+          <option value="emociones">Emociones</option>
+          <option value="comida">Comida</option>
+          <option value="acciones">Acciones</option>
+        </select>
+        <input type="file" id="pictoImage" accept="image/*" />
+        <button id="addPictoBtn">＋ Agregar</button>
+      </div>
+    </section>
+    <section class="tts" aria-label="Texto a voz libre">
+      <h2>Texto libre</h2>
+      <div class="row">
+        <label for="voiceSelect">Voz:</label>
+        <select id="voiceSelect" aria-label="Seleccionar voz"></select>
+        <label for="rate">Velocidad:</label>
+        <input id="rate" type="range" min="0.5" max="1.5" step="0.1" value="1" />
+        <label for="pitch">Tono:</label>
+        <input id="pitch" type="range" min="0.5" max="1.5" step="0.1" value="1" />
+      </div>
+      <textarea id="freeText" placeholder="Escribí un mensaje para leer en voz alta…"></textarea>
+      <div class="row">
+        <button id="speakText">▶ Leer texto</button>
+        <button id="stopSpeech" class="btn-danger">⏹ Detener</button>
+      </div>
+    </section>
     <a href="abm.html" class="admin-link" aria-label="Ir a administración de pictogramas">Administración de pictogramas</a>
     <br>
     <a href="tts.html" class="admin-link" aria-label="Ir a texto a voz">Texto a voz</a> 
