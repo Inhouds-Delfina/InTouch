@@ -14,7 +14,7 @@ if ($method === 'POST' && !isset($_POST['_method'])) {
     $id        = $_POST['id'] ?? '';
     $texto     = $_POST['texto'] ?? '';
     $categoria = $_POST['categoria'] ?? '';
-    $imagenUrl = '';
+    $imagenUrl = $_POST['imagen_url'] ??'';
 
     if (!$texto || !$categoria) {
         echo json_encode(["status" => "error", "msg" => "Faltan datos obligatorios"]);
