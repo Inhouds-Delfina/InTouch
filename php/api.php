@@ -47,7 +47,8 @@ if ($method === 'POST' && !isset($_POST['_method'])) {
         $stmt->close();
     } else {
 
-        $sql = "INSERT INTO pictogramas (texto, categoria, imagen_url, creado) VALUES (?, ?, ?, NOW())";
+        // --- CAMBIO #1: Cambiada 'creado' por 'fecha' en el INSERT
+        $sql = "INSERT INTO pictogramas (texto, categoria, imagen_url, fecha) VALUES (?, ?, ?, NOW())";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("sss", $texto, $categoria, $imagenUrl);
         $ok = $stmt->execute();
@@ -61,7 +62,8 @@ if ($method === 'POST' && !isset($_POST['_method'])) {
 
 
 if ($method === 'GET') {
-    $result = $conn->query("SELECT * FROM pictogramas ORDER BY creado DESC");
+    // --- CAMBIO #2: Cambiada 'creado' por 'fecha' en el ORDER BY
+    $result = $conn->query("SELECT * FROM pictogramas ORDER BY fecha DESC");
     if (!$result) {
         echo json_encode(["status" => "error", "msg" => "Error en SELECT: " . $conn->error]);
         exit;
