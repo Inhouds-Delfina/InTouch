@@ -1,5 +1,7 @@
+
 const synth = window.speechSynthesis;
 let voices = [];
+let voicesLoaded = false;
 
 function pickSpanishVoice(vlist) {
   const byLang = (lang) => vlist.filter(v => (v.lang || '').toLowerCase().startsWith(lang));
@@ -9,21 +11,37 @@ function pickSpanishVoice(vlist) {
 function loadVoices() {
   voices = synth.getVoices();
   const sel = document.getElementById('voiceSelect');
-  if (!sel) return;
-  sel.innerHTML = '';
-  const preferred = pickSpanishVoice(voices);
-  voices.forEach((v, i) => {
-    const opt = document.createElement('option');
-    opt.value = i;
-    opt.textContent = `${v.name} — ${v.lang}${v.default ? ' (predeterminada)' : ''}`;
-    if (v === preferred) opt.selected = true;
-    sel.appendChild(opt);
-  });
+  if (sel) {
+    sel.innerHTML = '';
+    const preferred = pickSpanishVoice(voices);
+    voices.forEach((v, i) => {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = `${v.name} — ${v.lang}${v.default ? ' (predeterminada)' : ''}`;
+      if (v === preferred) opt.selected = true;
+      sel.appendChild(opt);
+    });
+  }
+  voicesLoaded = true;
+  console.log(`✅ Voces cargadas: ${voices.length}`);
+}
+
+function initVoices() {
+  if (synth.getVoices().length !== 0) {
+    loadVoices();
+  } else {
+    synth.onvoiceschanged = loadVoices;
+  }
 }
 
 function speak(text) {
   if (!text) return;
-  if (!voices.length) voices = synth.getVoices();
+
+  if (!voicesLoaded) {
+    initVoices();
+    setTimeout(() => speak(text), 500);
+    return;
+  }
 
   const utter = new SpeechSynthesisUtterance(text);
   const sel = document.getElementById('voiceSelect');
@@ -39,7 +57,4 @@ function speak(text) {
   synth.speak(utter);
 }
 
-loadVoices();
-if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
-  speechSynthesis.onvoiceschanged = loadVoices;
-}
+document.addEventListener("DOMContentLoaded", initVoices);
