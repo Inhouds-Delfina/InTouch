@@ -191,11 +191,6 @@ footer {
   border-top: 1px solid #eee;
 }
 
-.admin-link {
-  color: var(--color-a);
-  font-weight: bold;
-  align-items: center;
-}
 
 @media (max-width: 600px) {
   h1 {
