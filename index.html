@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="css/style.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#a3c9f9">
+  <script defer src="js/main.js"></script>
   <title>InTouch</title>
 </head>
 <body>
@@ -117,14 +118,12 @@
         <button id="stopSpeech" class="btn-danger">⏹ Detener</button>
       </div>
     </section>
-    <a href="abm.html" class="admin-link" aria-label="Ir a administración de pictogramas">Administración de pictogramas</a>
+    <button class="admin-link" onclick="window.location.href='abm.html'">Administración de pictogramas</button>
     <br>
-    <a href="tts.html" class="admin-link" aria-label="Ir a texto a voz">Texto a voz</a> 
+    <button class="admin-link" onclick="window.location.href='tts.html'">Voz a Texto</button>
     <footer>
       <p>Demo básica · Funciona sin conexión en navegadores modernos con Web Speech API.</p>
     </footer>
   </main>
-  <script src="javascript.js"></script>
 </body>
-
 </html>

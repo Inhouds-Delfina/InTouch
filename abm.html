@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/x-icon" href="./img/logo_fondo.ico">
   <link rel="stylesheet" href="css/abm.css">
+  <script defer src="js/abm.js"></script>
   <title>InTouch · Administración de Pictogramas</title>
 </head>
 <body>
@@ -13,7 +14,7 @@
       <h1>Administración de Pictogramas</h1>
       <p>Añadí, modificá o eliminá pictogramas en tu aplicación.</p>
     </header>
-    <a href="index.html">← Volver a la app</a>
+    <button class="admin-link" onclick="window.location.href='index.html'">Ir a la App</button>
     <section class="picto-form">
       <h2>＋ Añadir / Editar pictograma</h2>
       <form id="pictoForm" enctype="multipart/form-data">
@@ -47,6 +48,5 @@
       </form>
     </section>
   </main>
-  <script src="javascript.js"></script>
 </body>
 </html>
