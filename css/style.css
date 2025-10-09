@@ -17,12 +17,26 @@
 }
 
 body {
+  position: relative;
   font-family: "Segoe UI", Roboto, sans-serif;
   margin: 0;
   padding: 0;
   background: var(--color-bg);
   color: var(--color-text);
   line-height: 1.6;
+}
+
+.menufloat{
+  position: fixed;
+  color: white;
+  bottom: 20px;
+  right: 20px;
+  height: 40px;
+  width: 40px;
+  display: grid;
+  place-items: center;
+  background-color: #f45b91;
+  border-radius: 10px;
 }
 
 main.app {
@@ -112,7 +126,6 @@ button:hover {
   background: white;
   border-radius: var(--radius);
   padding: 0.3rem 0.8rem;
-  box-shadow: var(--shadow);
   font-size: 0.9rem;
 }
 
