@@ -7,23 +7,35 @@ function addChip(text) {
   span.textContent = text;
   span.title = 'Click para pronunciar';
   span.addEventListener('click', () => speak(text));
-  sentenceEl.appendChild(span);
+  sentenceEl?.appendChild(span);
 }
 
-grid.addEventListener('click', (e) => {
-  const tile = e.target.closest('.tile');
-  if (!tile) return;
-  const text = tile.getAttribute('data-say');
-  addChip(text);
-  speak(text);
-});
 
-document.getElementById('speakSentence')?.addEventListener('click', () => {
-  const sentence = Array.from(sentenceEl.querySelectorAll('.chip'))
-    .map(c => c.textContent).join(' ');
-  speak(sentence);
-});
+if (grid) {
+  grid.addEventListener('click', (e) => {
+    const tile = e.target.closest('.tile');
+    if (!tile) return;
+    const text = tile.getAttribute('data-say');
+    addChip(text);
+    speak(text);
+  });
+}
 
-document.getElementById('clearSentence')?.addEventListener('click', () => {
-  sentenceEl.innerHTML = '';
-});
+
+const speakBtn = document.getElementById('speakSentence');
+if (speakBtn) {
+  speakBtn.addEventListener('click', () => {
+    const sentence = Array.from(sentenceEl.querySelectorAll('.chip'))
+      .map(c => c.textContent)
+      .join(' ');
+    speak(sentence);
+  });
+}
+
+
+const clearBtn = document.getElementById('clearSentence');
+if (clearBtn) {
+  clearBtn.addEventListener('click', () => {
+    sentenceEl.innerHTML = '';
+  });
+}
