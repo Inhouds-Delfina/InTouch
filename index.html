@@ -9,6 +9,8 @@
   <meta name="theme-color" content="#a3c9f9">
   <script src="js/main.js"></script>
   <script src="js/pictos.js"></script>
+  <script src="js/menu_float.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>InTouch</title>
 </head>
 <body>
@@ -88,37 +90,20 @@
         </button>
       </div>
     </section>
-    <!-- <section class="addPicto" aria-label="Agregar pictograma">
-      <h2>Agregar pictograma</h2>
-      <div class="row">
-        <input type="text" id="pictoLabel" placeholder="Texto a pronunciar" />
-        <select id="pictoCategory">
-          <option value="saludos">Saludos</option>
-          <option value="necesidades">Necesidades</option>
-          <option value="emociones">Emociones</option>
-          <option value="comida">Comida</option>
-          <option value="acciones">Acciones</option>
-        </select>
-        <input type="file" id="pictoImage" accept="image/*" />
-        <button id="addPictoBtn">＋ Agregar</button>
-      </div>
-    </section> -->
-    <!-- <section class="tts" aria-label="Texto a voz libre">
-      <h2>Texto libre</h2>
-      <div class="row">
-        <label for="voiceSelect">Voz:</label>
-        <select id="voiceSelect" aria-label="Seleccionar voz"></select>
-        <label for="rate">Velocidad:</label>
-        <input id="rate" type="range" min="0.5" max="1.5" step="0.1" value="1" />
-        <label for="pitch">Tono:</label>
-        <input id="pitch" type="range" min="0.5" max="1.5" step="0.1" value="1" />
-      </div>
-      <textarea id="freeText" placeholder="Escribí un mensaje para leer en voz alta…"></textarea>
-      <div class="row">
-        <button id="speakText">▶ Leer texto</button>
-        <button id="stopSpeech" class="btn-danger">⏹ Detener</button>
-      </div>
-    </section> -->
+    <button class="menufloat" id="menufloat" onclick="mostrarMenu()">
+      <i class="fa fa-plus"></i>
+    </button>
+    <!-- botones ocultos que se muestran al hacer clic en el botón principal -->
+   <section class="subButton-container">
+        <button class="buttonChild" onclick="location.href='abm.html'">
+            <span class="fa fa-envelope"></span>
+            Escribir
+        </button>
+        <button class="buttonChild" onclick="location.href='tts.html'">
+            <span class="fa fa-home"></span>
+            Inicio
+        </button>
+    </section>
     <button class="admin-link" onclick="window.location.href='abm.html'">Administración de pictogramas</button>
     <br>
     <button class="admin-link" onclick="window.location.href='tts.html'">Voz a Texto</button>

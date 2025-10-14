@@ -204,6 +204,75 @@ footer {
   border-top: 1px solid #eee;
 }
 
+.menufloat {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 20px;
+  right: 20px;
+  background-color: #0C9;
+  color: #FFF;
+  border-radius: 50px;
+  text-align: center;
+  box-shadow: 2px 2px 3px #999;
+  font-size: 30px;
+  z-index: 100;
+  transition: all 0.2s;
+  border: 0;
+  cursor: pointer;
+}
+
+.menufloat:hover {
+  box-shadow: 0 0 15px #000;
+}
+
+.rotar45 {
+  transform: rotate(45deg);
+  background-color: rgb(209, 8, 182);
+}
+
+.subButton-container {
+  position: fixed;
+  width: 80px;
+  bottom: 90px;
+  right: 15px;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.buttonChild {
+  position: absolute;
+  height: 80px;
+  width: 100%;
+  right: 0;
+  opacity: 0;
+  border: 0;
+  transition: bottom 0.3s, opacity 0.3s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3em;
+  cursor: pointer;
+  background-color: #FFF;
+  color: #0C9;
+  transition: all 0.3s;
+}
+.buttonChild .fa{
+  font-size: 2em;
+}
+
+.buttonChild:hover {
+  background-color: #0A7;
+  color: #FFF;
+  box-shadow: 0 0 15px #000;
+}
+
+.buttonChild.visible {
+  opacity: 1;
+}
+
 
 @media (max-width: 600px) {
   h1 {
