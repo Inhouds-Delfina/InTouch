@@ -41,15 +41,30 @@ async function eliminarPicto(id) {
 }
 
 async function cargarCategorias() {
-  const res = await fetch("php/categorias.php");
-  const data = await res.json();
-  const select = document.getElementById("categoria_id");
-  
-  if (data.status === "ok" && select) {
-    select.innerHTML = '<option value="">Seleccionar categoría</option>';
-    data.data.forEach(cat => {
-      select.innerHTML += `<option value="${cat.id}">${cat.nombre}</option>`;
-    });
+  try {
+    console.log('Cargando categorías...');
+    const res = await fetch("php/categorias.php");
+    console.log('Respuesta categorias:', res.status);
+    
+    const data = await res.json();
+    console.log('Datos categorias:', data);
+    
+    const select = document.getElementById("categoria_id");
+    
+    if (data.status === "ok" && select) {
+      select.innerHTML = '<option value="">Seleccionar categoría</option>';
+      data.data.forEach(cat => {
+        select.innerHTML += `<option value="${cat.id}">${cat.nombre}</option>`;
+      });
+      console.log('Categorías cargadas:', data.data.length);
+    } else {
+      console.error('Error cargando categorías:', data);
+      if (select) {
+        select.innerHTML = '<option value="">Error cargando categorías</option>';
+      }
+    }
+  } catch (error) {
+    console.error('Error en cargarCategorias:', error);
   }
 }
 
@@ -58,12 +73,36 @@ document.addEventListener("DOMContentLoaded", () => {
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+      console.log('Enviando formulario...');
+      
       const formData = new FormData(e.target);
-      const res = await fetch("php/api.php", { method: "POST", body: formData });
-      const data = await res.json();
-      alert(data.msg);
-      e.target.reset();
-      cargarPictos();
+      
+      // Debug: mostrar datos del formulario
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+      
+      try {
+        const res = await fetch("php/api.php", { 
+          method: "POST", 
+          body: formData 
+        });
+        
+        console.log('Respuesta del servidor:', res.status);
+        
+        const data = await res.json();
+        console.log('Datos recibidos:', data);
+        
+        alert(data.msg || 'Operación completada');
+        
+        if (data.status === 'ok') {
+          e.target.reset();
+          cargarPictos();
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error de conexión: ' + error.message);
+      }
     });
   }
   cargarCategorias();

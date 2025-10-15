@@ -1,10 +1,25 @@
 <?php
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type');
+
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 require_once "conexion.php";
+
+// Insertar categorías básicas si no existen
+$categorias_basicas = ['Saludos', 'Necesidades', 'Emociones', 'Acciones', 'Comida'];
+foreach ($categorias_basicas as $cat) {
+    $stmt = $conn->prepare("INSERT IGNORE INTO categorias (nombre) VALUES (?)");
+    if ($stmt) {
+        $stmt->bind_param("s", $cat);
+        $stmt->execute();
+        $stmt->close();
+    }
+}
 
 $response = ["status" => "error", "msg" => "Acción no válida"];
 $method = $_SERVER['REQUEST_METHOD'];
