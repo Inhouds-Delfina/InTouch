@@ -289,3 +289,46 @@ footer {
 .buttonChild.visible {
   opacity: 1;
 }
+
+/* Estilos para filtros de categorías */
+.filter-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.filter-btn {
+  background: var(--color-muted);
+  border: 2px solid transparent;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.filter-btn:hover {
+  background: var(--color-primary);
+  transform: translateY(-1px);
+}
+
+.filter-btn.active {
+  background: var(--color-accent);
+  border-color: var(--color-primary);
+  font-weight: bold;
+}
+
+/* Estilos para pictogramas con imágenes */
+.tile img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
+.tile span {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 500;
+}

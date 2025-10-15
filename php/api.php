@@ -13,10 +13,10 @@ $method = $_SERVER['REQUEST_METHOD'];
 if ($method === 'POST' && !isset($_POST['_method'])) {
     $id        = $_POST['id'] ?? '';
     $texto     = $_POST['texto'] ?? '';
-    $categoria = $_POST['categoria'] ?? '';
+    $categoria_id = intval($_POST['categoria_id'] ?? 0);
     $imagenUrl = $_POST['imagen_url'] ??'';
 
-    if (!$texto || !$categoria) {
+    if (!$texto || !$categoria_id) {
         echo json_encode(["status" => "error", "msg" => "Faltan datos obligatorios"]);
         exit;
     }
@@ -34,23 +34,22 @@ if ($method === 'POST' && !isset($_POST['_method'])) {
     if ($id) {
 
         if ($imagenUrl) {
-            $sql = "UPDATE pictogramas SET texto=?, categoria=?, imagen_url=? WHERE id=?";
+            $sql = "UPDATE pictogramas SET texto=?, categoria_id=?, imagen_url=? WHERE id=?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sssi", $texto, $categoria, $imagenUrl, $id);
+            $stmt->bind_param("sisi", $texto, $categoria_id, $imagenUrl, $id);
         } else {
-            $sql = "UPDATE pictogramas SET texto=?, categoria=? WHERE id=?";
+            $sql = "UPDATE pictogramas SET texto=?, categoria_id=? WHERE id=?";
             $stmt = $conn->prepare($sql);
-            $stmt->bind_param("ssi", $texto, $categoria, $id);
+            $stmt->bind_param("sii", $texto, $categoria_id, $id);
         }
         $ok = $stmt->execute();
         $response = ["status" => $ok ? "ok" : "error", "msg" => $ok ? "Pictograma actualizado" : $stmt->error];
         $stmt->close();
     } else {
 
-        // --- CAMBIO #1: Cambiada 'creado' por 'fecha' en el INSERT
-        $sql = "INSERT INTO pictogramas (texto, categoria, imagen_url, fecha) VALUES (?, ?, ?, NOW())";
+        $sql = "INSERT INTO pictogramas (texto, categoria_id, imagen_url) VALUES (?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sss", $texto, $categoria, $imagenUrl);
+        $stmt->bind_param("sis", $texto, $categoria_id, $imagenUrl);
         $ok = $stmt->execute();
         $response = ["status" => $ok ? "ok" : "error", "msg" => $ok ? "Pictograma creado" : $stmt->error];
         $stmt->close();
@@ -62,8 +61,7 @@ if ($method === 'POST' && !isset($_POST['_method'])) {
 
 
 if ($method === 'GET') {
-    // --- CAMBIO #2: Cambiada 'creado' por 'fecha' en el ORDER BY
-    $result = $conn->query("SELECT * FROM pictogramas ORDER BY fecha DESC");
+    $result = $conn->query("SELECT p.*, c.nombre as categoria_nombre FROM pictogramas p LEFT JOIN categorias c ON p.categoria_id = c.id ORDER BY p.creado DESC");
     if (!$result) {
         echo json_encode(["status" => "error", "msg" => "Error en SELECT: " . $conn->error]);
         exit;

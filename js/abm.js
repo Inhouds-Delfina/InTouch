@@ -11,9 +11,9 @@ async function cargarPictos() {
         <td>${p.id}</td>
         <td><img src="${p.imagen_url}" alt="${p.texto}" width="50"></td>
         <td>${p.texto}</td>
-        <td>${p.categoria}</td>
+        <td>${p.categoria_nombre || 'Sin categoría'}</td>
         <td>
-          <button onclick="editarPicto(${p.id}, '${p.texto}', '${p.categoria}')">✏️ Editar</button>
+          <button onclick="editarPicto(${p.id}, '${p.texto}', ${p.categoria_id})">✏️ Editar</button>
           <button onclick="eliminarPicto(${p.id})">🗑️ Borrar</button>
         </td>
       `;
@@ -22,10 +22,10 @@ async function cargarPictos() {
   }
 }
 
-function editarPicto(id, texto, categoria) {
+function editarPicto(id, texto, categoria_id) {
   document.getElementById("pictoId").value = id;
   document.getElementById("texto").value = texto;
-  document.getElementById("categoria").value = categoria;
+  document.getElementById("categoria_id").value = categoria_id;
 }
 
 async function eliminarPicto(id) {
@@ -37,6 +37,19 @@ async function eliminarPicto(id) {
     const data = await res.json();
     alert(data.msg);
     cargarPictos();
+  }
+}
+
+async function cargarCategorias() {
+  const res = await fetch("php/categorias.php");
+  const data = await res.json();
+  const select = document.getElementById("categoria_id");
+  
+  if (data.status === "ok" && select) {
+    select.innerHTML = '<option value="">Seleccionar categoría</option>';
+    data.data.forEach(cat => {
+      select.innerHTML += `<option value="${cat.id}">${cat.nombre}</option>`;
+    });
   }
 }
 
@@ -53,5 +66,6 @@ document.addEventListener("DOMContentLoaded", () => {
       cargarPictos();
     });
   }
+  cargarCategorias();
   cargarPictos();
 });

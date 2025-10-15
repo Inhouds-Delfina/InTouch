@@ -26,67 +26,19 @@
     </section>
     <section class="categories" aria-label="Categorías">
       <div class="row">
-        <label for="categorySelect">Filtrar por categoría:</label>
-        <select id="categorySelect">
-          <option value="all">Todas</option>
-          <option value="saludos">Saludos</option>
-          <option value="necesidades">Necesidades</option>
-          <option value="emociones">Emociones</option>
-          <option value="comida">Comida</option>
-          <option value="acciones">Acciones</option>
-        </select>
+        <label>Filtrar por categoría:</label>
+        <div id="categoryFilters" class="filter-buttons">
+          <!-- Los filtros se cargan dinámicamente -->
+        </div>
       </div>
     </section>
     <section aria-label="Pictogramas">
       <div class="grid" id="pictogramGrid">
-        <button class="tile" data-say="Hola" data-cat="saludos" aria-label="Hola">
-          <div class="emoji">👋</div>
-          <div class="label">Hola</div>
-        </button>
-        <button class="tile" data-say="Adiós" data-cat="saludos" aria-label="Adiós">
-          <div class="emoji">👋</div>
-          <div class="label">Adiós</div>
-        </button>
-        <button class="tile" data-say="Quiero agua" data-cat="necesidades" aria-label="Quiero agua">
-          <div class="emoji">💧</div>
-          <div class="label">Agua</div>
-        </button>
-        <button class="tile" data-say="Tengo hambre" data-cat="necesidades" aria-label="Tengo hambre">
-          <div class="emoji">🍽️</div>
-          <div class="label">Hambre</div>
-        </button>
-        <button class="tile" data-say="Estoy feliz" data-cat="emociones" aria-label="Estoy feliz">
-          <div class="emoji">😊</div>
-          <div class="label">Feliz</div>
-        </button>
-        <button class="tile" data-say="Estoy triste" data-cat="emociones" aria-label="Estoy triste">
-          <div class="emoji">😢</div>
-          <div class="label">Triste</div>
-        </button>
-        <button class="tile" data-say="Estoy enojado" data-cat="emociones" aria-label="Estoy enojado">
-          <div class="emoji">😠</div>
-          <div class="label">Enojado</div>
-        </button>
-        <button class="tile" data-say="Quiero manzana" data-cat="comida" aria-label="Quiero manzana">
-          <div class="emoji">🍎</div>
-          <div class="label">Manzana</div>
-        </button>
-        <button class="tile" data-say="Quiero pan" data-cat="comida" aria-label="Quiero pan">
-          <div class="emoji">🍞</div>
-          <div class="label">Pan</div>
-        </button>
-        <button class="tile" data-say="Quiero jugar" data-cat="acciones" aria-label="Quiero jugar">
-          <div class="emoji">🎮</div>
-          <div class="label">Jugar</div>
-        </button>
-        <button class="tile" data-say="Quiero dormir" data-cat="acciones" aria-label="Quiero dormir">
-          <div class="emoji">😴</div>
-          <div class="label">Dormir</div>
-        </button>
-        <button class="controls">
-            <button id="speakSentence" class="btn-accent">🔊 Leer</button>
-            <button id="clearSentence" class="btn-muted">🧹 Borrar</button>
-        </button>
+        <!-- Los pictogramas se cargan dinámicamente desde la base de datos -->
+      </div>
+      <div class="controls">
+        <button id="speakSentence" class="btn-accent">🔊 Leer</button>
+        <button id="clearSentence" class="btn-muted">🧹 Borrar</button>
       </div>
     </section>
     <!-- <section class="addPicto" aria-label="Agregar pictograma">

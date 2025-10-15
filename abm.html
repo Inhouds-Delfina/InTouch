@@ -27,13 +27,9 @@
         </div>
 
         <div class="row">
-          <label for="categoria">Categoría:</label>
-          <select id="categoria" name="categoria" required>
-            <option value="saludos">Saludos</option>
-            <option value="necesidades">Necesidades</option>
-            <option value="emociones">Emociones</option>
-            <option value="comida">Comida</option>
-            <option value="acciones">Acciones</option>
+          <label for="categoria_id">Categoría:</label>
+          <select id="categoria_id" name="categoria_id" required>
+            <option value="">Cargando categorías...</option>
           </select>
         </div>
 
@@ -47,6 +43,24 @@
           <button type="reset">X Cancelar</button>
         </div>
       </form>
+    </section>
+
+    <section class="picto-list">
+      <h2>📋 Lista de Pictogramas</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Imagen</th>
+            <th>Texto</th>
+            <th>Categoría</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody id="pictoTableBody">
+          <!-- Los pictogramas se cargan dinámicamente -->
+        </tbody>
+      </table>
     </section>
   </main>
 </body>
