@@ -1,0 +1,29 @@
+InTouch/
+│
+├── 📂 css/
+│   └── style.css               → estilos generales de la app
+│
+├── 📂 js/
+│   ├── main.js                 → tu archivo actual javascript.js (renombrado)
+│   ├── abm.js                  → funciones para agregar/editar/eliminar pictogramas
+│   └── tts.js                  → funciones para el texto libre / text-to-speech
+│
+├── 📂 img/
+│   └── ...                     → tus íconos, logos, pictogramas base
+│
+├── 📂 php/
+│   ├── api.php                 → conexión CRUD a la base de datos
+│   ├── conexion.php            → archivo de conexión MySQL (no subir credenciales)
+│   └── funciones.php           → opcional, helpers o validaciones
+│
+├── 📂 uploads/
+│   └── ...                     → imágenes subidas por usuarios (no versionar)
+│
+├── 📄 index.html               → página principal con pictogramas
+├── 📄 abm.html                 → interfaz para administrar pictogramas
+├── 📄 tts.html                 → interfaz de texto libre (TTS)
+├── 📄 manifest.json            → configuración PWA
+├── 📄 sw.js                    → service worker
+├── 📄 README.md                → descripción del proyecto
+├── 📄 .gitignore               → ignora /php/conexion.php, /uploads/, /u214138677_intouch.sql
+└── 📄 u214138677_intouch.sql   → backup de tu base de datos (no subir al repo)

@@ -1,0 +1,163 @@
+:root {
+  --color-a: #f45b91;   
+  --radius: 1rem;
+  --shadow: 0 2px 6px rgba(0,0,0,0.1);
+  --transition: 0.2s ease;
+}
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #fdfdfd;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.5;
+  padding: 20px;
+}
+
+
+main {
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+a {
+  display: inline-block;
+  margin-top: 1rem;
+  text-align: center;
+  color: var(--color-a);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+h1, h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #6a5acd;
+}
+
+
+form {
+  display: grid;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+label {
+  font-weight: 600;
+  color: #555;
+}
+
+input[type="text"],
+select,
+input[type="file"] {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #dcdcdc;
+  border-radius: 8px;
+  background: #fafafa;
+  transition: 0.3s;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: #a3c9f9;
+  background: #fff;
+}
+
+
+button {
+  padding: 10px 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.btn-add {
+  background: #a8e6cf;
+  color: #2b2b2b;
+}
+
+.btn-add:hover {
+  background: #81d4b8;
+}
+
+.btn-edit {
+  background: #a3c9f9;
+  color: #2b2b2b;
+}
+
+.btn-edit:hover {
+  background: #7aaee7;
+}
+
+.btn-delete {
+  background: #ffaaa5;
+  color: #2b2b2b;
+}
+
+.btn-delete:hover {
+  background: #ff8b85;
+}
+
+
+.pictogram-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 20px;
+}
+
+.pictogram-card {
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 15px;
+  text-align: center;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  transition: 0.3s;
+}
+
+.pictogram-card:hover {
+  transform: translateY(-3px);
+}
+
+.pictogram-card img {
+  max-width: 100%;
+  height: 100px;
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.pictogram-card .label {
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.pictogram-card .actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  button {
+    flex: 1;
+  }
+}
