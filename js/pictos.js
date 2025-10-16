@@ -128,20 +128,22 @@ async function cargarCategorias() {
 
 function mostrarPictogramas(pictos) {
   console.log('=== MOSTRANDO PICTOGRAMAS ===');
-  console.log('Grid element:', grid);
+  
+  const currentGrid = document.getElementById('pictogramGrid');
+  console.log('Grid element:', currentGrid);
   console.log('Pictogramas a mostrar:', pictos.length);
   
-  if (!grid) {
+  if (!currentGrid) {
     console.error('❌ Grid no encontrado!');
     return;
   }
   
   // Limpiar grid pero mantener los controles
-  const controles = grid.querySelector('.controls');
-  grid.innerHTML = '';
+  const controles = currentGrid.querySelector('.controls');
+  currentGrid.innerHTML = '';
   
   if (pictos.length === 0) {
-    grid.innerHTML = `
+    currentGrid.innerHTML = `
       <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #7f8c8d;">
         <h3>🎨 No hay pictogramas aún</h3>
         <p>¡Crea pictogramas desde el panel de administración!</p>
@@ -157,7 +159,7 @@ function mostrarPictogramas(pictos) {
              onerror="this.src='https://placehold.co/100x100/a3c9f9/333333?text=${encodeURIComponent(picto.texto.charAt(0))}'" />
         <span>${picto.texto}</span>
       `;
-      grid.appendChild(tile);
+      currentGrid.appendChild(tile);
     });
   }
   
@@ -234,18 +236,14 @@ function filtrarCategoria(categoriaId) {
 // Función para recargar pictogramas manualmente
 function recargarPictogramas() {
   console.log('=== RECARGA MANUAL ===');
-  console.log('Limpiando grid...');
   
-  if (grid) {
-    // Mostrar mensaje de carga
-    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 20px; background: #e3f2fd; border-radius: 8px; margin: 10px;">🔄 Recargando pictogramas...</div>';
+  const currentGrid = document.getElementById('pictogramGrid');
+  if (currentGrid) {
+    currentGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 20px; background: #e3f2fd; border-radius: 8px; margin: 10px;">🔄 Recargando pictogramas...</div>';
     
-    // Limpiar cache de pictogramas
     pictogramas = [];
     
-    // Recargar datos inmediatamente
     cargarPictogramas().then(() => {
-      // Mostrar notificación de éxito
       mostrarNotificacion('✅ Pictogramas actualizados');
     });
     cargarCategorias();
