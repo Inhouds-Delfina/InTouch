@@ -1,59 +1,19 @@
 let pictogramas = [];
 let categorias = [];
 
-// Cargar pictogramas y mostrarlos en grid
-async function cargarPictos() {
+// Cargar estadísticas
+async function cargarEstadisticas() {
   try {
     const res = await fetch("php/api.php");
     const data = await res.json();
     
     if (data.status === "ok") {
       pictogramas = data.data;
-      mostrarPictogramGrid();
-    } else {
-      console.error('Error cargando pictogramas:', data);
+      document.getElementById('totalPictogramas').textContent = pictogramas.length;
     }
   } catch (error) {
     console.error('Error:', error);
   }
-}
-
-// Mostrar pictogramas en grid moderno
-function mostrarPictogramGrid() {
-  const grid = document.getElementById("pictoGrid");
-  if (!grid) return;
-  
-  grid.innerHTML = "";
-  
-  if (pictogramas.length === 0) {
-    grid.innerHTML = `
-      <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #7f8c8d;">
-        <h3>🎨 No hay pictogramas aún</h3>
-        <p>¡Crea tu primer pictograma haciendo clic en "Nuevo Pictograma"!</p>
-      </div>
-    `;
-    return;
-  }
-  
-  pictogramas.forEach(picto => {
-    const card = document.createElement("div");
-    card.className = "picto-card";
-    card.innerHTML = `
-      <img src="${picto.imagen_url}" alt="${picto.texto}" 
-           onerror="this.src='https://via.placeholder.com/80x80/667eea/fff?text=${encodeURIComponent(picto.texto.charAt(0))}'">
-      <h3>${picto.texto}</h3>
-      <div class="categoria">${picto.categoria_nombre || 'Sin categoría'}</div>
-      <div class="picto-actions">
-        <button class="btn-primary" onclick="editarPicto(${picto.id}, '${picto.texto}', ${picto.categoria_id})">
-          ✏️ Editar
-        </button>
-        <button class="btn-danger" onclick="eliminarPicto(${picto.id})">
-          🗑️ Eliminar
-        </button>
-      </div>
-    `;
-    grid.appendChild(card);
-  });
 }
 
 // Cargar categorías únicas
@@ -76,7 +36,7 @@ async function cargarCategorias() {
       
       categorias = categoriasUnicas;
       llenarSelectCategorias();
-      llenarFiltroCategoria();
+      actualizarEstadisticas();
     }
   } catch (error) {
     console.error('Error cargando categorías:', error);
@@ -98,79 +58,12 @@ function llenarSelectCategorias() {
   });
 }
 
-// Llenar filtro de categorías
-function llenarFiltroCategoria() {
-  const filtro = document.getElementById("filtroCategoria");
-  if (!filtro) return;
-  
-  filtro.innerHTML = '<option value="">Todas las categorías</option>';
-  
-  categorias.forEach(cat => {
-    const option = document.createElement('option');
-    option.value = cat.id;
-    option.textContent = cat.nombre;
-    filtro.appendChild(option);
-  });
+// Actualizar estadísticas de categorías
+function actualizarEstadisticas() {
+  document.getElementById('totalCategorias').textContent = categorias.length;
 }
 
-// Filtrar por categoría
-function filtrarPorCategoria() {
-  const filtro = document.getElementById("filtroCategoria");
-  const categoriaId = filtro.value;
-  
-  if (!categoriaId) {
-    mostrarPictogramGrid();
-    return;
-  }
-  
-  const pictogramasFiltrados = pictogramas.filter(p => p.categoria_id == categoriaId);
-  const temp = pictogramas;
-  pictogramas = pictogramasFiltrados;
-  mostrarPictogramGrid();
-  pictogramas = temp;
-}
 
-// Abrir modal para editar
-function editarPicto(id, texto, categoria_id) {
-  document.getElementById("pictoId").value = id;
-  document.getElementById("texto").value = texto;
-  document.getElementById("categoria_id").value = categoria_id;
-  
-  const modal = document.getElementById('pictoModal');
-  const title = document.getElementById('modalTitle');
-  title.textContent = '✏️ Editar Pictograma';
-  modal.style.display = 'flex';
-}
-
-// Eliminar pictograma
-async function eliminarPicto(id) {
-  if (!confirm("¿Estás seguro de que quieres eliminar este pictograma?")) {
-    return;
-  }
-  
-  try {
-    const formData = new FormData();
-    formData.append("id", id);
-    formData.append("_method", "DELETE");
-    
-    const res = await fetch("php/api.php", { 
-      method: "POST", 
-      body: formData 
-    });
-    
-    const data = await res.json();
-    
-    if (data.status === 'ok') {
-      // Mostrar notificación de éxito
-      mostrarNotificacion('Pictograma eliminado correctamente', 'success');
-      cargarPictos();
-    } else {
-      mostrarNotificacion('Error al eliminar: ' + data.msg, 'error');
-    }
-  } catch (error) {
-    mostrarNotificacion('Error de conexión', 'error');
-  }
-}
 
 // Funciones del modal
 function abrirModal(id = null) {
@@ -276,7 +169,7 @@ document.addEventListener("DOMContentLoaded", () => {
           mostrarNotificacion(data.msg || 'Pictograma guardado correctamente', 'success');
           cerrarModal();
           form.reset();
-          cargarPictos();
+          cargarEstadisticas();
         } else {
           mostrarNotificacion('Error: ' + data.msg, 'error');
         }
@@ -299,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
   // Cargar datos iniciales
   cargarCategorias();
-  cargarPictos();
+  cargarEstadisticas();
 });
 
 // Agregar estilos para notificaciones

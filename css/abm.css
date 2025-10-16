@@ -119,105 +119,73 @@ body {
   color: var(--primary-color);
 }
 
-/* Grid de pictogramas */
-.picto-grid-container {
+/* Sección de información */
+.info-section {
   background: var(--white);
   border-radius: var(--border-radius);
   padding: 30px;
   box-shadow: var(--shadow);
 }
 
-.grid-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 30px;
-  flex-wrap: wrap;
-  gap: 20px;
+.info-card {
+  text-align: center;
 }
 
-.grid-header h2 {
+.info-card h2 {
   font-size: 2rem;
   font-weight: 700;
   color: var(--text-dark);
-}
-
-.filter-controls select {
-  padding: 10px 15px;
-  border: 2px solid var(--border-color);
-  border-radius: var(--border-radius);
-  font-size: 1rem;
-  background: var(--white);
-  cursor: pointer;
-  transition: var(--transition);
-}
-
-.filter-controls select:focus {
-  outline: none;
-  border-color: var(--primary-color);
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-}
-
-.picto-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
-  margin-top: 20px;
-}
-
-.picto-card {
-  background: var(--white);
-  border: 2px solid var(--border-color);
-  border-radius: var(--border-radius);
-  padding: 20px;
-  text-align: center;
-  transition: var(--transition);
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-}
-
-.picto-card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--primary-color);
-}
-
-.picto-card img {
-  width: 80px;
-  height: 80px;
-  object-fit: cover;
-  border-radius: 50%;
   margin-bottom: 15px;
-  border: 3px solid var(--light-bg);
 }
 
-.picto-card h3 {
-  font-size: 1.2rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-  color: var(--text-dark);
+.info-card p {
+  color: var(--text-light);
+  font-size: 1.1rem;
+  margin-bottom: 30px;
+  line-height: 1.6;
 }
 
-.picto-card .categoria {
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  background: linear-gradient(135deg, var(--light-bg), var(--white));
+  border-radius: var(--border-radius);
+  border: 2px solid var(--border-color);
+  transition: var(--transition);
+  min-width: 120px;
+}
+
+.stat-item:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: var(--primary-color);
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 5px;
+}
+
+.stat-label {
   color: var(--text-light);
   font-size: 0.9rem;
-  margin-bottom: 15px;
-}
-
-.picto-actions {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-}
-
-.picto-actions button {
-  padding: 8px 12px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: var(--transition);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* Modal moderno */

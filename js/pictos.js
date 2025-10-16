@@ -74,12 +74,12 @@ async function cargarPictogramas() {
     const data = await res.json();
     console.log('Datos pictogramas recibidos:', data);
     
-    if (data.status === 'ok' && data.data && data.data.length > 0) {
+    if (data.status === 'ok' && data.data) {
       pictogramas = data.data;
       console.log('Pictogramas cargados desde BD:', pictogramas.length);
       mostrarPictogramas(pictogramas);
     } else {
-      console.log('No hay pictogramas en BD, usando fallback');
+      console.log('No hay pictogramas en BD o error, usando fallback');
       pictogramas = pictogramasDefault;
       mostrarPictogramas(pictogramas);
     }
@@ -118,26 +118,64 @@ function mostrarPictogramas(pictos) {
   
   console.log('Mostrando pictogramas:', pictos.length);
   
-  // Limpiar grid
+  // Limpiar grid pero mantener los controles
+  const controles = grid.querySelector('.controls');
   grid.innerHTML = '';
   
   if (pictos.length === 0) {
-    grid.innerHTML = '<p>No hay pictogramas disponibles</p>';
-    return;
+    grid.innerHTML = `
+      <div style="grid-column: 1/-1; text-align: center; padding: 40px; color: #7f8c8d;">
+        <h3>🎨 No hay pictogramas aún</h3>
+        <p>¡Crea pictogramas desde el panel de administración!</p>
+      </div>
+    `;
+  } else {
+    pictos.forEach(picto => {
+      const tile = document.createElement('div');
+      tile.className = 'tile';
+      tile.setAttribute('data-say', picto.texto);
+      tile.innerHTML = `
+        <img src="${picto.imagen_url}" alt="${picto.texto}" 
+             onerror="this.src='https://via.placeholder.com/100x100/a3c9f9/333?text=${encodeURIComponent(picto.texto.charAt(0))}'" />
+        <span>${picto.texto}</span>
+      `;
+      grid.appendChild(tile);
+    });
   }
   
-  pictos.forEach(picto => {
-    const tile = document.createElement('div');
-    tile.className = 'tile';
-    tile.setAttribute('data-say', picto.texto);
-    tile.innerHTML = `
-      <img src="${picto.imagen_url}" alt="${picto.texto}" onerror="this.src='https://via.placeholder.com/100x100/ccc/333?text=${encodeURIComponent(picto.texto)}'" />
-      <span>${picto.texto}</span>
+  // Reagregar controles al final
+  if (controles) {
+    grid.appendChild(controles);
+  } else {
+    const controlesDiv = document.createElement('div');
+    controlesDiv.className = 'controls';
+    controlesDiv.innerHTML = `
+      <button id="speakSentence" class="btn-accent">🔊 Leer</button>
+      <button id="clearSentence" class="btn-muted">🧹 Borrar</button>
     `;
-    grid.appendChild(tile);
-  });
+    grid.appendChild(controlesDiv);
+    
+    // Reconfigurar event listeners para los controles
+    const speakBtn = document.getElementById('speakSentence');
+    const clearBtn = document.getElementById('clearSentence');
+    
+    if (speakBtn) {
+      speakBtn.addEventListener('click', () => {
+        const sentence = Array.from(sentenceEl.querySelectorAll('.chip'))
+          .map(c => c.textContent)
+          .join(' ');
+        speak(sentence);
+      });
+    }
+    
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        sentenceEl.innerHTML = '';
+      });
+    }
+  }
   
-  console.log('Pictogramas mostrados en grid:', grid.children.length);
+  console.log('Pictogramas mostrados en grid:', grid.children.length - 1); // -1 por los controles
 }
 
 function mostrarFiltrosCategorias() {
