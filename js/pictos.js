@@ -153,7 +153,7 @@ function mostrarPictogramas(pictos) {
       tile.className = 'tile';
       tile.setAttribute('data-say', picto.texto);
       tile.innerHTML = `
-        <img src="${picto.imagen_url}" alt="${picto.texto}" 
+        <img src="${picto.imagen_url}?v=${Date.now()}" alt="${picto.texto}" 
              onerror="this.src='https://placehold.co/100x100/a3c9f9/333333?text=${encodeURIComponent(picto.texto.charAt(0))}'" />
         <span>${picto.texto}</span>
       `;
