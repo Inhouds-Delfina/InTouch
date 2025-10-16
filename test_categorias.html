@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Categorías</title>
+</head>
+<body>
+    <h1>Test de Categorías</h1>
+    <div id="resultado"></div>
+    
+    <script>
+        async function testCategorias() {
+            try {
+                console.log('Probando categorias.php...');
+                const res = await fetch('php/categorias.php');
+                console.log('Status:', res.status);
+                
+                const data = await res.json();
+                console.log('Datos:', data);
+                
+                document.getElementById('resultado').innerHTML = 
+                    '<h3>Resultado:</h3><pre>' + JSON.stringify(data, null, 2) + '</pre>';
+                    
+                if (data.status === 'ok' && data.data) {
+                    console.log('✅ Categorías cargadas:', data.data.length);
+                    data.data.forEach(cat => {
+                        console.log(`- ${cat.nombre} (ID: ${cat.id})`);
+                    });
+                }
+            } catch (error) {
+                console.error('❌ Error:', error);
+                document.getElementById('resultado').innerHTML = 
+                    '<h3>Error:</h3><pre>' + error.message + '</pre>';
+            }
+        }
+        
+        // Ejecutar al cargar
+        document.addEventListener('DOMContentLoaded', testCategorias);
+    </script>
+</body>
+</html>
