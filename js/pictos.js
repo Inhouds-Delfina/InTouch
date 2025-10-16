@@ -66,30 +66,34 @@ if (clearBtn) {
 }
 
 async function cargarPictogramas() {
+  console.log('=== INICIANDO CARGA DE PICTOGRAMAS ===');
+  
   try {
-    console.log('Cargando pictogramas desde API...');
-    // Agregar timestamp para evitar cache
+    console.log('Intentando cargar desde API...');
     const res = await fetch('php/api.php?t=' + Date.now());
-    console.log('Respuesta API pictogramas:', res.status);
+    console.log('Status de respuesta:', res.status);
+    
+    if (!res.ok) {
+      throw new Error(`HTTP ${res.status}`);
+    }
     
     const data = await res.json();
-    console.log('Datos pictogramas recibidos:', data);
-    console.log('Número de pictogramas:', data.data ? data.data.length : 0);
+    console.log('Datos recibidos:', data);
     
-    if (data.status === 'ok' && data.data) {
+    if (data.status === 'ok' && data.data && data.data.length > 0) {
       pictogramas = data.data;
-      console.log('Pictogramas cargados desde BD:', pictogramas.length);
-      mostrarPictogramas(pictogramas);
+      console.log('✅ Cargados desde BD:', pictogramas.length, 'pictogramas');
     } else {
-      console.log('No hay pictogramas en BD o error, usando fallback');
+      console.log('⚠️ BD vacía o error, usando fallback');
       pictogramas = pictogramasDefault;
-      mostrarPictogramas(pictogramas);
     }
   } catch (error) {
-    console.error('Error cargando pictogramas, usando datos de fallback:', error);
+    console.error('❌ Error API, usando fallback:', error);
     pictogramas = pictogramasDefault;
-    mostrarPictogramas(pictogramas);
   }
+  
+  console.log('Pictogramas finales:', pictogramas.length);
+  mostrarPictogramas(pictogramas);
 }
 
 async function cargarCategorias() {
@@ -113,12 +117,14 @@ async function cargarCategorias() {
 }
 
 function mostrarPictogramas(pictos) {
+  console.log('=== MOSTRANDO PICTOGRAMAS ===');
+  console.log('Grid element:', grid);
+  console.log('Pictogramas a mostrar:', pictos.length);
+  
   if (!grid) {
-    console.error('Grid no encontrado');
+    console.error('❌ Grid no encontrado!');
     return;
   }
-  
-  console.log('Mostrando pictogramas:', pictos.length);
   
   // Limpiar grid pero mantener los controles
   const controles = grid.querySelector('.controls');
@@ -224,10 +230,19 @@ function iniciarAutoRecarga() {
   }, 30000); // 30 segundos
 }
 
+// Test de elementos DOM
+console.log('=== TEST INICIAL ===');
+console.log('Grid encontrado:', !!grid);
+console.log('SentenceEl encontrado:', !!sentenceEl);
+console.log('Pictogramas default disponibles:', pictogramasDefault.length);
+
 // Cargar datos al iniciar
 if (grid) {
+  console.log('✅ Iniciando carga de datos...');
   cargarPictogramas();
   cargarCategorias();
   // Iniciar auto-recarga
   iniciarAutoRecarga();
+} else {
+  console.error('❌ Grid no encontrado - revisar HTML');
 }

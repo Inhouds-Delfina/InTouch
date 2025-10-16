@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>InTouch - Test</title>
+  <style>
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; padding: 20px; }
+    .tile { border: 2px solid #ddd; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; }
+    .tile img { width: 80px; height: 80px; border-radius: 8px; }
+    .controls { grid-column: 1/-1; text-align: center; margin-top: 20px; }
+    button { padding: 10px 20px; margin: 5px; border: none; border-radius: 8px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>InTouch - Test de Pictogramas</h1>
+  
+  <div id="sentence">
+    <span>Consejo: toca pictogramas para armar y leer una frase.</span>
+  </div>
+  
+  <div class="grid" id="pictogramGrid">
+    <!-- Los pictogramas se cargan aquí -->
+  </div>
+
+  <script src="js/main.js"></script>
+  <script src="js/pictos.js"></script>
+</body>
+</html>
