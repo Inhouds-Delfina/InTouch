@@ -229,65 +229,110 @@ footer {
 
 .menufloat {
   position: fixed;
-  width: 60px;
-  height: 60px;
-  bottom: 20px;
-  right: 20px;
-  background-color: #0C9;
+  width: 64px;
+  height: 64px;
+  bottom: 24px;
+  right: 24px;
+  background: linear-gradient(135deg, #667eea, #764ba2);
   color: #FFF;
-  border-radius: 50px;
-  text-align: center;
-  box-shadow: 2px 2px 3px #999;
-  font-size: 30px;
-  z-index: 100;
-  transition: all 0.2s;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+  font-size: 24px;
+  z-index: 1000;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border: 0;
   cursor: pointer;
+  backdrop-filter: blur(10px);
 }
+
 .menufloat:hover {
-  box-shadow: 0 0 15px #000;
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
 }
-.rotar45 {
-  transform: rotate(45deg);
-  background-color: rgb(209, 8, 182);
+
+.menufloat.rotar45 {
+  transform: rotate(45deg) scale(1.1);
+  background: linear-gradient(135deg, #ff6b6b, #e74c3c);
+  box-shadow: 0 12px 35px rgba(255, 107, 107, 0.4);
 }
+
 .subButton-container {
   position: fixed;
-  width: 80px;
-  bottom: 90px;
-  right: 15px;
+  bottom: 100px;
+  right: 24px;
   display: none;
   flex-direction: column;
-  justify-content: center;
+  gap: 16px;
+  z-index: 999;
 }
-.buttonChild {
-  position: absolute;
-  height: 80px;
-  width: 100%;
-  right: 0;
-  opacity: 0;
-  border: 0;
-  transition: bottom 0.3s, opacity 0.3s;
+
+.subButton-container.show {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 3em;
+  animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-admin, .btn-tts {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
   cursor: pointer;
-  background-color: #FFF;
-  color: #0C9;
-  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  color: white;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  opacity: 0;
+  transform: translateY(20px) scale(0.8);
+  animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
 }
-.buttonChild .fa {
-  font-size: 2em;
+
+.btn-admin {
+  background: linear-gradient(135deg, #4ecdc4, #44a08d);
+  animation-delay: 0.1s;
 }
-.buttonChild:hover {
-  background-color: #0A7;
-  color: #FFF;
-  box-shadow: 0 0 15px #000;
+
+.btn-tts {
+  background: linear-gradient(135deg, #f39c12, #e67e22);
+  animation-delay: 0.2s;
 }
-.buttonChild.visible {
-  opacity: 1;
+
+.btn-admin:hover, .btn-tts:hover {
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+.btn-admin:hover {
+  box-shadow: 0 10px 30px rgba(78, 205, 196, 0.4);
+}
+
+.btn-tts:hover {
+  box-shadow: 0 10px 30px rgba(243, 156, 18, 0.4);
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* Estilos para filtros de categorías */

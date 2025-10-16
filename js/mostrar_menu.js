@@ -1,25 +1,52 @@
- function mostrarMenu() {
-    const menuButton = document.getElementById('menufloat');
-    const subButtons = document.querySelector('.subButton-container');
-    const buttons = subButtons.querySelectorAll('.buttonChild');
-    if (subButtons.style.display === 'flex') {
-        // Del, esn esta parte recorro los botones y oculto el que corresponda
-        buttons.forEach((btn, i) => {
-            btn.classList.remove('visible');
-            btn.style.bottom = '0px';
-        });
+let menuAbierto = false;
+
+function mostrarMenu() {
+    const menu = document.querySelector('.subButton-container');
+    const boton = document.querySelector('.menufloat');
+    
+    if (!menuAbierto) {
+        // Abrir menú
+        menu.classList.add('show');
+        boton.classList.add('rotar45');
+        menuAbierto = true;
+        
+        // Agregar event listener para cerrar al hacer clic fuera
         setTimeout(() => {
-            subButtons.style.display = 'none';
-            menuButton.classList.remove('rotar45');
-        }, 300);
+            document.addEventListener('click', cerrarMenuFuera);
+        }, 100);
     } else {
-        subButtons.style.display = 'flex';
-        menuButton.classList.add('rotar45');
-        buttons.forEach((btn, i) => {
-            setTimeout(() => {
-                btn.classList.add('visible');
-                btn.style.bottom = `${i * 84}px`;
-            }, i * 50); //  el 50 indica el retraso entre cada botón en ms, cambialo como quieras Delfi
-        });
+        // Cerrar menú
+        cerrarMenu();
     }
- }
+}
+
+function cerrarMenu() {
+    const menu = document.querySelector('.subButton-container');
+    const boton = document.querySelector('.menufloat');
+    
+    menu.classList.remove('show');
+    boton.classList.remove('rotar45');
+    menuAbierto = false;
+    
+    document.removeEventListener('click', cerrarMenuFuera);
+}
+
+function cerrarMenuFuera(event) {
+    const menu = document.querySelector('.subButton-container');
+    const boton = document.querySelector('.menufloat');
+    
+    if (!menu.contains(event.target) && !boton.contains(event.target)) {
+        cerrarMenu();
+    }
+}
+
+// Mejorar la navegación
+function irAAdmin() {
+    cerrarMenu();
+    window.location.href = 'abm.html';
+}
+
+function irATTS() {
+    cerrarMenu();
+    window.location.href = 'tts.html';
+}

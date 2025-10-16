@@ -80,10 +80,13 @@
     </footer>
   </main>
   <button class="menufloat" id="menufloat" onclick="mostrarMenu()">+</button>
-<!-- botones ocultos que se muestran al hacer clic en el botón principal -->
   <section class="subButton-container">
-    <button class="btn-admin" onclick="window.location.href='abm.html'">Administración de pictogramas</button>
-    <button class="btn-tts" onclick="window.location.href='tts.html'">Voz a Texto</button>
+    <button class="btn-admin" onclick="irAAdmin()" title="Panel de Administración">
+      ⚙️
+    </button>
+    <button class="btn-tts" onclick="irATTS()" title="Texto a Voz">
+      🎤
+    </button>
   </section>
 </body>
 </html>
