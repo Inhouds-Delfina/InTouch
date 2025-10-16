@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>InTouch - Test Static</title>
+  <style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 15px; padding: 20px; }
+    .tile { border: 2px solid #ddd; border-radius: 12px; padding: 10px; text-align: center; cursor: pointer; background: #f9f9f9; }
+    .tile:hover { background: #e9e9e9; }
+    .tile img { width: 80px; height: 80px; border-radius: 8px; }
+    .controls { grid-column: 1/-1; text-align: center; margin-top: 20px; }
+    button { padding: 10px 20px; margin: 5px; border: none; border-radius: 8px; cursor: pointer; background: #4CAF50; color: white; }
+    #sentence { background: #f0f0f0; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+    .chip { background: #007bff; color: white; padding: 5px 10px; margin: 2px; border-radius: 15px; display: inline-block; }
+  </style>
+</head>
+<body>
+  <h1>InTouch - Test de Pictogramas (Estático)</h1>
+  
+  <div id="sentence">
+    <span class="chip">Consejo: toca pictogramas para armar y leer una frase.</span>
+  </div>
+  
+  <div class="grid" id="pictogramGrid">
+    <!-- Los pictogramas se cargan aquí -->
+  </div>
+
+  <script>
+    // Datos estáticos para testing
+    const pictogramasTest = [
+      {id: 1, texto: 'Hola', categoria_id: 1, categoria_nombre: 'Saludos', imagen_url: 'https://via.placeholder.com/100x100/a3c9f9/333?text=👋'},
+      {id: 2, texto: 'Adiós', categoria_id: 1, categoria_nombre: 'Saludos', imagen_url: 'https://via.placeholder.com/100x100/a3c9f9/333?text=👋'},
+      {id: 3, texto: 'Agua', categoria_id: 2, categoria_nombre: 'Necesidades', imagen_url: 'https://via.placeholder.com/100x100/f9c6d0/333?text=💧'},
+      {id: 4, texto: 'Hambre', categoria_id: 2, categoria_nombre: 'Necesidades', imagen_url: 'https://via.placeholder.com/100x100/f9c6d0/333?text=🍽️'},
+      {id: 5, texto: 'Feliz', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://via.placeholder.com/100x100/b5e6b5/333?text=😊'},
+      {id: 6, texto: 'Triste', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://via.placeholder.com/100x100/b5e6b5/333?text=😢'}
+    ];
+
+    const sentenceEl = document.getElementById('sentence');
+    const grid = document.getElementById('pictogramGrid');
+
+    function addChip(text) {
+      const span = document.createElement('span');
+      span.className = 'chip';
+      span.textContent = text;
+      span.addEventListener('click', () => speak(text));
+      sentenceEl.appendChild(span);
+    }
+
+    function speak(text) {
+      if ('speechSynthesis' in window) {
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'es-ES';
+        speechSynthesis.speak(utterance);
+      } else {
+        alert('Texto a voz: ' + text);
+      }
+    }
+
+    function mostrarPictogramas() {
+      console.log('Mostrando pictogramas:', pictogramasTest.length);
+      
+      pictogramasTest.forEach(picto => {
+        const tile = document.createElement('div');
+        tile.className = 'tile';
+        tile.innerHTML = `
+          <img src="${picto.imagen_url}" alt="${picto.texto}" />
+          <div>${picto.texto}</div>
+        `;
+        tile.addEventListener('click', () => {
+          addChip(picto.texto);
+          speak(picto.texto);
+        });
+        grid.appendChild(tile);
+      });
+
+      // Controles
+      const controls = document.createElement('div');
+      controls.className = 'controls';
+      controls.innerHTML = `
+        <button onclick="leerFrase()">🔊 Leer Frase</button>
+        <button onclick="borrarFrase()">🧹 Borrar</button>
+      `;
+      grid.appendChild(controls);
+    }
+
+    function leerFrase() {
+      const chips = Array.from(sentenceEl.querySelectorAll('.chip'));
+      const frase = chips.map(c => c.textContent).join(' ');
+      speak(frase);
+    }
+
+    function borrarFrase() {
+      sentenceEl.innerHTML = '<span class="chip">Consejo: toca pictogramas para armar y leer una frase.</span>';
+    }
+
+    // Cargar al iniciar
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('Página cargada, mostrando pictogramas...');
+      mostrarPictogramas();
+    });
+  </script>
+</body>
+</html>
