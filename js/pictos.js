@@ -68,11 +68,13 @@ if (clearBtn) {
 async function cargarPictogramas() {
   try {
     console.log('Cargando pictogramas desde API...');
-    const res = await fetch('php/api.php');
+    // Agregar timestamp para evitar cache
+    const res = await fetch('php/api.php?t=' + Date.now());
     console.log('Respuesta API pictogramas:', res.status);
     
     const data = await res.json();
     console.log('Datos pictogramas recibidos:', data);
+    console.log('Número de pictogramas:', data.data ? data.data.length : 0);
     
     if (data.status === 'ok' && data.data) {
       pictogramas = data.data;
@@ -207,8 +209,25 @@ function filtrarCategoria(categoriaId) {
   }
 }
 
+// Función para recargar pictogramas manualmente
+function recargarPictogramas() {
+  console.log('Recargando pictogramas manualmente...');
+  cargarPictogramas();
+  cargarCategorias();
+}
+
+// Auto-recarga cada 30 segundos para detectar nuevos pictogramas
+function iniciarAutoRecarga() {
+  setInterval(() => {
+    console.log('Auto-recarga de pictogramas...');
+    cargarPictogramas();
+  }, 30000); // 30 segundos
+}
+
 // Cargar datos al iniciar
 if (grid) {
   cargarPictogramas();
   cargarCategorias();
+  // Iniciar auto-recarga
+  iniciarAutoRecarga();
 }

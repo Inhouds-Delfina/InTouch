@@ -170,6 +170,10 @@ document.addEventListener("DOMContentLoaded", () => {
           cerrarModal();
           form.reset();
           cargarEstadisticas();
+          // Limpiar cache del navegador para forzar recarga en index
+          if ('caches' in window) {
+            caches.delete('intouch-cache');
+          }
         } else {
           mostrarNotificacion('Error: ' + data.msg, 'error');
         }
