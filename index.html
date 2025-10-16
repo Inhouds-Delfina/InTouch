@@ -8,6 +8,50 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#a3c9f9">
   <script src="js/main.js"></script>
+  <script>
+    // Pictogramas por defecto para GitHub Pages (sin PHP)
+    const pictogramasGitHub = [
+      {id: 1, texto: 'Hola', categoria_id: 1, categoria_nombre: 'Saludos', imagen_url: 'https://via.placeholder.com/100x100/a3c9f9/333?text=👋'},
+      {id: 2, texto: 'Adiós', categoria_id: 1, categoria_nombre: 'Saludos', imagen_url: 'https://via.placeholder.com/100x100/a3c9f9/333?text=👋'},
+      {id: 3, texto: 'Agua', categoria_id: 2, categoria_nombre: 'Necesidades', imagen_url: 'https://via.placeholder.com/100x100/f9c6d0/333?text=💧'},
+      {id: 4, texto: 'Hambre', categoria_id: 2, categoria_nombre: 'Necesidades', imagen_url: 'https://via.placeholder.com/100x100/f9c6d0/333?text=🍽️'},
+      {id: 5, texto: 'Feliz', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://via.placeholder.com/100x100/b5e6b5/333?text=😊'},
+      {id: 6, texto: 'Triste', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://via.placeholder.com/100x100/b5e6b5/333?text=😢'},
+      {id: 7, texto: 'Enojado', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://via.placeholder.com/100x100/b5e6b5/333?text=😠'},
+      {id: 8, texto: 'Jugar', categoria_id: 4, categoria_nombre: 'Acciones', imagen_url: 'https://via.placeholder.com/100x100/f0e5f5/333?text=🎮'},
+      {id: 9, texto: 'Dormir', categoria_id: 4, categoria_nombre: 'Acciones', imagen_url: 'https://via.placeholder.com/100x100/f0e5f5/333?text=😴'},
+      {id: 10, texto: 'Manzana', categoria_id: 8, categoria_nombre: 'Comida', imagen_url: 'https://via.placeholder.com/100x100/efbfbf/333?text=🍎'},
+      {id: 11, texto: 'Pan', categoria_id: 8, categoria_nombre: 'Comida', imagen_url: 'https://via.placeholder.com/100x100/efbfbf/333?text=🍞'}
+    ];
+    
+    // Cargar pictogramas para GitHub Pages
+    document.addEventListener('DOMContentLoaded', function() {
+      const grid = document.getElementById('pictogramGrid');
+      const sentenceEl = document.getElementById('sentence');
+      
+      if (grid && (window.location.hostname.includes('github') || window.location.hostname.includes('escuelarobertoarlt'))) {
+        console.log('GitHub Pages detectado - cargando pictogramas estáticos');
+        
+        pictogramasGitHub.forEach(picto => {
+          const tile = document.createElement('div');
+          tile.className = 'tile';
+          tile.innerHTML = `
+            <img src="${picto.imagen_url}" alt="${picto.texto}" />
+            <span>${picto.texto}</span>
+          `;
+          tile.addEventListener('click', function() {
+            const chip = document.createElement('span');
+            chip.className = 'chip';
+            chip.textContent = picto.texto;
+            chip.addEventListener('click', () => speak(picto.texto));
+            sentenceEl.appendChild(chip);
+            speak(picto.texto);
+          });
+          grid.appendChild(tile);
+        });
+      }
+    });
+  </script>
   <script src="js/pictos.js"></script>
   <script src="js/mostrar_menu.js"></script>
   <title>InTouch</title>
