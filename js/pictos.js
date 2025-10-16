@@ -80,9 +80,10 @@ async function cargarPictogramas() {
     const data = await res.json();
     console.log('Datos recibidos:', data);
     
-    if (data.status === 'ok' && data.data && data.data.length > 0) {
+    if (data.status === 'ok' && data.data) {
       pictogramas = data.data;
       console.log('✅ Cargados desde BD:', pictogramas.length, 'pictogramas');
+      console.log('Pictogramas cargados:', pictogramas);
     } else {
       console.log('⚠️ BD vacía o error, usando fallback');
       pictogramas = pictogramasDefault;
@@ -92,7 +93,7 @@ async function cargarPictogramas() {
     pictogramas = pictogramasDefault;
   }
   
-  console.log('Pictogramas finales:', pictogramas.length);
+  console.log('Pictogramas finales a mostrar:', pictogramas.length);
   mostrarPictogramas(pictogramas);
 }
 
@@ -217,32 +218,46 @@ function filtrarCategoria(categoriaId) {
 
 // Función para recargar pictogramas manualmente
 function recargarPictogramas() {
-  console.log('Recargando pictogramas manualmente...');
-  cargarPictogramas();
-  cargarCategorias();
+  console.log('=== RECARGA MANUAL ===');
+  console.log('Limpiando grid...');
+  
+  if (grid) {
+    // Limpiar grid completamente
+    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 20px;">🔄 Recargando...</div>';
+    
+    // Recargar datos
+    setTimeout(() => {
+      cargarPictogramas();
+      cargarCategorias();
+    }, 500);
+  }
 }
 
-// Auto-recarga cada 30 segundos para detectar nuevos pictogramas
+// Auto-recarga cada 60 segundos para detectar nuevos pictogramas
 function iniciarAutoRecarga() {
   setInterval(() => {
     console.log('Auto-recarga de pictogramas...');
     cargarPictogramas();
-  }, 30000); // 30 segundos
+  }, 60000); // 60 segundos
 }
 
-// Test de elementos DOM
-console.log('=== TEST INICIAL ===');
-console.log('Grid encontrado:', !!grid);
-console.log('SentenceEl encontrado:', !!sentenceEl);
-console.log('Pictogramas default disponibles:', pictogramasDefault.length);
+
 
 // Cargar datos al iniciar
-if (grid) {
-  console.log('✅ Iniciando carga de datos...');
-  cargarPictogramas();
-  cargarCategorias();
-  // Iniciar auto-recarga
-  iniciarAutoRecarga();
-} else {
-  console.error('❌ Grid no encontrado - revisar HTML');
-}
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('=== DOM CARGADO ===');
+  console.log('Grid encontrado:', !!grid);
+  
+  if (grid) {
+    console.log('✅ Iniciando carga de datos...');
+    // Pequeño delay para asegurar que todo esté listo
+    setTimeout(() => {
+      cargarPictogramas();
+      cargarCategorias();
+    }, 100);
+    // Iniciar auto-recarga
+    iniciarAutoRecarga();
+  } else {
+    console.error('❌ Grid no encontrado - revisar HTML');
+  }
+});
