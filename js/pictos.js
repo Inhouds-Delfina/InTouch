@@ -67,19 +67,24 @@ if (clearBtn) {
 
 async function cargarPictogramas() {
   try {
+    console.log('Cargando pictogramas desde API...');
     const res = await fetch('php/api.php');
+    console.log('Respuesta API pictogramas:', res.status);
+    
     const data = await res.json();
-    if (data.status === 'ok') {
+    console.log('Datos pictogramas recibidos:', data);
+    
+    if (data.status === 'ok' && data.data && data.data.length > 0) {
       pictogramas = data.data;
+      console.log('Pictogramas cargados desde BD:', pictogramas.length);
       mostrarPictogramas(pictogramas);
     } else {
-      // Usar datos de fallback
+      console.log('No hay pictogramas en BD, usando fallback');
       pictogramas = pictogramasDefault;
       mostrarPictogramas(pictogramas);
     }
   } catch (error) {
     console.error('Error cargando pictogramas, usando datos de fallback:', error);
-    // Usar datos de fallback
     pictogramas = pictogramasDefault;
     mostrarPictogramas(pictogramas);
   }
@@ -106,19 +111,33 @@ async function cargarCategorias() {
 }
 
 function mostrarPictogramas(pictos) {
-  if (!grid) return;
+  if (!grid) {
+    console.error('Grid no encontrado');
+    return;
+  }
   
+  console.log('Mostrando pictogramas:', pictos.length);
+  
+  // Limpiar grid
   grid.innerHTML = '';
+  
+  if (pictos.length === 0) {
+    grid.innerHTML = '<p>No hay pictogramas disponibles</p>';
+    return;
+  }
+  
   pictos.forEach(picto => {
     const tile = document.createElement('div');
     tile.className = 'tile';
     tile.setAttribute('data-say', picto.texto);
     tile.innerHTML = `
-      <img src="${picto.imagen_url}" alt="${picto.texto}" />
+      <img src="${picto.imagen_url}" alt="${picto.texto}" onerror="this.src='https://via.placeholder.com/100x100/ccc/333?text=${encodeURIComponent(picto.texto)}'" />
       <span>${picto.texto}</span>
     `;
     grid.appendChild(tile);
   });
+  
+  console.log('Pictogramas mostrados en grid:', grid.children.length);
 }
 
 function mostrarFiltrosCategorias() {

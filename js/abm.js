@@ -52,11 +52,34 @@ async function cargarCategorias() {
     const select = document.getElementById("categoria_id");
     
     if (data.status === "ok" && select) {
-      select.innerHTML = '<option value="">Seleccionar categoría</option>';
+      // Limpiar completamente el select
+      select.innerHTML = '';
+      
+      // Agregar opción por defecto
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.textContent = 'Seleccionar categoría';
+      select.appendChild(defaultOption);
+      
+      // Agregar categorías únicas
+      const categoriasUnicas = [];
+      const nombresVistos = new Set();
+      
       data.data.forEach(cat => {
-        select.innerHTML += `<option value="${cat.id}">${cat.nombre}</option>`;
+        if (!nombresVistos.has(cat.nombre)) {
+          nombresVistos.add(cat.nombre);
+          categoriasUnicas.push(cat);
+        }
       });
-      console.log('Categorías cargadas:', data.data.length);
+      
+      categoriasUnicas.forEach(cat => {
+        const option = document.createElement('option');
+        option.value = cat.id;
+        option.textContent = cat.nombre;
+        select.appendChild(option);
+      });
+      
+      console.log('Categorías únicas cargadas:', categoriasUnicas.length);
     } else {
       console.error('Error cargando categorías:', data);
       if (select) {
@@ -76,6 +99,19 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log('Enviando formulario...');
       
       const formData = new FormData(e.target);
+      
+      // Validar campos antes de enviar
+      const texto = formData.get('texto');
+      const categoria_id = formData.get('categoria_id');
+      
+      console.log('Validando campos:');
+      console.log('texto:', texto);
+      console.log('categoria_id:', categoria_id);
+      
+      if (!texto || !categoria_id || categoria_id === '') {
+        alert('Por favor completa todos los campos obligatorios (Texto y Categoría)');
+        return;
+      }
       
       // Debug: mostrar datos del formulario
       for (let [key, value] of formData.entries()) {
