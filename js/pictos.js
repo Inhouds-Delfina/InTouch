@@ -1,5 +1,5 @@
-const sentenceEl = document.getElementById('sentence');
-const grid = document.getElementById('pictogramGrid');
+let sentenceEl = null;
+let grid = null;
 let pictogramas = [];
 let categorias = [];
 
@@ -36,34 +36,7 @@ function addChip(text) {
 }
 
 
-if (grid) {
-  grid.addEventListener('click', (e) => {
-    const tile = e.target.closest('.tile');
-    if (!tile) return;
-    const text = tile.getAttribute('data-say');
-    addChip(text);
-    speak(text);
-  });
-}
 
-
-const speakBtn = document.getElementById('speakSentence');
-if (speakBtn) {
-  speakBtn.addEventListener('click', () => {
-    const sentence = Array.from(sentenceEl.querySelectorAll('.chip'))
-      .map(c => c.textContent)
-      .join(' ');
-    speak(sentence);
-  });
-}
-
-
-const clearBtn = document.getElementById('clearSentence');
-if (clearBtn) {
-  clearBtn.addEventListener('click', () => {
-    sentenceEl.innerHTML = '';
-  });
-}
 
 async function cargarPictogramas() {
   console.log('=== INICIANDO CARGA DE PICTOGRAMAS ===');
@@ -165,7 +138,7 @@ function mostrarPictogramas(pictos) {
   
   // Reagregar controles al final
   if (controles) {
-    grid.appendChild(controles);
+    currentGrid.appendChild(controles);
   } else {
     const controlesDiv = document.createElement('div');
     controlesDiv.className = 'controls';
@@ -173,7 +146,7 @@ function mostrarPictogramas(pictos) {
       <button id="speakSentence" class="btn-accent">🔊 Leer</button>
       <button id="clearSentence" class="btn-muted">🧹 Borrar</button>
     `;
-    grid.appendChild(controlesDiv);
+    currentGrid.appendChild(controlesDiv);
     
     // Reconfigurar event listeners para los controles
     const speakBtn = document.getElementById('speakSentence');
@@ -195,7 +168,7 @@ function mostrarPictogramas(pictos) {
     }
   }
   
-  console.log('Pictogramas mostrados en grid:', grid.children.length - 1); // -1 por los controles
+  console.log('Pictogramas mostrados en grid:', currentGrid.children.length - 1); // -1 por los controles
   console.log('=== CARGA COMPLETADA ===');
   
   // Mostrar notificación visual de éxito
@@ -286,16 +259,30 @@ function iniciarAutoRecarga() {
 // Cargar datos al iniciar
 document.addEventListener('DOMContentLoaded', function() {
   console.log('=== DOM CARGADO ===');
+  
+  // Inicializar elementos
+  sentenceEl = document.getElementById('sentence');
+  grid = document.getElementById('pictogramGrid');
+  
   console.log('Grid encontrado:', !!grid);
   
   if (grid) {
     console.log('✅ Iniciando carga de datos...');
-    // Pequeño delay para asegurar que todo esté listo
+    
+    // Configurar event listeners
+    grid.addEventListener('click', (e) => {
+      const tile = e.target.closest('.tile');
+      if (!tile) return;
+      const text = tile.getAttribute('data-say');
+      addChip(text);
+      speak(text);
+    });
+    
     setTimeout(() => {
       cargarPictogramas();
       cargarCategorias();
     }, 100);
-    // Iniciar auto-recarga
+    
     iniciarAutoRecarga();
   } else {
     console.error('❌ Grid no encontrado - revisar HTML');
