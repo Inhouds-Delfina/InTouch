@@ -71,7 +71,7 @@ if ($method === 'POST' && !isset($_POST['_method'])) {
         } else {
             // Crear nuevo
             if (!$imagenUrl) {
-                $imagenUrl = "https://via.placeholder.com/100x100/a3c9f9/333?text=" . urlencode($texto);
+                $imagenUrl = "https://placehold.co/100x100/a3c9f9/333333?text=" . urlencode(substr($texto, 0, 1));
             }
             $sql = "INSERT INTO pictogramas (texto, categoria_id, imagen_url) VALUES (?, ?, ?)";
             $stmt = $conn->prepare($sql);

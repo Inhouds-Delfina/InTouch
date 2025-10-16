@@ -13,17 +13,17 @@ const categoriasDefault = [
 ];
 
 const pictogramasDefault = [
-  {id: 1, texto: 'Hola', categoria_id: 1, categoria_nombre: 'Saludos', imagen_url: 'https://via.placeholder.com/100x100/a3c9f9/333?text=👋'},
-  {id: 2, texto: 'Adiós', categoria_id: 1, categoria_nombre: 'Saludos', imagen_url: 'https://via.placeholder.com/100x100/a3c9f9/333?text=👋'},
-  {id: 3, texto: 'Agua', categoria_id: 2, categoria_nombre: 'Necesidades', imagen_url: 'https://via.placeholder.com/100x100/f9c6d0/333?text=💧'},
-  {id: 4, texto: 'Hambre', categoria_id: 2, categoria_nombre: 'Necesidades', imagen_url: 'https://via.placeholder.com/100x100/f9c6d0/333?text=🍽️'},
-  {id: 5, texto: 'Feliz', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://via.placeholder.com/100x100/b5e6b5/333?text=😊'},
-  {id: 6, texto: 'Triste', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://via.placeholder.com/100x100/b5e6b5/333?text=😢'},
-  {id: 7, texto: 'Enojado', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://via.placeholder.com/100x100/b5e6b5/333?text=😠'},
-  {id: 8, texto: 'Jugar', categoria_id: 4, categoria_nombre: 'Acciones', imagen_url: 'https://via.placeholder.com/100x100/f0e5f5/333?text=🎮'},
-  {id: 9, texto: 'Dormir', categoria_id: 4, categoria_nombre: 'Acciones', imagen_url: 'https://via.placeholder.com/100x100/f0e5f5/333?text=😴'},
-  {id: 10, texto: 'Manzana', categoria_id: 8, categoria_nombre: 'Comida', imagen_url: 'https://via.placeholder.com/100x100/efbfbf/333?text=🍎'},
-  {id: 11, texto: 'Pan', categoria_id: 8, categoria_nombre: 'Comida', imagen_url: 'https://via.placeholder.com/100x100/efbfbf/333?text=🍞'}
+  {id: 1, texto: 'Hola', categoria_id: 1, categoria_nombre: 'Saludos', imagen_url: 'https://placehold.co/100x100/a3c9f9/333333?text=H'},
+  {id: 2, texto: 'Adiós', categoria_id: 1, categoria_nombre: 'Saludos', imagen_url: 'https://placehold.co/100x100/a3c9f9/333333?text=A'},
+  {id: 3, texto: 'Agua', categoria_id: 2, categoria_nombre: 'Necesidades', imagen_url: 'https://placehold.co/100x100/f9c6d0/333333?text=💧'},
+  {id: 4, texto: 'Hambre', categoria_id: 2, categoria_nombre: 'Necesidades', imagen_url: 'https://placehold.co/100x100/f9c6d0/333333?text=🍽'},
+  {id: 5, texto: 'Feliz', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://placehold.co/100x100/b5e6b5/333333?text=😊'},
+  {id: 6, texto: 'Triste', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://placehold.co/100x100/b5e6b5/333333?text=😢'},
+  {id: 7, texto: 'Enojado', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://placehold.co/100x100/b5e6b5/333333?text=😠'},
+  {id: 8, texto: 'Jugar', categoria_id: 4, categoria_nombre: 'Acciones', imagen_url: 'https://placehold.co/100x100/f0e5f5/333333?text=J'},
+  {id: 9, texto: 'Dormir', categoria_id: 4, categoria_nombre: 'Acciones', imagen_url: 'https://placehold.co/100x100/f0e5f5/333333?text=D'},
+  {id: 10, texto: 'Manzana', categoria_id: 8, categoria_nombre: 'Comida', imagen_url: 'https://placehold.co/100x100/efbfbf/333333?text=🍎'},
+  {id: 11, texto: 'Pan', categoria_id: 8, categoria_nombre: 'Comida', imagen_url: 'https://placehold.co/100x100/efbfbf/333333?text=🍞'}
 ];
 
 function addChip(text) {
@@ -154,7 +154,7 @@ function mostrarPictogramas(pictos) {
       tile.setAttribute('data-say', picto.texto);
       tile.innerHTML = `
         <img src="${picto.imagen_url}" alt="${picto.texto}" 
-             onerror="this.src='https://via.placeholder.com/100x100/a3c9f9/333?text=${encodeURIComponent(picto.texto.charAt(0))}'" />
+             onerror="this.src='https://placehold.co/100x100/a3c9f9/333333?text=${encodeURIComponent(picto.texto.charAt(0))}'" />
         <span>${picto.texto}</span>
       `;
       grid.appendChild(tile);
