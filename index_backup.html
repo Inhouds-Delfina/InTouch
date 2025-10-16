@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta http-equiv="Pragma" content="no-cache">
-  <meta http-equiv="Expires" content="0">
   <link rel="icon" type="image/x-icon" href="./img/logo_fondo.ico">
-  <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
+  <link rel="stylesheet" href="css/style.css">
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#a3c9f9">
+  <script src="js/main.js"></script>
+
+  <script src="js/pictos.js"></script>
+  <script src="js/mostrar_menu.js"></script>
   <title>InTouch</title>
 </head>
 <body>
@@ -42,7 +43,41 @@
         <button id="reloadPictos" class="btn-accent" onclick="recargarPictogramas()" title="Recargar pictogramas desde la base de datos">🔄 Recargar</button>
       </div>
     </section>
-    <footer>
+    <!-- <section class="addPicto" aria-label="Agregar pictograma">
+      <h2>Agregar pictograma</h2>
+      <div class="row">
+        <input type="text" id="pictoLabel" placeholder="Texto a pronunciar" />
+        <select id="pictoCategory">
+          <option value="saludos">Saludos</option>
+          <option value="necesidades">Necesidades</option>
+          <option value="emociones">Emociones</option>
+          <option value="comida">Comida</option>
+          <option value="acciones">Acciones</option>
+        </select>
+        <input type="file" id="pictoImage" accept="image/*" />
+        <button id="addPictoBtn">＋ Agregar</button>
+      </div>
+    </section> -->
+    <!-- <section class="tts" aria-label="Texto a voz libre">
+      <h2>Texto libre</h2>
+      <div class="row">
+        <label for="voiceSelect">Voz:</label>
+        <select id="voiceSelect" aria-label="Seleccionar voz"></select>
+        <label for="rate">Velocidad:</label>
+        <input id="rate" type="range" min="0.5" max="1.5" step="0.1" value="1" />
+        <label for="pitch">Tono:</label>
+        <input id="pitch" type="range" min="0.5" max="1.5" step="0.1" value="1" />
+      </div>
+      <textarea id="freeText" placeholder="Escribí un mensaje para leer en voz alta…"></textarea>
+      <div class="row">
+        <button id="speakText">▶ Leer texto</button>
+        <button id="stopSpeech" class="btn-danger">⏹ Detener</button>
+      </div>
+    </section> -->
+    <!-- <button class="admin-link" onclick="window.location.href='abm.html'">Administración de pictogramas</button>
+    <br>
+    <button class="admin-link" onclick="window.location.href='tts.html'">Voz a Texto</button>
+    <footer> -->
       <p>© InTouch - 2025</p>
     </footer>
   </main>
@@ -55,9 +90,5 @@
       🎤
     </button>
   </section>
-
-  <script src="js/main.js?v=<?php echo time(); ?>"></script>
-  <script src="js/pictos.js?v=<?php echo time(); ?>"></script>
-  <script src="js/mostrar_menu.js?v=<?php echo time(); ?>"></script>
 </body>
 </html>
