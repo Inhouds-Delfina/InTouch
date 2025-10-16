@@ -1,5 +1,5 @@
 async function cargarPictos() {
-  const res = await fetch("php/api.php");
+  const res = await fetch("php/api_simple.php");
   const data = await res.json();
   const tbody = document.getElementById("pictoTableBody");
   tbody.innerHTML = "";
@@ -43,7 +43,7 @@ async function eliminarPicto(id) {
 async function cargarCategorias() {
   try {
     console.log('Cargando categorías...');
-    const res = await fetch("php/categorias.php");
+    const res = await fetch("php/categorias_simple.php");
     console.log('Respuesta categorias:', res.status);
     
     const data = await res.json();
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       try {
-        const res = await fetch("php/api.php", { 
+        const res = await fetch("php/api_simple.php", { 
           method: "POST", 
           body: formData 
         });

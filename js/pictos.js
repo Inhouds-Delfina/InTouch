@@ -67,7 +67,7 @@ if (clearBtn) {
 
 async function cargarPictogramas() {
   try {
-    const res = await fetch('php/api.php');
+    const res = await fetch('php/api_simple.php');
     const data = await res.json();
     if (data.status === 'ok') {
       pictogramas = data.data;
@@ -87,7 +87,7 @@ async function cargarPictogramas() {
 
 async function cargarCategorias() {
   try {
-    const res = await fetch('php/categorias.php');
+    const res = await fetch('php/categorias_simple.php');
     const data = await res.json();
     if (data.status === 'ok') {
       categorias = data.data;
