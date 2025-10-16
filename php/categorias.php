@@ -8,37 +8,51 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-require_once "conexion.php";
-
-// Insertar categorías básicas si no existen
-$categorias_basicas = ['Saludos', 'Necesidades', 'Emociones', 'Acciones', 'Comida'];
-foreach ($categorias_basicas as $cat) {
-    $stmt = $conn->prepare("INSERT IGNORE INTO categorias (nombre) VALUES (?)");
-    if ($stmt) {
-        $stmt->bind_param("s", $cat);
-        $stmt->execute();
-        $stmt->close();
-    }
-}
-
-$method = $_SERVER['REQUEST_METHOD'];
-
-if ($method === 'GET') {
-    $result = $conn->query("SELECT * FROM categorias ORDER BY nombre ASC");
+try {
+    require_once "conexion.php";
     
-    if (!$result) {
-        echo json_encode(["status" => "error", "msg" => "Error al obtener categorías: " . $conn->error]);
+    // Insertar categorías básicas si no existen
+    $categorias_basicas = ['Saludos', 'Necesidades', 'Emociones', 'Acciones', 'Comida'];
+    foreach ($categorias_basicas as $cat) {
+        $stmt = $conn->prepare("INSERT IGNORE INTO categorias (nombre) VALUES (?)");
+        if ($stmt) {
+            $stmt->bind_param("s", $cat);
+            $stmt->execute();
+            $stmt->close();
+        }
+    }
+    
+    $method = $_SERVER['REQUEST_METHOD'];
+    
+    if ($method === 'GET') {
+        $result = $conn->query("SELECT * FROM categorias ORDER BY nombre ASC");
+        
+        if (!$result) {
+            echo json_encode(["status" => "error", "msg" => "Error al obtener categorías: " . $conn->error]);
+            exit;
+        }
+    
+        $categorias = [];
+        while ($row = $result->fetch_assoc()) {
+            $categorias[] = $row;
+        }
+        
+        echo json_encode(["status" => "ok", "data" => $categorias]);
         exit;
     }
-
-    $categorias = [];
-    while ($row = $result->fetch_assoc()) {
-        $categorias[] = $row;
-    }
     
-    echo json_encode(["status" => "ok", "data" => $categorias]);
-    exit;
+    echo json_encode(["status" => "error", "msg" => "Método no permitido"]);
+    
+} catch (Exception $e) {
+    // Fallback con datos estáticos si falla la base de datos
+    $categorias_fallback = [
+        ["id" => 1, "nombre" => "Saludos"],
+        ["id" => 2, "nombre" => "Necesidades"],
+        ["id" => 3, "nombre" => "Emociones"],
+        ["id" => 4, "nombre" => "Acciones"],
+        ["id" => 5, "nombre" => "Comida"]
+    ];
+    
+    echo json_encode(["status" => "ok", "data" => $categorias_fallback, "fallback" => true]);
 }
-
-echo json_encode(["status" => "error", "msg" => "Método no permitido"]);
 ?>
