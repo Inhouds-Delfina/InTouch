@@ -70,7 +70,15 @@ async function cargarPictogramas() {
   
   try {
     console.log('Intentando cargar desde API...');
-    const res = await fetch('php/api.php?t=' + Date.now());
+    // Agregar headers anti-cache más agresivos
+    const res = await fetch('php/api.php?t=' + Date.now() + '&r=' + Math.random(), {
+      method: 'GET',
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
+      }
+    });
     console.log('Status de respuesta:', res.status);
     
     if (!res.ok) {
@@ -95,6 +103,7 @@ async function cargarPictogramas() {
   
   console.log('Pictogramas finales a mostrar:', pictogramas.length);
   mostrarPictogramas(pictogramas);
+  return pictogramas;
 }
 
 async function cargarCategorias() {
@@ -185,6 +194,12 @@ function mostrarPictogramas(pictos) {
   }
   
   console.log('Pictogramas mostrados en grid:', grid.children.length - 1); // -1 por los controles
+  console.log('=== CARGA COMPLETADA ===');
+  
+  // Mostrar notificación visual de éxito
+  if (pictos.length > 0) {
+    console.log(`✅ ${pictos.length} pictogramas cargados exitosamente`);
+  }
 }
 
 function mostrarFiltrosCategorias() {
@@ -222,23 +237,50 @@ function recargarPictogramas() {
   console.log('Limpiando grid...');
   
   if (grid) {
-    // Limpiar grid completamente
-    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 20px;">🔄 Recargando...</div>';
+    // Mostrar mensaje de carga
+    grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 20px; background: #e3f2fd; border-radius: 8px; margin: 10px;">🔄 Recargando pictogramas...</div>';
     
-    // Recargar datos
-    setTimeout(() => {
-      cargarPictogramas();
-      cargarCategorias();
-    }, 500);
+    // Limpiar cache de pictogramas
+    pictogramas = [];
+    
+    // Recargar datos inmediatamente
+    cargarPictogramas().then(() => {
+      // Mostrar notificación de éxito
+      mostrarNotificacion('✅ Pictogramas actualizados');
+    });
+    cargarCategorias();
   }
 }
 
-// Auto-recarga cada 60 segundos para detectar nuevos pictogramas
+// Función para mostrar notificaciones temporales
+function mostrarNotificacion(mensaje) {
+  const notif = document.createElement('div');
+  notif.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #4CAF50;
+    color: white;
+    padding: 15px 20px;
+    border-radius: 8px;
+    z-index: 1000;
+    font-weight: bold;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  `;
+  notif.textContent = mensaje;
+  document.body.appendChild(notif);
+  
+  setTimeout(() => {
+    notif.remove();
+  }, 3000);
+}
+
+// Auto-recarga cada 30 segundos para detectar nuevos pictogramas
 function iniciarAutoRecarga() {
   setInterval(() => {
     console.log('Auto-recarga de pictogramas...');
     cargarPictogramas();
-  }, 60000); // 60 segundos
+  }, 30000); // 30 segundos
 }
 
 
@@ -259,5 +301,25 @@ document.addEventListener('DOMContentLoaded', function() {
     iniciarAutoRecarga();
   } else {
     console.error('❌ Grid no encontrado - revisar HTML');
+  }
+});
+
+// Detectar cuando la página vuelve a estar visible (regreso del panel admin)
+document.addEventListener('visibilitychange', function() {
+  if (!document.hidden && grid) {
+    console.log('Página visible de nuevo - recargando pictogramas...');
+    setTimeout(() => {
+      recargarPictogramas();
+    }, 500);
+  }
+});
+
+// Detectar cuando la ventana vuelve a tener foco
+window.addEventListener('focus', function() {
+  if (grid) {
+    console.log('Ventana con foco - recargando pictogramas...');
+    setTimeout(() => {
+      recargarPictogramas();
+    }, 500);
   }
 });
