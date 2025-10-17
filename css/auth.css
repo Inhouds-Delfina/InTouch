@@ -86,34 +86,16 @@ a:hover {
   background: #e63946;
 }
 
+@media (max-width: 600px) {
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  button {
+    flex: 1;
+  }
+}
+
 @media (max-width: 768px) {
-  .admin-app {
-    padding: 15px;
-  }
-  
-  .admin-header {
-    flex-direction: column;
-    text-align: center;
-  }
-  
-  .header-content h1 {
-    font-size: 2rem;
-  }
-  
-  .picto-grid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 15px;
-  }
-  
-  .modal-content {
-    width: 95%;
-    margin: 20px;
-  }
-  
-  .modal-header,
-  .form-group,
-  .modal-actions {
-    padding-left: 20px;
-    padding-right: 20px;
-  }
+  .chip { display: none; }
 }
