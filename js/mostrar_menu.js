@@ -43,10 +43,22 @@ function cerrarMenuFuera(event) {
 // Mejorar la navegación
 function irAAdmin() {
     cerrarMenu();
-    window.location.href = 'abm.html';
+    window.location.href = 'views/abm.html';
 }
 
 function irATTS() {
     cerrarMenu();
-    window.location.href = 'tts.html';
+    window.location.href = 'views/tts.html';
+}
+
+function irALOGIN()
+{
+    cerrarMenu();
+    window.location.href = 'views/login.html';
+}
+
+function irAREGISTER()
+{
+    cerrarMenu();
+    window.location.href = 'views/register.html';
 }
