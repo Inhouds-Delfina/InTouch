@@ -15,16 +15,7 @@ error_reporting(E_ALL);
 try {
     require_once "conexion.php";
     
-    // Insertar categorías básicas si no existen
-    $categorias_basicas = ['Saludos', 'Necesidades', 'Emociones', 'Acciones', 'Comida'];
-    foreach ($categorias_basicas as $cat) {
-        $stmt = $conn->prepare("INSERT IGNORE INTO categorias (nombre) VALUES (?)");
-        if ($stmt) {
-            $stmt->bind_param("s", $cat);
-            $stmt->execute();
-            $stmt->close();
-        }
-    }
+    // Categorías básicas removidas para evitar duplicados
 } catch (Exception $e) {
     echo json_encode(["status" => "error", "msg" => "Error de conexión: " . $e->getMessage()]);
     exit;
