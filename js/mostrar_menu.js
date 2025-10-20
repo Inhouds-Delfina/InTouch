@@ -62,3 +62,9 @@ function irAREGISTER()
     cerrarMenu();
     window.location.href = 'views/register.html';
 }
+
+function irALOGOUT()
+{
+    cerrarMenu();
+    window.location.href = 'views/logout.html';
+}
