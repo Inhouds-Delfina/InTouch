@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 include 'conexion.php';
 
@@ -26,6 +30,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['usuario_id'] = $user['id'];
             $_SESSION['rol'] = $user['rol'];
             $_SESSION['avatar'] = $user['avatar_url'];
+            // Regenerar id de sesión y asegurar que se escriba antes de redirigir
+            session_regenerate_id(true);
+            session_write_close();
             // Redirigir al panel de administración
             header("Location: ../views/abm.php");
             exit;

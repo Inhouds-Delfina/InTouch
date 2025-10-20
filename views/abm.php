@@ -7,6 +7,12 @@ if (empty($_SESSION['usuario_id'])) {
 }
 $usuario_nombre = $_SESSION['usuario'] ?? 'Usuario';
 ?>
+<?php
+// Mostrar errores en entorno de desarrollo para depuración
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
