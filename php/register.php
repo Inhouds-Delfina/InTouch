@@ -6,6 +6,12 @@ error_reporting(E_ALL);
 session_start();
 include 'conexion.php';
 
+// Verificar conexión explícitamente
+if ($conn->connect_error) {
+    die("Conexión fallida: " . $conn->connect_error);
+}
+echo "Conexión a la base de datos exitosa<br>";
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Debug: mostrar datos recibidos
     echo "Datos recibidos:<br>";
@@ -70,23 +76,44 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         @unlink($debugLog);
     }
 
-    // Debug: mostrar consulta SQL y parámetros
-    echo "<br>Intentando ejecutar INSERT con:<br>";
-    echo "Nombre: $nombre<br>";
-    echo "Email: $email<br>";
-    echo "Rol: $rol<br>";
-    echo "Avatar URL: " . ($avatar_url ?? 'null') . "<br>";
-    
-    if ($stmt->execute()) {
-        echo "<br>¡Registro exitoso! Redirigiendo en 3 segundos...<br>";
-        echo "<script>
-            setTimeout(function() {
-                window.location.href = '../views/login.php?success=1&nombre=" . urlencode($nombre) . "';
-            }, 3000);
-        </script>";
-    } else {
-        echo "<br>Error en INSERT: " . $conn->error . "<br>";
+    // Debug: mostrar la consulta SQL que se va a ejecutar
+    echo "<br>Preparando INSERT con los siguientes datos:<br>";
+    echo "Nombre: " . htmlspecialchars($nombre) . "<br>";
+    echo "Email: " . htmlspecialchars($email) . "<br>";
+    echo "Rol: " . htmlspecialchars($rol) . "<br>";
+    echo "Avatar URL: " . htmlspecialchars($avatar_url ?? 'null') . "<br>";
+
+    // Intentar la inserción
+    try {
+        if ($stmt->execute()) {
+            $nuevo_id = $conn->insert_id;
+            echo "<br>✅ ¡Registro exitoso! ID del nuevo usuario: " . $nuevo_id . "<br>";
+            echo "Redirigiendo en 3 segundos...<br>";
+            
+            // Verificar que el usuario realmente se insertó
+            $check = $conn->query("SELECT id, nombre FROM usuarios WHERE id = " . $nuevo_id);
+            if ($check && $check->num_rows > 0) {
+                $user = $check->fetch_assoc();
+                echo "✅ Verificado: usuario '" . htmlspecialchars($user['nombre']) . "' creado correctamente.<br>";
+            }
+            
+            echo "<script>
+                setTimeout(function() {
+                    window.location.href = '../views/login.php?success=1&nombre=" . urlencode($nombre) . "';
+                }, 3000);
+            </script>";
+        } else {
+            throw new Exception("Error en INSERT: " . $stmt->error);
+        }
+    } catch (Exception $e) {
+        echo "<br>❌ Error: " . htmlspecialchars($e->getMessage()) . "<br>";
         echo "Errno: " . $conn->errno . "<br>";
+        echo "Error detallado: " . $conn->error . "<br>";
+        
+        // Mostrar el estado de la preparación
+        if ($stmt->errno) {
+            echo "Error en la preparación: " . $stmt->error . "<br>";
+        }
     }
 }
 ?>
