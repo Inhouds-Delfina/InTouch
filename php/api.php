@@ -101,16 +101,18 @@ if ($method === 'POST' && !isset($_POST['_method'])) {
 
 if ($method === 'GET') {
     try {
-    // Devolver pictogramas públicos (usuario_id IS NULL) y los del usuario logueado
-    $session_user_id = $_SESSION['usuario_id'] ?? null;
+        // Devolver solo los pictogramas del usuario logueado
+        $session_user_id = $_SESSION['usuario_id'] ?? null;
         if ($session_user_id) {
-            $sql = "SELECT p.*, c.nombre as categoria_nombre FROM pictogramas p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.usuario_id IS NULL OR p.usuario_id = ? ORDER BY p.creado DESC";
+            $sql = "SELECT p.*, c.nombre as categoria_nombre FROM pictogramas p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.usuario_id = ? ORDER BY p.creado DESC";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $session_user_id);
             $stmt->execute();
             $result = $stmt->get_result();
         } else {
-            $result = $conn->query("SELECT p.*, c.nombre as categoria_nombre FROM pictogramas p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.usuario_id IS NULL ORDER BY p.creado DESC");
+            // Si no hay usuario logueado, devolver array vacío
+            echo json_encode(["status" => "ok", "data" => []]);
+            exit;
         }
         if (!$result) {
             echo json_encode(["status" => "error", "msg" => "Error en SELECT: " . $conn->error]);

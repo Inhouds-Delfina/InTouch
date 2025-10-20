@@ -35,8 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Regenerar id de sesión y asegurar que se escriba antes de redirigir
             session_regenerate_id(true);
             session_write_close();
-            // Redirigir al panel de administración
-            header("Location: ../views/abm.php");
+            // Redirigir a la página principal
+            header("Location: ../index.html");
             exit;
         } else {
             // Redirigir a la vista de login con indicador de error
