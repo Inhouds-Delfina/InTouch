@@ -45,28 +45,48 @@ if ($method === 'POST' && !isset($_POST['_method'])) {
     }
 
     try {
-        if ($id) {
+            // Obtener id de usuario desde la sesión si existe
+            session_start();
+            $session_user_id = $_SESSION['usuario_id'] ?? null;
+            $session_rol = $_SESSION['rol'] ?? null;
+
+            if ($id) {
             // Actualizar
-            if ($imagenUrl) {
-                $sql = "UPDATE pictogramas SET texto=?, categoria_id=?, imagen_url=? WHERE id=?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("sisi", $texto, $categoria_id, $imagenUrl, $id);
-            } else {
-                $sql = "UPDATE pictogramas SET texto=?, categoria_id=? WHERE id=?";
-                $stmt = $conn->prepare($sql);
-                $stmt->bind_param("sii", $texto, $categoria_id, $id);
-            }
-            $ok = $stmt->execute();
-            $response = ["status" => $ok ? "ok" : "error", "msg" => $ok ? "Pictograma actualizado" : $stmt->error];
-            $stmt->close();
+                // Comprobar propietario
+                $ownerCheckSql = "SELECT usuario_id FROM pictogramas WHERE id = ?";
+                $ownerStmt = $conn->prepare($ownerCheckSql);
+                $ownerStmt->bind_param("i", $id);
+                $ownerStmt->execute();
+                $ownerRes = $ownerStmt->get_result();
+                $owner = $ownerRes->fetch_assoc();
+                $ownerStmt->close();
+
+                if ($owner && $owner['usuario_id'] && $owner['usuario_id'] != $session_user_id && $session_rol !== 'admin') {
+                    $response = ["status" => "error", "msg" => "No autorizado para actualizar este pictograma"];
+                } else {
+                    if ($imagenUrl) {
+                        $sql = "UPDATE pictogramas SET texto=?, categoria_id=?, imagen_url=? WHERE id=?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("sisi", $texto, $categoria_id, $imagenUrl, $id);
+                    } else {
+                        $sql = "UPDATE pictogramas SET texto=?, categoria_id=? WHERE id=?";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->bind_param("sii", $texto, $categoria_id, $id);
+                    }
+                    $ok = $stmt->execute();
+                    $response = ["status" => $ok ? "ok" : "error", "msg" => $ok ? "Pictograma actualizado" : $stmt->error];
+                    $stmt->close();
+                }
         } else {
             // Crear nuevo
             if (!$imagenUrl) {
                 $imagenUrl = "https://placehold.co/100x100/a3c9f9/333333?text=" . urlencode(substr($texto, 0, 1));
             }
-            $sql = "INSERT INTO pictogramas (texto, categoria_id, imagen_url) VALUES (?, ?, ?)";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("sis", $texto, $categoria_id, $imagenUrl);
+                $sql = "INSERT INTO pictogramas (texto, categoria_id, imagen_url, usuario_id) VALUES (?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                // asociar con el usuario si está logueado, sino NULL
+                $user_id_param = $session_user_id ?: null;
+                $stmt->bind_param("sisi", $texto, $categoria_id, $imagenUrl, $user_id_param);
             $ok = $stmt->execute();
             $response = ["status" => $ok ? "ok" : "error", "msg" => $ok ? "Pictograma creado" : $stmt->error];
             $stmt->close();
@@ -81,7 +101,18 @@ if ($method === 'POST' && !isset($_POST['_method'])) {
 
 if ($method === 'GET') {
     try {
-        $result = $conn->query("SELECT p.*, c.nombre as categoria_nombre FROM pictogramas p LEFT JOIN categorias c ON p.categoria_id = c.id ORDER BY p.creado DESC");
+        // Devolver pictogramas públicos (usuario_id IS NULL) y los del usuario logueado
+        session_start();
+        $session_user_id = $_SESSION['usuario_id'] ?? null;
+        if ($session_user_id) {
+            $sql = "SELECT p.*, c.nombre as categoria_nombre FROM pictogramas p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.usuario_id IS NULL OR p.usuario_id = ? ORDER BY p.creado DESC";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $session_user_id);
+            $stmt->execute();
+            $result = $stmt->get_result();
+        } else {
+            $result = $conn->query("SELECT p.*, c.nombre as categoria_nombre FROM pictogramas p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.usuario_id IS NULL ORDER BY p.creado DESC");
+        }
         if (!$result) {
             echo json_encode(["status" => "error", "msg" => "Error en SELECT: " . $conn->error]);
             exit;
@@ -106,12 +137,29 @@ if ($method === 'POST' && ($_POST['_method'] ?? '') === 'DELETE') {
     }
 
     try {
-        $sql = "DELETE FROM pictogramas WHERE id=?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $id);
-        $ok = $stmt->execute();
-        $response = ["status" => $ok ? "ok" : "error", "msg" => $ok ? "Pictograma borrado" : $stmt->error];
-        $stmt->close();
+        // Verificar propietario antes de borrar
+        session_start();
+        $session_user_id = $_SESSION['usuario_id'] ?? null;
+        $session_rol = $_SESSION['rol'] ?? null;
+
+        $ownerCheckSql = "SELECT usuario_id FROM pictogramas WHERE id = ?";
+        $ownerStmt = $conn->prepare($ownerCheckSql);
+        $ownerStmt->bind_param("i", $id);
+        $ownerStmt->execute();
+        $ownerRes = $ownerStmt->get_result();
+        $owner = $ownerRes->fetch_assoc();
+        $ownerStmt->close();
+
+        if ($owner && $owner['usuario_id'] && $owner['usuario_id'] != $session_user_id && $session_rol !== 'admin') {
+            $response = ["status" => "error", "msg" => "No autorizado para eliminar este pictograma"];
+        } else {
+            $sql = "DELETE FROM pictogramas WHERE id=?";
+            $stmt = $conn->prepare($sql);
+            $stmt->bind_param("i", $id);
+            $ok = $stmt->execute();
+            $response = ["status" => $ok ? "ok" : "error", "msg" => $ok ? "Pictograma borrado" : $stmt->error];
+            $stmt->close();
+        }
     } catch (Exception $e) {
         $response = ["status" => "error", "msg" => "Error al eliminar: " . $e->getMessage()];
     }

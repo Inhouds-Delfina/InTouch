@@ -15,7 +15,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($res->num_rows > 0) {
         $user = $res->fetch_assoc();
         if (password_verify($contraseña, $user['contraseña'])) {
+            // Guardar id del usuario para asociar recursos (pictogramas)
             $_SESSION['usuario'] = $user['nombre'];
+            $_SESSION['usuario_id'] = $user['id'];
             $_SESSION['rol'] = $user['rol'];
             $_SESSION['avatar'] = $user['avatar_url'];
             header("Location: dashboard.php");
