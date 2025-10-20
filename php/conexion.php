@@ -3,10 +3,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-$host = "localhost";       
-$user = "u214138677_intouch";      
-$pass = "Lachispa@25";     
-$dbname = "u214138677_intouch";       
+$host = getenv("DB_HOST") ?: "localhost";       
+$user = getenv("DB_USER") ?: "u214138677_intouch";      
+$pass = getenv("DB_PASS") ?: "Lachispa@25";     
+$dbname = getenv("DB_NAME") ?: "u214138677_intouch";       
 
 try {
     $conn = new mysqli($host, $user, $pass, $dbname);

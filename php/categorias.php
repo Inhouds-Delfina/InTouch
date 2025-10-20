@@ -13,16 +13,18 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 try {
+    error_log("Intentando conectar a la base de datos...");
     require_once "conexion.php";
-    
-    // Categorías básicas removidas para evitar duplicados
+    error_log("Conexión exitosa a la base de datos");
     
     $method = $_SERVER['REQUEST_METHOD'];
     
     if ($method === 'GET') {
+        error_log("Ejecutando consulta SELECT...");
         $result = $conn->query("SELECT * FROM categorias ORDER BY nombre ASC");
         
         if (!$result) {
+            error_log("Error en la consulta: " . $conn->error);
             echo json_encode(["status" => "error", "msg" => "Error al obtener categorías: " . $conn->error]);
             exit;
         }
