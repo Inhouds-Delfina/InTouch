@@ -4,7 +4,8 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
-include 'conexion.php';
+try {
+    require_once 'conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
@@ -16,11 +17,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    $sql = "SELECT * FROM usuarios WHERE email = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $res = $stmt->get_result();
+    try {
+        $sql = "SELECT * FROM usuarios WHERE email = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $res = $stmt->get_result();
 
     if ($res->num_rows > 0) {
         $user = $res->fetch_assoc();
@@ -42,7 +44,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
     } else {
-        $error = "El usuario no existe.";
+        // Usuario no existe, redirigir con error
+        header("Location: ../views/login.php?error=1");
+        exit;
+    }
+    } catch (Exception $e) {
+        error_log("Error en login: " . $e->getMessage());
+        header("Location: ../views/login.php?error=1");
+        exit;
     }
 }
+
+// Si hay error de conexión
+} catch (Exception $e) {
+    error_log("Error de conexión en login: " . $e->getMessage());
+    header("Location: ../views/login.php?error=1");
+    exit;
+}
+
+// Si llegamos aquí sin POST o por algún otro motivo, redirigir al login
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: ../views/login.php");
+    exit;
+}
+
+// Si hay sesión pero llegamos aquí, ir al panel
+header("Location: ../views/abm.php");
+exit;
 ?>
