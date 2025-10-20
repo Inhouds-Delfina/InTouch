@@ -54,11 +54,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("ssssss", $nombre, $email, $contraseña, $rol, $avatar_url, $fecha_creacion);
 
+    // Si existe el log de depuración creado anteriormente, eliminarlo (temporal)
+    $debugLog = __DIR__ . "/register_debug.log";
+    if (file_exists($debugLog)) {
+        @unlink($debugLog);
+    }
+
     if ($stmt->execute()) {
         header("Location: login.php?success=1");
         exit;
     } else {
-        echo "❌ Error: " . $conn->error;
+        $err = $conn->error;
+        echo "❌ Error: " . $err;
     }
 }
 ?>
