@@ -61,11 +61,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     if ($stmt->execute()) {
-        header("Location: login.php?success=1");
+        // Redirigir a login.php con mensaje de éxito y nombre del usuario
+        header("Location: ../views/login.php?success=1&nombre=" . urlencode($nombre));
         exit;
     } else {
-        $err = $conn->error;
-        echo "❌ Error: " . $err;
+        $mensajes_error[] = "Error al crear la cuenta: " . $conn->error;
+        echo implode("<br>", $mensajes_error);
     }
 }
 ?>
