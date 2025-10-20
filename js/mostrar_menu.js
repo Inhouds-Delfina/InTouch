@@ -43,7 +43,7 @@ function cerrarMenuFuera(event) {
 // Mejorar la navegación
 function irAAdmin() {
     cerrarMenu();
-    window.location.href = 'views/abm.html';
+    window.location.href = 'views/abm.php';
 }
 
 function irATTS() {
@@ -54,17 +54,17 @@ function irATTS() {
 function irALOGIN()
 {
     cerrarMenu();
-    window.location.href = 'views/login.html';
+    window.location.href = 'views/login.php';
 }
 
 function irAREGISTER()
 {
     cerrarMenu();
-    window.location.href = 'views/register.html';
+    window.location.href = 'views/register.php';
 }
 
 function irALOGOUT()
 {
     cerrarMenu();
-    window.location.href = 'views/logout.html';
+    window.location.href = 'views/logout.php';
 }

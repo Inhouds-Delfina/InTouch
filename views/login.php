@@ -33,12 +33,17 @@ $nombre = $_GET['nombre'] ?? '';
   <img src="../img/logo.png" alt="Logo InTouch" class="logo"/>
   <h2>Iniciar sesión</h2>
     <div class="container">
-      <?php if ($success): ?>
-        <div class="alert alert-success">
-          ¡Cuenta creada exitosamente<?php echo $nombre ? ' para ' . htmlspecialchars($nombre) : ''; ?>! 
-          Ya puedes iniciar sesión.
-        </div>
-      <?php endif; ?>
+          <?php if ($success): ?>
+            <div class="alert alert-success">
+              ¡Cuenta creada exitosamente<?php echo $nombre ? ' para ' . htmlspecialchars($nombre) : ''; ?>! 
+              Ya puedes iniciar sesión.
+            </div>
+          <?php endif; ?>
+          <?php if (!empty($_GET['error'])): ?>
+            <div class="alert alert-error">
+              Usuario o contraseña incorrectos. Intenta nuevamente.
+            </div>
+          <?php endif; ?>
 
       <h2>Iniciar sesión</h2>
       <form method="POST" action="../php/login.php">
@@ -46,7 +51,7 @@ $nombre = $_GET['nombre'] ?? '';
         <input type="password" name="contraseña" placeholder="Contraseña" required>
         <button type="submit">Entrar</button>
       </form>
-      <p>¿No tenés cuenta? <a href="register.html">Crear una</a></p>
+  <p>¿No tenés cuenta? <a href="register.php">Crear una</a></p>
     </div>
 </body>
 </html>

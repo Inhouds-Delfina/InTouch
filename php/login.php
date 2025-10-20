@@ -20,10 +20,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['usuario_id'] = $user['id'];
             $_SESSION['rol'] = $user['rol'];
             $_SESSION['avatar'] = $user['avatar_url'];
-            header("Location: dashboard.php");
+            // Redirigir al panel de administración
+            header("Location: ../views/abm.php");
             exit;
         } else {
-            $error = "Contraseña incorrecta.";
+            // Redirigir a la vista de login con indicador de error
+            header("Location: ../views/login.php?error=1");
+            exit;
         }
     } else {
         $error = "El usuario no existe.";

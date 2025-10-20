@@ -1,4 +1,5 @@
 <?php
+session_start();
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
@@ -46,7 +47,6 @@ if ($method === 'POST' && !isset($_POST['_method'])) {
 
     try {
             // Obtener id de usuario desde la sesión si existe
-            session_start();
             $session_user_id = $_SESSION['usuario_id'] ?? null;
             $session_rol = $_SESSION['rol'] ?? null;
 
@@ -101,9 +101,8 @@ if ($method === 'POST' && !isset($_POST['_method'])) {
 
 if ($method === 'GET') {
     try {
-        // Devolver pictogramas públicos (usuario_id IS NULL) y los del usuario logueado
-        session_start();
-        $session_user_id = $_SESSION['usuario_id'] ?? null;
+    // Devolver pictogramas públicos (usuario_id IS NULL) y los del usuario logueado
+    $session_user_id = $_SESSION['usuario_id'] ?? null;
         if ($session_user_id) {
             $sql = "SELECT p.*, c.nombre as categoria_nombre FROM pictogramas p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.usuario_id IS NULL OR p.usuario_id = ? ORDER BY p.creado DESC";
             $stmt = $conn->prepare($sql);
@@ -137,10 +136,9 @@ if ($method === 'POST' && ($_POST['_method'] ?? '') === 'DELETE') {
     }
 
     try {
-        // Verificar propietario antes de borrar
-        session_start();
-        $session_user_id = $_SESSION['usuario_id'] ?? null;
-        $session_rol = $_SESSION['rol'] ?? null;
+    // Verificar propietario antes de borrar
+    $session_user_id = $_SESSION['usuario_id'] ?? null;
+    $session_rol = $_SESSION['rol'] ?? null;
 
         $ownerCheckSql = "SELECT usuario_id FROM pictogramas WHERE id = ?";
         $ownerStmt = $conn->prepare($ownerCheckSql);
