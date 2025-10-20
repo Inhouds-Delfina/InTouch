@@ -1,8 +1,18 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 include 'conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Debug: mostrar datos recibidos
+    echo "Datos recibidos:<br>";
+    echo "Nombre: " . ($_POST['nombre'] ?? 'no recibido') . "<br>";
+    echo "Email: " . ($_POST['email'] ?? 'no recibido') . "<br>";
+    echo "Contraseña recibida: " . (isset($_POST['contraseña']) ? 'sí' : 'no') . "<br>";
+    echo "Avatar recibido: " . (!empty($_FILES['avatar']['name']) ? 'sí' : 'no') . "<br>";
     $nombre = trim($_POST['nombre']);
     $email = trim($_POST['email']);
     $raw_password = $_POST['contraseña'] ?? '';
@@ -60,13 +70,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         @unlink($debugLog);
     }
 
+    // Debug: mostrar consulta SQL y parámetros
+    echo "<br>Intentando ejecutar INSERT con:<br>";
+    echo "Nombre: $nombre<br>";
+    echo "Email: $email<br>";
+    echo "Rol: $rol<br>";
+    echo "Avatar URL: " . ($avatar_url ?? 'null') . "<br>";
+    
     if ($stmt->execute()) {
-        // Redirigir a login.php con mensaje de éxito y nombre del usuario
-        header("Location: ../views/login.php?success=1&nombre=" . urlencode($nombre));
-        exit;
+        echo "<br>¡Registro exitoso! Redirigiendo en 3 segundos...<br>";
+        echo "<script>
+            setTimeout(function() {
+                window.location.href = '../views/login.php?success=1&nombre=" . urlencode($nombre) . "';
+            }, 3000);
+        </script>";
     } else {
-        $mensajes_error[] = "Error al crear la cuenta: " . $conn->error;
-        echo implode("<br>", $mensajes_error);
+        echo "<br>Error en INSERT: " . $conn->error . "<br>";
+        echo "Errno: " . $conn->errno . "<br>";
     }
 }
 ?>
