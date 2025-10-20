@@ -8,6 +8,7 @@ $nombre = $_GET['nombre'] ?? '';
   <meta charset="UTF-8">
   <title>Login | InTouch</title>
   <link rel="icon" type="image/x-icon" href="../img/logo_fondo.ico">
+  <link rel="shortcut icon" type="image/x-icon" href="../img/logo_fondo.ico">
   <link rel="stylesheet" href="../css/auth.css">
   <style>
     .alert {

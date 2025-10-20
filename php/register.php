@@ -1,16 +1,6 @@
 <?php
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
-
 session_start();
 include 'conexion.php';
-
-// Verificar conexión explícitamente
-if ($conn->connect_error) {
-    die("Conexión fallida: " . $conn->connect_error);
-}
-echo "Conexión a la base de datos exitosa<br>";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Debug: mostrar datos recibidos
@@ -76,44 +66,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         @unlink($debugLog);
     }
 
-    // Debug: mostrar la consulta SQL que se va a ejecutar
-    echo "<br>Preparando INSERT con los siguientes datos:<br>";
-    echo "Nombre: " . htmlspecialchars($nombre) . "<br>";
-    echo "Email: " . htmlspecialchars($email) . "<br>";
-    echo "Rol: " . htmlspecialchars($rol) . "<br>";
-    echo "Avatar URL: " . htmlspecialchars($avatar_url ?? 'null') . "<br>";
-
-    // Intentar la inserción
     try {
         if ($stmt->execute()) {
-            $nuevo_id = $conn->insert_id;
-            echo "<br>✅ ¡Registro exitoso! ID del nuevo usuario: " . $nuevo_id . "<br>";
-            echo "Redirigiendo en 3 segundos...<br>";
-            
-            // Verificar que el usuario realmente se insertó
-            $check = $conn->query("SELECT id, nombre FROM usuarios WHERE id = " . $nuevo_id);
-            if ($check && $check->num_rows > 0) {
-                $user = $check->fetch_assoc();
-                echo "✅ Verificado: usuario '" . htmlspecialchars($user['nombre']) . "' creado correctamente.<br>";
-            }
-            
-            echo "<script>
-                setTimeout(function() {
-                    window.location.href = '../views/login.php?success=1&nombre=" . urlencode($nombre) . "';
-                }, 3000);
-            </script>";
+            // Redirección inmediata en caso de éxito
+            header("Location: ../views/login.php?success=1&nombre=" . urlencode($nombre));
+            exit;
         } else {
-            throw new Exception("Error en INSERT: " . $stmt->error);
+            throw new Exception("Error al crear la cuenta");
         }
     } catch (Exception $e) {
-        echo "<br>❌ Error: " . htmlspecialchars($e->getMessage()) . "<br>";
-        echo "Errno: " . $conn->errno . "<br>";
-        echo "Error detallado: " . $conn->error . "<br>";
-        
-        // Mostrar el estado de la preparación
-        if ($stmt->errno) {
-            echo "Error en la preparación: " . $stmt->error . "<br>";
-        }
+        // En caso de error, mostrar un mensaje amigable
+        echo "<div style='text-align: center; padding: 20px; margin: 20px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 4px;'>";
+        echo "❌ No se pudo crear la cuenta. Por favor, intenta nuevamente.";
+        echo "<br><br><a href='javascript:history.back()' style='color: #721c24; text-decoration: underline;'>← Volver al formulario</a>";
+        echo "</div>";
     }
 }
 ?>

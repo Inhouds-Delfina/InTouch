@@ -4,7 +4,7 @@ let categorias = [];
 // Cargar estadísticas
 async function cargarEstadisticas() {
   try {
-    const res = await fetch("php/api.php");
+    const res = await fetch("../php/api.php");
     const data = await res.json();
     
     if (data.status === "ok") {
@@ -19,7 +19,7 @@ async function cargarEstadisticas() {
 // Cargar categorías únicas
 async function cargarCategorias() {
   try {
-    const res = await fetch("php/categorias.php");
+    const res = await fetch("../php/categorias.php");
     const data = await res.json();
     
     if (data.status === "ok") {
@@ -158,7 +158,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       
       try {
-        const res = await fetch("php/api.php", { 
+        const res = await fetch("../php/api.php", { 
           method: "POST", 
           body: formData 
         });
