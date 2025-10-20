@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             session_regenerate_id(true);
             session_write_close();
             // Redirigir a la página principal
-            header("Location: ../index.html");
+            header("Location: ../index.php");
             exit;
         } else {
             // Redirigir a la vista de login con indicador de error
