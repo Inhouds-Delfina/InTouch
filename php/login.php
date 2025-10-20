@@ -4,7 +4,13 @@ include 'conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
-    $contraseña = $_POST['contraseña'];
+    $contraseña = $_POST['contraseña'] ?? '';
+
+    if ($contraseña === '') {
+        // Campo contraseña no enviado; redirigir con error
+        header("Location: ../views/login.php?error=1");
+        exit;
+    }
 
     $sql = "SELECT * FROM usuarios WHERE email = ?";
     $stmt = $conn->prepare($sql);
