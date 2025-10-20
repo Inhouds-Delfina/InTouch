@@ -19,8 +19,7 @@ La app se basa en la **comunicación a través de pictogramas**, acompañados po
 
 ##  Presentación
 Podés ver nuestra presentación en Canva acá:  
-https://www.canva.com/design/DAGtbXtE_7A/5RyXRGnJfn49R4HdXTgxIQ/edit
-
+https://www.canva.com/design/DAG1_7pYmVY/k03XCviALlmyaXyl0bHEyw/view
 ---
 
 ##  Características principales
