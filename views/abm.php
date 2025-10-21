@@ -1,7 +1,9 @@
 <?php
 session_start();
-// Si no hay sesión iniciada, redirigir al login
-if (empty($_SESSION['usuario_id'])) {
+// Si no hay sesión iniciada o ha expirado, redirigir al login
+if (empty($_SESSION['usuario_id']) ||
+    empty($_SESSION['login_time']) ||
+    (time() - $_SESSION['login_time']) > 3600) {
     header('Location: ../views/login.php');
     exit;
 }

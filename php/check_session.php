@@ -3,7 +3,8 @@
 header('Content-Type: application/json');
 session_start();
 
-$logged = isset($_SESSION['usuario_id']) && !empty($_SESSION['usuario_id']);
+$logged = isset($_SESSION['usuario_id']) && !empty($_SESSION['usuario_id']) &&
+          isset($_SESSION['login_time']) && (time() - $_SESSION['login_time']) < 3600; // 1 hora de validez
 $response = [
     'logged_in' => $logged,
     'usuario' => $logged ? ($_SESSION['usuario'] ?? null) : null

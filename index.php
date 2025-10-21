@@ -1,6 +1,8 @@
 <?php
 session_start();
-if (!isset($_SESSION['usuario_id'])) {
+if (!isset($_SESSION['usuario_id']) ||
+    !isset($_SESSION['login_time']) ||
+    (time() - $_SESSION['login_time']) > 3600) {
     header("Location: views/login.php");
     exit;
 }

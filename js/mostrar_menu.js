@@ -45,7 +45,7 @@ function irAAdmin() {
     cerrarMenu();
     console.log('Comprobando sesión antes de ir al panel de administración...');
     // Incluir credenciales para enviar la cookie de sesión
-    fetch('/php/check_session.php', { cache: 'no-store', credentials: 'same-origin' })
+    fetch('php/check_session.php', { cache: 'no-store', credentials: 'same-origin' })
         .then(res => {
             console.log('check_session HTTP status:', res.status, res.statusText);
             return res.json();

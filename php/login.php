@@ -32,9 +32,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['usuario_id'] = $user['id'];
             $_SESSION['rol'] = $user['rol'];
             $_SESSION['avatar'] = $user['avatar_url'];
+            $_SESSION['login_time'] = time(); // Timestamp para verificar sesión
             // Regenerar id de sesión y asegurar que se escriba antes de redirigir
             session_regenerate_id(true);
+            // Forzar escritura de sesión antes de redirigir
             session_write_close();
+            // Pequeña pausa para asegurar que la sesión se escriba
+            usleep(1000);
             // Redirigir a la página principal
             header("Location: ../index.php");
             exit;
