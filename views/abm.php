@@ -2,7 +2,7 @@
 session_start();
 // Si no hay sesión iniciada, redirigir al login
 if (empty($_SESSION['usuario_id'])) {
-    header('Location: login.php');
+    header('Location: ../views/login.php');
     exit;
 }
 $usuario_nombre = $_SESSION['usuario'] ?? 'Usuario';
@@ -22,8 +22,8 @@ error_reporting(E_ALL);
   <link rel="stylesheet" href="../css/abm.css">
   <title>InTouch · Administración de Pictogramas</title>
   <!-- Asegurarnos de que los scripts se cargan desde la raíz del proyecto -->
-  <script src="/js/main.js"></script>
-  <script src="/js/abm.js"></script>
+  <script src="../js/main.js"></script>
+  <script src="../js/abm.js"></script>
 </head>
 <body>
   <main class="admin-app">
@@ -33,7 +33,7 @@ error_reporting(E_ALL);
         <p>Gestiona tus pictogramas de forma fácil y rápida — <strong><?php echo htmlspecialchars($usuario_nombre); ?></strong></p>
       </div>
       <div class="header-actions">
-        <button class="btn-primary" onclick="window.location.href='../index.html'">🏠 Ir a la App</button>
+        <button class="btn-primary" onclick="window.location.href='../index.php'">🏠 Ir a la App</button>
         <button class="btn-success" onclick="abrirModal()">➕ Nuevo Pictograma</button>
       </div>
     </header>
@@ -129,5 +129,6 @@ error_reporting(E_ALL);
     }
   </script>
   <script src="../js/session.js"></script>
+  <script src="../js/abm.js"></script>
 </body>
 </html>
