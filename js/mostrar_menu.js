@@ -51,10 +51,7 @@ function irAAdmin() {
             if (data && data.logged_in) {
                 console.log('Sesión activa para', data.usuario, '- redirigiendo a abm.php');
                 window.location.href = 'views/abm.php';
-            } else {
-                console.log('No hay sesión activa - redirigiendo a login');
-                window.location.href = 'views/login.php';
-            }
+            } 
         })
         .catch(err => {
             console.error('Error comprobando sesión:', err);
