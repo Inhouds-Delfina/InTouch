@@ -8,23 +8,28 @@ window.addEventListener('beforeunload', function() {
 
 // También cerrar sesión si la pestaña queda inactiva por mucho tiempo
 let inactivityTimeout, warningTimeout, countdownInterval;
-const INACTIVITY_TIME = 60 * 1000; // 60 segundos (1 minuto)
-const WARNING_TIME = 45 * 1000; // 45 segundos: mostrar aviso
+const INACTIVITY_TIME = 900 * 1000; // 15 minutos
+const WARNING_TIME = 840 * 1000; // 14 minutos: mostrar aviso (1 minuto antes)
 
 function clearTimers() {
-    clearTimeout(inactivityTimeout);
-    clearTimeout(warningTimeout);
-    clearInterval(countdownInterval);
+    if (inactivityTimeout) clearTimeout(inactivityTimeout);
+    if (warningTimeout) clearTimeout(warningTimeout);
+    if (countdownInterval) clearInterval(countdownInterval);
+    inactivityTimeout = null;
+    warningTimeout = null;
+    countdownInterval = null;
 }
 
 function startTimers() {
+    // Limpiar timers existentes primero
     clearTimers();
-    // Mostrar aviso en WARNING_TIME
+    
+    // Mostrar aviso 1 minuto antes del logout
     warningTimeout = setTimeout(() => {
         showInactivityWarning();
     }, WARNING_TIME);
 
-    // Logout al llegar a INACTIVITY_TIME
+    // Logout después de 15 minutos
     inactivityTimeout = setTimeout(() => {
         window.location.href = '/php/logout.php';
     }, INACTIVITY_TIME);
@@ -104,16 +109,20 @@ function showInactivityWarning() {
     document.body.appendChild(modal);
 
     // Countdown: mostrar segundos restantes hasta logout
-    let remaining = Math.ceil((INACTIVITY_TIME - WARNING_TIME) / 1000); // e.g., 15
+    let remaining = 60; // 1 minuto de advertencia
     const msg = document.getElementById('inactivityMessage');
-    msg.textContent = `Se cerrará la sesión por inactividad en ${remaining} segundos.`;
-    countdownInterval = setInterval(() => {
-        remaining -= 1;
+    
+    function updateMessage() {
         if (remaining <= 0) {
             clearInterval(countdownInterval);
+            return;
         }
         msg.textContent = `Se cerrará la sesión por inactividad en ${remaining} segundos.`;
-    }, 1000);
+        remaining--;
+    }
+    
+    updateMessage(); // Mostrar mensaje inicial
+    countdownInterval = setInterval(updateMessage, 1000);
 }
 
 function hideInactivityWarning() {
