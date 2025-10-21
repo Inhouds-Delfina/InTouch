@@ -128,5 +128,6 @@ error_reporting(E_ALL);
       }
     }
   </script>
+  <script src="../js/session.js"></script>
 </body>
 </html>

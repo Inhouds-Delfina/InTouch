@@ -69,5 +69,6 @@ if (!isset($_SESSION['usuario_id'])) {
   <script src="js/main.js"></script>
   <script src="js/pictos.js"></script>
   <script src="js/mostrar_menu.js"></script>
+  <script src="js/session.js"></script>
 </body>
 </html>
