@@ -99,5 +99,5 @@ function irALOGOUT()
 {
     cerrarMenu();
     try { window._skipAutoLogout = true; } catch(e) {}
-    window.location.href = 'views/logout.html';
+    window.location.href = 'views/logout.php';
 }
