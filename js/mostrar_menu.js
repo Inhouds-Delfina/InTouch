@@ -69,6 +69,12 @@ function irAAdmin() {
         });
 }
 
+function irAABM() {
+    cerrarMenu();
+    try { window._skipAutoLogout = true; } catch(e) {}
+    window.location.href = 'views/abm.html';
+}
+
 function irATTS() {
     cerrarMenu();
     try { window._skipAutoLogout = true; } catch(e) {}
@@ -79,14 +85,14 @@ function irALOGIN()
 {
     cerrarMenu();
     try { window._skipAutoLogout = true; } catch(e) {}
-    window.location.href = 'views/login.php';
+    window.location.href = 'views/login.html';
 }
 
 function irAREGISTER()
 {
     cerrarMenu();
     try { window._skipAutoLogout = true; } catch(e) {}
-    window.location.href = 'views/register.php';
+    window.location.href = 'views/register.html';
 }
 
 function irALOGOUT()
