@@ -8,7 +8,7 @@ window.addEventListener('beforeunload', function() {
 
 // También cerrar sesión si la pestaña queda inactiva por mucho tiempo
 let inactivityTimeout, warningTimeout, countdownInterval;
-const INACTIVITY_TIME = 900; // 15 minutos en segundos
+const INACTIVITY_TIME = 1200; // 15 minutos en segundos
 let currentTime = INACTIVITY_TIME;
 
 function clearTimers() {

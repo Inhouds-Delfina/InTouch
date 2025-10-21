@@ -43,7 +43,24 @@ function cerrarMenuFuera(event) {
 // Mejorar la navegación
 function irAAdmin() {
     cerrarMenu();
-    window.location.href = 'views/abm.php';
+    console.log('Comprobando sesión antes de ir al panel de administración...');
+    fetch('/php/check_session.php', { cache: 'no-store' })
+        .then(res => res.json())
+        .then(data => {
+            console.log('check_session respuesta:', data);
+            if (data && data.logged_in) {
+                console.log('Sesión activa para', data.usuario, '- redirigiendo a abm.php');
+                window.location.href = 'views/abm.php';
+            } else {
+                console.log('No hay sesión activa - redirigiendo a login');
+                window.location.href = 'views/login.php';
+            }
+        })
+        .catch(err => {
+            console.error('Error comprobando sesión:', err);
+            // Fallback: ir al login
+            window.location.href = 'views/login.php';
+        });
 }
 
 function irATTS() {
