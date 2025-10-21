@@ -69,6 +69,12 @@ function irAAdmin() {
         });
 }
 
+function irAABM() {
+    cerrarMenu();
+    try { window._skipAutoLogout = true; } catch(e) {}
+    window.location.href = 'views/abm.html';
+}
+
 function irATTS() {
     cerrarMenu();
     try { window._skipAutoLogout = true; } catch(e) {}
