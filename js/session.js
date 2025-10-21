@@ -8,10 +8,11 @@ window.addEventListener('beforeunload', function() {
 
 // También cerrar sesión si la pestaña queda inactiva por mucho tiempo
 let inactivityTimeout, warningTimeout, countdownInterval;
-const INACTIVITY_TIME = 900 * 1000; // 15 minutos
-const WARNING_TIME = 840 * 1000; // 14 minutos: mostrar aviso (1 minuto antes)
+const INACTIVITY_TIME = 900; // 15 minutos en segundos
+let currentTime = INACTIVITY_TIME;
 
 function clearTimers() {
+    console.log('🔄 Limpiando timers existentes');
     if (inactivityTimeout) clearTimeout(inactivityTimeout);
     if (warningTimeout) clearTimeout(warningTimeout);
     if (countdownInterval) clearInterval(countdownInterval);
@@ -24,22 +25,43 @@ function startTimers() {
     // Limpiar timers existentes primero
     clearTimers();
     
-    // Mostrar aviso 1 minuto antes del logout
-    warningTimeout = setTimeout(() => {
-        showInactivityWarning();
-    }, WARNING_TIME);
+    // Resetear el tiempo
+    currentTime = INACTIVITY_TIME;
+    console.log(`⏰ Iniciando nuevo timer: ${currentTime} segundos`);
+    
+    // Iniciar contador en la consola
+    countdownInterval = setInterval(() => {
+        currentTime--;
+        if (currentTime % 60 === 0) { // Mostrar cada minuto
+            console.log(`⏳ Tiempo restante: ${currentTime} segundos (${Math.floor(currentTime/60)} minutos)`);
+        }
+        
+        // Mostrar advertencia cuando quede 1 minuto
+        if (currentTime === 60) {
+            console.log('⚠️ ¡ADVERTENCIA! Queda 1 minuto');
+            showInactivityWarning();
+        }
+        
+        // Cerrar sesión cuando se acabe el tiempo
+        if (currentTime <= 0) {
+            console.log('🚪 Cerrando sesión por inactividad');
+            clearInterval(countdownInterval);
+            window.location.href = '/php/logout.php';
+        }
+    }, 1000);
+}
 
-    // Logout después de 15 minutos
-    inactivityTimeout = setTimeout(() => {
-        window.location.href = '/php/logout.php';
-    }, INACTIVITY_TIME);
+// Función para manejar cualquier actividad del usuario
+function handleUserActivity() {
+    console.log('👤 Actividad detectada - Reiniciando timer');
+    startTimers();
 }
 
 // Reiniciar timer en cualquier actividad
-document.addEventListener('mousemove', startTimers);
-document.addEventListener('keypress', startTimers);
-document.addEventListener('click', startTimers);
-document.addEventListener('scroll', startTimers);
+document.addEventListener('mousemove', handleUserActivity);
+document.addEventListener('keypress', handleUserActivity);
+document.addEventListener('click', handleUserActivity);
+document.addEventListener('scroll', handleUserActivity);
 
 // Inactividad: mostrar modal de advertencia
 function showInactivityWarning() {
@@ -108,21 +130,22 @@ function showInactivityWarning() {
     modal.appendChild(box);
     document.body.appendChild(modal);
 
-    // Countdown: mostrar segundos restantes hasta logout
-    let remaining = 60; // 1 minuto de advertencia
+        let warningTime = 60; // 1 minuto de advertencia
     const msg = document.getElementById('inactivityMessage');
+    console.log('⚠️ Mostrando modal de advertencia');
     
-    function updateMessage() {
-        if (remaining <= 0) {
+    function updateWarningMessage() {
+        if (warningTime <= 0) {
+            console.log('⏰ Tiempo de advertencia agotado');
             clearInterval(countdownInterval);
             return;
         }
-        msg.textContent = `Se cerrará la sesión por inactividad en ${remaining} segundos.`;
-        remaining--;
+        msg.textContent = `Se cerrará la sesión por inactividad en ${warningTime} segundos.`;
+        warningTime--;
     }
     
-    updateMessage(); // Mostrar mensaje inicial
-    countdownInterval = setInterval(updateMessage, 1000);
+    updateWarningMessage(); // Mostrar mensaje inicial
+    countdownInterval = setInterval(updateWarningMessage, 1000);
 }
 
 function hideInactivityWarning() {
