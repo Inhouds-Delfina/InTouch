@@ -44,14 +44,23 @@ function cerrarMenuFuera(event) {
 function irAAdmin() {
     cerrarMenu();
     console.log('Comprobando sesión antes de ir al panel de administración...');
-    fetch('/php/check_session.php', { cache: 'no-store' })
-        .then(res => res.json())
+    // Incluir credenciales para enviar la cookie de sesión
+    fetch('/php/check_session.php', { cache: 'no-store', credentials: 'same-origin' })
+        .then(res => {
+            console.log('check_session HTTP status:', res.status, res.statusText);
+            return res.json();
+        })
         .then(data => {
             console.log('check_session respuesta:', data);
             if (data && data.logged_in) {
                 console.log('Sesión activa para', data.usuario, '- redirigiendo a abm.php');
+                try { window._skipAutoLogout = true; } catch(e) {}
                 window.location.href = 'views/abm.php';
-            } 
+            } else {
+                console.log('No hay sesión activa - redirigiendo a login');
+                try { window._skipAutoLogout = true; } catch(e) {}
+                window.location.href = 'views/login.php';
+            }
         })
         .catch(err => {
             console.error('Error comprobando sesión:', err);
@@ -62,23 +71,27 @@ function irAAdmin() {
 
 function irATTS() {
     cerrarMenu();
+    try { window._skipAutoLogout = true; } catch(e) {}
     window.location.href = 'views/tts.html';
 }
 
 function irALOGIN()
 {
     cerrarMenu();
+    try { window._skipAutoLogout = true; } catch(e) {}
     window.location.href = 'views/login.php';
 }
 
 function irAREGISTER()
 {
     cerrarMenu();
+    try { window._skipAutoLogout = true; } catch(e) {}
     window.location.href = 'views/register.php';
 }
 
 function irALOGOUT()
 {
     cerrarMenu();
+    try { window._skipAutoLogout = true; } catch(e) {}
     window.location.href = 'views/logout.php';
 }

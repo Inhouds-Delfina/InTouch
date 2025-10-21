@@ -1,9 +1,19 @@
 // Cerrar sesión al cerrar la ventana o navegar fuera
-window.addEventListener('beforeunload', function() {
-    // Llamada síncrona para asegurar que se ejecute
+// Evitar cerrar sesión en navegaciones internas: usar window._skipAutoLogout = true antes de redirigir
+window._skipAutoLogout = window._skipAutoLogout || false;
+window.addEventListener('beforeunload', function(event) {
+    try {
+        if (window._skipAutoLogout) {
+            console.log('beforeunload: preservando sesión (skip flag)');
+            return;
+        }
+    } catch (e) {
+        // ignore
+    }
+    // Llamada síncrona para asegurar que se ejecute si no se indicó skip
     const xhr = new XMLHttpRequest();
     xhr.open('GET', '/php/auto_logout.php', false);
-    xhr.send();
+    try { xhr.send(); } catch(e) { /* ignorar errores */ }
 });
 
 // También cerrar sesión si la pestaña queda inactiva por mucho tiempo
