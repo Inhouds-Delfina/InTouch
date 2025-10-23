@@ -194,6 +194,8 @@ function abrirModal(id = null) {
   const title = document.getElementById('modalTitle');
   const form = document.getElementById('pictoForm');
 
+  console.log('abrirModal llamada con ID:', id);
+
   if (id) {
     console.log('Abriendo modal para editar pictograma ID:', id);
     title.textContent = '✏️ Editar Pictograma';
@@ -208,6 +210,7 @@ function abrirModal(id = null) {
   }
 
   modal.style.display = 'flex';
+  console.log('Modal mostrado en pantalla');
 }
 
 function cerrarModal() {
