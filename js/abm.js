@@ -121,7 +121,12 @@ async function cargarPictogramas() {
 // Mostrar pictogramas en la lista
 function mostrarPictogramas() {
   const container = document.getElementById('pictogramasList');
-  if (!container) return;
+  if (!container) {
+    console.error('Contenedor pictogramasList no encontrado');
+    return;
+  }
+
+  console.log('Mostrando pictogramas:', pictogramas.length);
 
   if (pictogramas.length === 0) {
     container.innerHTML = '<div class="no-pictogramas">No tienes pictogramas creados aún. ¡Crea el primero!</div>';
@@ -129,7 +134,7 @@ function mostrarPictogramas() {
   }
 
   container.innerHTML = pictogramas.map(picto => `
-    <div class="picto-card" data-id="${picto.id}">
+    <div class="picto-card" data-id="${picto.id}" onclick="console.log('Clickeado en card, ID:', ${picto.id})">
       <div class="picto-image">
         <img src="${picto.imagen_url}" alt="${picto.texto}" onerror="this.src='https://placehold.co/100x100/a3c9f9/333333?text=${encodeURIComponent(picto.texto.charAt(0))}'">
       </div>
@@ -138,7 +143,7 @@ function mostrarPictogramas() {
         <p class="categoria">${picto.categoria_nombre || 'Sin categoría'}</p>
       </div>
       <div class="picto-actions">
-        <button class="btn-edit" onclick="console.log('Botón editar clickeado, ID:', ${picto.id}); abrirModal(${picto.id})" title="Editar">
+        <button class="btn-edit" onclick="console.log('Botón editar clickeado, ID:', ${picto.id}); event.stopPropagation(); abrirModal(${picto.id})" title="Editar">
           ✏️
         </button>
         <button class="btn-delete" onclick="eliminarPictograma(${picto.id})" title="Eliminar">
@@ -147,6 +152,8 @@ function mostrarPictogramas() {
       </div>
     </div>
   `).join('');
+
+  console.log('Pictogramas renderizados en el DOM');
 }
 
 // Eliminar pictograma
