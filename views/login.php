@@ -76,7 +76,14 @@ $nombre = $_GET['nombre'] ?? '';
             throw new Error(`HTTP ${response.status}: ${response.statusText}`);
           }
 
-          const data = await response.json();
+          const responseText = await response.text();
+
+          // Verificar si es HTML (error del servidor)
+          if (responseText.trim().startsWith('<!DOCTYPE') || responseText.trim().startsWith('<html')) {
+            throw new Error('El servidor devolvió una página HTML en lugar de JSON. Posible error 500.');
+          }
+
+          const data = JSON.parse(responseText);
 
           if (data.status === 'error') {
             errorDiv.textContent = data.message;
