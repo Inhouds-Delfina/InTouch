@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 session_start();
 try {
     require_once 'conexion.php';
+    error_log("Login: Conexión a BD exitosa");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
