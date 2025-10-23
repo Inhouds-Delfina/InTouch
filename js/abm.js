@@ -66,15 +66,22 @@ function actualizarEstadisticas() {
 // Cargar datos de un pictograma para editar
 async function cargarDatosPictograma(id) {
   try {
-    const res = await fetch(`../php/api.php?id=${id}`);
-    const data = await res.json();
-
-    if (data.status === "ok" && data.data.length > 0) {
-      const picto = data.data[0];
+    console.log('Cargando datos del pictograma ID:', id);
+    // Para obtener un pictograma específico, necesitamos modificar la API o hacer una consulta diferente
+    // Por ahora, buscaremos en la lista ya cargada
+    const picto = pictogramas.find(p => p.id == id);
+    if (picto) {
+      console.log('Pictograma encontrado:', picto);
       document.getElementById("pictoId").value = picto.id;
       document.getElementById("texto").value = picto.texto;
       document.getElementById("categoria_id").value = picto.categoria_id;
-      // Nota: La imagen no se puede precargar en el input file por seguridad del navegador
+      // Limpiar el campo de archivo ya que no podemos precargarlo
+      document.getElementById("imagen").value = "";
+      document.getElementById("fileName").textContent = "Seleccionar archivo...";
+      mostrarNotificacion('Datos cargados para edición', 'info');
+    } else {
+      console.error('Pictograma no encontrado en la lista local');
+      mostrarNotificacion('Error: Pictograma no encontrado', 'error');
     }
   } catch (error) {
     console.error('Error cargando pictograma:', error);
@@ -176,10 +183,12 @@ function abrirModal(id = null) {
   const form = document.getElementById('pictoForm');
 
   if (id) {
+    console.log('Abriendo modal para editar pictograma ID:', id);
     title.textContent = '✏️ Editar Pictograma';
     // Cargar datos del pictograma para editar
     cargarDatosPictograma(id);
   } else {
+    console.log('Abriendo modal para crear nuevo pictograma');
     title.textContent = '➕ Nuevo Pictograma';
     form.reset();
     document.getElementById("pictoId").value = "";
@@ -253,16 +262,19 @@ document.addEventListener("DOMContentLoaded", () => {
   if (form) {
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      
+
       const formData = new FormData(e.target);
       const texto = formData.get('texto');
       const categoria_id = formData.get('categoria_id');
-      
+      const pictoId = formData.get('id');
+
+      console.log('Enviando formulario - ID:', pictoId, 'Texto:', texto, 'Categoría:', categoria_id);
+
       if (!texto || !categoria_id) {
         mostrarNotificacion('Por favor completa todos los campos obligatorios', 'error');
         return;
       }
-      
+
       try {
         const res = await fetch("../php/api.php", {
           method: "POST",
@@ -270,9 +282,11 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         const data = await res.json();
+        console.log('Respuesta del servidor:', data);
 
         if (data.status === 'ok') {
-          mostrarNotificacion(data.msg || 'Pictograma guardado correctamente', 'success');
+          const mensaje = pictoId ? 'Pictograma actualizado correctamente' : 'Pictograma creado correctamente';
+          mostrarNotificacion(mensaje, 'success');
           cerrarModal();
           form.reset();
           cargarPictogramas();
@@ -285,6 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
           mostrarNotificacion('Error: ' + data.msg, 'error');
         }
       } catch (error) {
+        console.error('Error en submit:', error);
         mostrarNotificacion('Error de conexión', 'error');
       }
     });
