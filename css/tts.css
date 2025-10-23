@@ -1,0 +1,408 @@
+/* Estilos para la página de Texto a Voz */
+
+:root {
+  --primary-color: #eef0f5;
+  --secondary-color: #e4dbe9;
+  --success-color: #4ecdc4;
+  --danger-color: #ff6b6b;
+  --warning-color: #f39c12;
+  --light-bg: #f8f9fa;
+  --white: #ffffff;
+  --text-dark: #2c3e50;
+  --text-light: #7f8c8d;
+  --border-color: #e9ecef;
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.15);
+  --border-radius: 16px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  min-height: 100vh;
+  color: var(--text-dark);
+  line-height: 1.6;
+}
+
+.app {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  min-height: 100vh;
+}
+
+/* Header */
+.app header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 15px;
+}
+
+.chip {
+  display: inline-block;
+  background: var(--white);
+  color: var(--text-dark);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  box-shadow: var(--shadow);
+}
+
+/* Barra de información */
+.bar {
+  margin-bottom: 30px;
+}
+
+.sentence {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+/* Sección principal de TTS */
+.tts-section {
+  margin-bottom: 40px;
+}
+
+.tts-card {
+  background: var(--white);
+  border-radius: var(--border-radius);
+  padding: 30px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.tts-card h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+}
+
+.tts-card p {
+  color: var(--text-light);
+  margin-bottom: 30px;
+  font-size: 1.1rem;
+}
+
+/* Controles de TTS */
+.tts-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.control-group {
+  text-align: left;
+}
+
+.control-group label {
+  display: block;
+  font-weight: 600;
+  color: var(--text-dark);
+  margin-bottom: 8px;
+  font-size: 0.95rem;
+}
+
+.control-group select,
+.control-group input[type="range"] {
+  width: 100%;
+  padding: 12px;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: var(--transition);
+}
+
+.control-group select:focus,
+.control-group input[type="range"]:focus {
+  outline: none;
+  border-color: var(--success-color);
+  box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+}
+
+.control-group input[type="range"] {
+  cursor: pointer;
+  accent-color: var(--success-color);
+}
+
+/* Área de texto */
+.text-input-area {
+  margin-bottom: 30px;
+}
+
+.text-input-area textarea {
+  width: 100%;
+  min-height: 150px;
+  padding: 20px;
+  border: 2px solid var(--border-color);
+  border-radius: var(--border-radius);
+  font-size: 1.1rem;
+  line-height: 1.6;
+  resize: vertical;
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+.text-input-area textarea:focus {
+  outline: none;
+  border-color: var(--success-color);
+  box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+}
+
+.text-input-area textarea::placeholder {
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* Acciones de TTS */
+.tts-actions {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.btn-primary, .btn-danger {
+  padding: 15px 30px;
+  border: none;
+  border-radius: var(--border-radius);
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  min-width: 160px;
+  justify-content: center;
+}
+
+.btn-primary {
+  background: var(--success-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #45b7aa;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-danger {
+  background: var(--danger-color);
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #e55a5a;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+}
+
+/* Estado de TTS */
+.tts-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 15px;
+  background: rgba(78, 205, 196, 0.1);
+  border-radius: 12px;
+  border: 1px solid rgba(78, 205, 196, 0.3);
+}
+
+.status-icon {
+  font-size: 1.5rem;
+}
+
+.status-text {
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  margin-top: 40px;
+  padding: 20px;
+  color: var(--text-light);
+}
+
+/* Menú flotante */
+.menufloat {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--success-color);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  z-index: 1000;
+}
+
+.menufloat:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-hover);
+}
+
+.menufloat.rotar45 {
+  transform: rotate(45deg);
+}
+
+.subButton-container {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  visibility: hidden;
+  transition: var(--transition);
+  z-index: 999;
+}
+
+.subButton-container.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+.btn-admin, .btn-tts, .btn-logout {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 1.5rem;
+  transition: var(--transition);
+  box-shadow: var(--shadow);
+}
+
+.btn-admin {
+  background: #667eea;
+  color: white;
+}
+
+.btn-tts {
+  background: var(--success-color);
+  color: white;
+}
+
+.btn-logout {
+  background: var(--danger-color);
+  color: white;
+}
+
+.btn-admin:hover, .btn-tts:hover, .btn-logout:hover {
+  transform: scale(1.1);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Notificaciones */
+.tts-notification {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 15px 20px;
+  border-radius: 8px;
+  color: white;
+  font-weight: 600;
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  animation: slideInRight 0.3s ease;
+}
+
+.tts-notification button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Animaciones */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .app {
+    padding: 15px;
+  }
+
+  .tts-card {
+    padding: 20px;
+  }
+
+  .tts-card h2 {
+    font-size: 1.5rem;
+  }
+
+  .tts-controls {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .tts-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .btn-primary, .btn-danger {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .text-input-area textarea {
+    min-height: 120px;
+    font-size: 1rem;
+  }
+}

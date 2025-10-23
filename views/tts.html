@@ -1,36 +1,104 @@
+<?php
+session_start();
+if (!isset($_SESSION['usuario_id'])) {
+    header("Location: login.php");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon" type="image/x-icon" href="./img/logo_fondo.ico">
+  <link rel="icon" type="image/x-icon" href="../img/logo_fondo.ico">
   <link rel="stylesheet" href="../css/style.css">
-  <script src="../js/main.js"></script>  
+  <link rel="stylesheet" href="../css/tts.css">
+  <script src="../js/main.js"></script>
   <script src="../js/tts.js"></script>
-  <title>InTouch - Voz a texto</title>
+  <script src="../js/session.js"></script>
+  <title>InTouch - Texto a Voz</title>
 </head>
 <body>
-  <main class="admin-app">
+  <main class="app" role="main">
     <header>
-      <h1>Texto Libre</h1>
-      <p>Escribí y escuchá cualquier texto</p>
+      <img src="../img/logo.png" alt="Logo InTouch" class="logo"/>
+      <h4 class="chip">¡Hola, <?php echo htmlspecialchars($_SESSION['usuario']); ?>!</h4>
     </header>
-    <button class="admin-link" onclick="window.location.href='../index.html'">Ir a la App</button>
-    <section class="text-to-speech">
-        <label for="voiceSelect">Voz:</label>
-        <select id="voiceSelect" aria-label="Seleccionar voz"></select>
-        <label for="rate">Velocidad:</label>
-        <input id="rate" type="range" min="0.5" max="1.5" step="0.1" value="1" />
-        <label for="pitch">Tono:</label>
-        <input id="pitch" type="range" min="0.5" max="1.5" step="0.1" value="1" />
-      </div>
-      <textarea id="freeText" placeholder="Escribí tu texto acá"></textarea>
-      <div class="row">
-        <button id="speakText">▶ Leer texto</button>
-        <button id="stopSpeech" class="btn-danger">⏹ Detener</button>
+
+    <section class="bar" aria-label="Información">
+      <div id="info" class="sentence" aria-live="polite" aria-atomic="false">
+        <span class="chip"><small>🎤</small> Texto a Voz Libre</span>
       </div>
     </section>
+
+    <section class="tts-section">
+      <div class="tts-card">
+        <h2>🎤 Texto a Voz</h2>
+        <p>Escribí cualquier texto y escuchalo en voz alta</p>
+
+        <div class="tts-controls">
+          <div class="control-group">
+            <label for="voiceSelect">🎭 Voz:</label>
+            <select id="voiceSelect" aria-label="Seleccionar voz">
+              <option>Cargando voces...</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label for="rate">⚡ Velocidad: <span id="rateValue">1.0</span></label>
+            <input id="rate" type="range" min="0.5" max="2.0" step="0.1" value="1" />
+          </div>
+
+          <div class="control-group">
+            <label for="pitch">🎵 Tono: <span id="pitchValue">1.0</span></label>
+            <input id="pitch" type="range" min="0.5" max="2.0" step="0.1" value="1" />
+          </div>
+        </div>
+
+        <div class="text-input-area">
+          <textarea
+            id="freeText"
+            placeholder="Escribí tu texto acá...&#10;&#10;Por ejemplo:&#10;Hola, ¿cómo estás?&#10;Me gustaría comer una pizza.&#10;Gracias por tu ayuda."
+            aria-label="Texto a convertir en voz"
+          ></textarea>
+        </div>
+
+        <div class="tts-actions">
+          <button id="speakText" class="btn-primary">
+            <span class="btn-icon">🔊</span>
+            Leer Texto
+          </button>
+          <button id="stopSpeech" class="btn-danger">
+            <span class="btn-icon">⏹️</span>
+            Detener
+          </button>
+        </div>
+
+        <div class="tts-status" id="ttsStatus" style="display: none;">
+          <span class="status-icon" id="ttsStatusIcon">🎵</span>
+          <span class="status-text" id="ttsStatusText">Reproduciendo...</span>
+        </div>
+      </div>
     </section>
+
+    <footer>
+      <p>© InTouch - 2025</p>
+    </footer>
   </main>
+
+  <button class="menufloat" id="menufloat" onclick="mostrarMenu()">+</button>
+  <section class="subButton-container">
+    <button class="btn-admin" onclick="irAAdmin()" title="Panel de Administración">
+      ⚙️
+    </button>
+    <button class="btn-tts" onclick="irATTS()" title="Texto a Voz">
+      🎤
+    </button>
+    <button class="btn-logout" onclick="irALOGOUT()" title="Cerrar Sesión">
+      ❌
+    </button>
+  </section>
+
+  <script src="../js/mostrar_menu.js"></script>
 </body>
 </html>
