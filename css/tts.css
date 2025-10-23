@@ -72,6 +72,33 @@ body {
   padding: 20px;
   box-shadow: var(--shadow);
   text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.btn-back {
+  padding: 10px 20px;
+  background: var(--success-color);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+}
+
+.btn-back:hover {
+  background: #45b7aa;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
 }
 
 /* Sección principal de TTS */

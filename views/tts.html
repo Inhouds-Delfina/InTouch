@@ -28,6 +28,10 @@ if (!isset($_SESSION['usuario_id'])) {
     <section class="bar" aria-label="Información">
       <div id="info" class="sentence" aria-live="polite" aria-atomic="false">
         <span class="chip"><small>🎤</small> Texto a Voz Libre</span>
+        <button class="btn-back" onclick="window.location.href='../index.php'" title="Volver a la App">
+          <span class="btn-icon">🏠</span>
+          Volver a la App
+        </button>
       </div>
     </section>
 
@@ -86,19 +90,5 @@ if (!isset($_SESSION['usuario_id'])) {
     </footer>
   </main>
 
-  <button class="menufloat" id="menufloat" onclick="mostrarMenu()">+</button>
-  <section class="subButton-container">
-    <button class="btn-admin" onclick="irAAdmin()" title="Panel de Administración">
-      ⚙️
-    </button>
-    <button class="btn-tts" onclick="irATTS()" title="Texto a Voz">
-      🎤
-    </button>
-    <button class="btn-logout" onclick="irALOGOUT()" title="Cerrar Sesión">
-      ❌
-    </button>
-  </section>
-
-  <script src="../js/mostrar_menu.js"></script>
 </body>
 </html>
