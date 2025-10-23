@@ -26,15 +26,12 @@ if (!isset($_SESSION['usuario_id'])) {
       <p class="subtitle">Texto a Voz Libre</p>
     </header>
 
-    <section class="bar" aria-label="Información">
-      <div id="info" class="sentence" aria-live="polite" aria-atomic="false">
-        <span class="chip"><small>🎤</small> Texto a Voz Libre</span>
-        <button class="btn-back" onclick="window.location.href='../index.php'" title="Volver a la App">
-          <span class="btn-icon">🏠</span>
-          Volver a la App
-        </button>
-      </div>
-    </section>
+    <div class="nav-section">
+      <button class="btn-back" onclick="window.location.href='../index.php'" title="Volver a la App">
+        <span class="btn-icon">🏠</span>
+        Volver a la App
+      </button>
+    </div>
 
     <section class="tts-section">
       <div class="tts-card">
