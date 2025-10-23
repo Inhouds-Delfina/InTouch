@@ -207,13 +207,20 @@ function filtrarCategoria(categoriaId) {
 // Función para recargar pictogramas manualmente
 function recargarPictogramas() {
   console.log('=== RECARGA MANUAL ===');
-  
+
   const currentGrid = document.getElementById('pictogramGrid');
   if (currentGrid) {
+    // Limpiar solo los pictogramas, mantener los controles
+    const controles = currentGrid.querySelector('.controls');
     currentGrid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; padding: 20px; background: #e3f2fd; border-radius: 8px; margin: 10px;">🔄 Recargando pictogramas...</div>';
-    
+
+    // Reagregar controles si existían
+    if (controles) {
+      currentGrid.appendChild(controles);
+    }
+
     pictogramas = [];
-    
+
     cargarPictogramas().then(() => {
       mostrarNotificacion('✅ Pictogramas actualizados');
     });
