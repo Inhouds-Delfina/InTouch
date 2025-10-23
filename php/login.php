@@ -6,18 +6,14 @@ error_reporting(E_ALL);
 session_start();
 try {
     require_once 'conexion.php';
-    error_log("Login: Conexión a BD exitosa");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = trim($_POST['email']);
     $contraseña = $_POST['contraseña'] ?? '';
 
     if ($contraseña === '') {
-        // Campo contraseña no enviado; mostrar error directamente
-        echo json_encode([
-            "status" => "error",
-            "message" => "Por favor ingresa tu contraseña"
-        ]);
+        // Campo contraseña no enviado; redirigir con error
+        header("Location: ../views/login.php?error=1");
         exit;
     }
 
@@ -47,27 +43,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../index.php");
             exit;
         } else {
-            // Mostrar error directamente en lugar de redirigir
-            echo json_encode([
-                "status" => "error",
-                "message" => "Usuario o contraseña incorrectos"
-            ]);
+            // Redirigir a la vista de login con indicador de error
+            header("Location: ../views/login.php?error=1");
             exit;
         }
     } else {
-        // Usuario no existe, mostrar error directamente
-        echo json_encode([
-            "status" => "error",
-            "message" => "Usuario o contraseña incorrectos"
-        ]);
+        // Usuario no existe, redirigir con error
+        header("Location: ../views/login.php?error=1");
         exit;
     }
     } catch (Exception $e) {
         error_log("Error en login: " . $e->getMessage());
-        echo json_encode([
-            "status" => "error",
-            "message" => "Error en el servidor. Inténtalo de nuevo."
-        ]);
+        header("Location: ../views/login.php?error=1");
         exit;
     }
 }
@@ -75,10 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Si hay error de conexión
 } catch (Exception $e) {
     error_log("Error de conexión en login: " . $e->getMessage());
-    echo json_encode([
-        "status" => "error",
-        "message" => "Error de conexión. Inténtalo de nuevo."
-    ]);
+    header("Location: ../views/login.php?error=1");
     exit;
 }
 
