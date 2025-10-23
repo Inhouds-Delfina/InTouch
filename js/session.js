@@ -22,7 +22,6 @@ const INACTIVITY_TIME = 1200; // 15 minutos en segundos
 let currentTime = INACTIVITY_TIME;
 
 function clearTimers() {
-    console.log('🔄 Limpiando timers existentes');
     if (inactivityTimeout) clearTimeout(inactivityTimeout);
     if (warningTimeout) clearTimeout(warningTimeout);
     if (countdownInterval) clearInterval(countdownInterval);
@@ -34,27 +33,20 @@ function clearTimers() {
 function startTimers() {
     // Limpiar timers existentes primero
     clearTimers();
-    
+
     // Resetear el tiempo
     currentTime = INACTIVITY_TIME;
-    console.log(`⏰ Iniciando nuevo timer: ${currentTime} segundos`);
-    
+
     // Iniciar contador en la consola
     countdownInterval = setInterval(() => {
         currentTime--;
-        if (currentTime % 60 === 0) { // Mostrar cada minuto
-            console.log(`⏳ Tiempo restante: ${currentTime} segundos (${Math.floor(currentTime/60)} minutos)`);
-        }
-        
         // Mostrar advertencia cuando quede 1 minuto
         if (currentTime === 60) {
-            console.log('⚠️ ¡ADVERTENCIA! Queda 1 minuto');
             showInactivityWarning();
         }
-        
+
         // Cerrar sesión cuando se acabe el tiempo
         if (currentTime <= 0) {
-            console.log('🚪 Cerrando sesión por inactividad');
             clearInterval(countdownInterval);
             window.location.href = '/php/logout.php';
         }
@@ -63,7 +55,6 @@ function startTimers() {
 
 // Función para manejar cualquier actividad del usuario
 function handleUserActivity() {
-    console.log('👤 Actividad detectada - Reiniciando timer');
     startTimers();
 }
 
@@ -142,11 +133,9 @@ function showInactivityWarning() {
 
         let warningTime = 60; // 1 minuto de advertencia
     const msg = document.getElementById('inactivityMessage');
-    console.log('⚠️ Mostrando modal de advertencia');
-    
+
     function updateWarningMessage() {
         if (warningTime <= 0) {
-            console.log('⏰ Tiempo de advertencia agotado');
             clearInterval(countdownInterval);
             return;
         }
