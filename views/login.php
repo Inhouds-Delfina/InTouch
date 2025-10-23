@@ -46,12 +46,46 @@ $nombre = $_GET['nombre'] ?? '';
           <?php endif; ?>
 
       <h2>Iniciar sesión</h2>
-      <form method="POST" action="../php/login.php">
-        <input type="email" name="email" placeholder="Correo electrónico" required>
-        <input type="password" name="contraseña" placeholder="Contraseña" required>
+      <form id="loginForm">
+        <input type="email" id="email" name="email" placeholder="Correo electrónico" required>
+        <input type="password" id="password" name="contraseña" placeholder="Contraseña" required>
         <button type="submit">Entrar</button>
       </form>
+      <div id="errorMessage" style="display: none; color: red; margin-top: 10px; text-align: center;"></div>
   <p>¿No tenés cuenta? <a href="register.php">Crear una</a></p>
     </div>
+
+    <script>
+      document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const errorDiv = document.getElementById('errorMessage');
+
+        try {
+          const response = await fetch('../php/login.php', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: `email=${encodeURIComponent(email)}&contraseña=${encodeURIComponent(password)}`
+          });
+
+          const data = await response.json();
+
+          if (data.status === 'error') {
+            errorDiv.textContent = data.message;
+            errorDiv.style.display = 'block';
+          } else {
+            // Login exitoso, redirigir
+            window.location.href = '../index.php';
+          }
+        } catch (error) {
+          errorDiv.textContent = 'Error de conexión. Inténtalo de nuevo.';
+          errorDiv.style.display = 'block';
+        }
+      });
+    </script>
 </body>
 </html>

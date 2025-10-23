@@ -12,8 +12,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contraseña = $_POST['contraseña'] ?? '';
 
     if ($contraseña === '') {
-        // Campo contraseña no enviado; redirigir con error
-        header("Location: ../views/login.php?error=1");
+        // Campo contraseña no enviado; mostrar error directamente
+        echo json_encode([
+            "status" => "error",
+            "message" => "Por favor ingresa tu contraseña"
+        ]);
         exit;
     }
 
@@ -43,18 +46,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             header("Location: ../index.php");
             exit;
         } else {
-            // Redirigir a la vista de login con indicador de error
-            header("Location: ../views/login.php?error=1");
+            // Mostrar error directamente en lugar de redirigir
+            echo json_encode([
+                "status" => "error",
+                "message" => "Usuario o contraseña incorrectos"
+            ]);
             exit;
         }
     } else {
-        // Usuario no existe, redirigir con error
-        header("Location: ../views/login.php?error=1");
+        // Usuario no existe, mostrar error directamente
+        echo json_encode([
+            "status" => "error",
+            "message" => "Usuario o contraseña incorrectos"
+        ]);
         exit;
     }
     } catch (Exception $e) {
         error_log("Error en login: " . $e->getMessage());
-        header("Location: ../views/login.php?error=1");
+        echo json_encode([
+            "status" => "error",
+            "message" => "Error en el servidor. Inténtalo de nuevo."
+        ]);
         exit;
     }
 }
@@ -62,7 +74,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 // Si hay error de conexión
 } catch (Exception $e) {
     error_log("Error de conexión en login: " . $e->getMessage());
-    header("Location: ../views/login.php?error=1");
+    echo json_encode([
+        "status" => "error",
+        "message" => "Error de conexión. Inténtalo de nuevo."
+    ]);
     exit;
 }
 
