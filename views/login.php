@@ -72,6 +72,10 @@ $nombre = $_GET['nombre'] ?? '';
             body: `email=${encodeURIComponent(email)}&contraseña=${encodeURIComponent(password)}`
           });
 
+          if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+          }
+
           const data = await response.json();
 
           if (data.status === 'error') {
@@ -82,7 +86,8 @@ $nombre = $_GET['nombre'] ?? '';
             window.location.href = '../index.php';
           }
         } catch (error) {
-          errorDiv.textContent = 'Error de conexión. Inténtalo de nuevo.';
+          console.error('Error de conexión:', error);
+          errorDiv.textContent = 'Error de conexión. Verifica tu conexión a internet.';
           errorDiv.style.display = 'block';
         }
       });
