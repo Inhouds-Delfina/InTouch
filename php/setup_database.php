@@ -1,4 +1,5 @@
 <?php
+// Script para configurar la base de datos con pictogramas globales por defecto
 header('Content-Type: application/json');
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
@@ -56,7 +57,8 @@ try {
     
     foreach ($pictogramas as $picto) {
         $categoria_id = $categoria_ids[$picto['categoria']];
-        $stmt = $conn->prepare("INSERT IGNORE INTO pictogramas (texto, categoria_id, imagen_url) VALUES (?, ?, ?)");
+        // Insertar con usuario_id = NULL para que sean globales
+        $stmt = $conn->prepare("INSERT IGNORE INTO pictogramas (texto, categoria_id, imagen_url, usuario_id) VALUES (?, ?, ?, NULL)");
         $stmt->bind_param("sis", $picto['texto'], $categoria_id, $picto['imagen']);
         $stmt->execute();
         $stmt->close();
