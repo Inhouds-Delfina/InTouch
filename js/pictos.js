@@ -12,19 +12,7 @@ const categoriasDefault = [
   {id: 8, nombre: 'Comida'}
 ];
 
-const pictogramasDefault = [
-  {id: 1, texto: 'Hola', categoria_id: 1, categoria_nombre: 'Saludos', imagen_url: 'https://placehold.co/100x100/a3c9f9/333333?text=H'},
-  {id: 2, texto: 'Adiós', categoria_id: 1, categoria_nombre: 'Saludos', imagen_url: 'https://placehold.co/100x100/a3c9f9/333333?text=A'},
-  {id: 3, texto: 'Agua', categoria_id: 2, categoria_nombre: 'Necesidades', imagen_url: 'https://placehold.co/100x100/f9c6d0/333333?text=💧'},
-  {id: 4, texto: 'Hambre', categoria_id: 2, categoria_nombre: 'Necesidades', imagen_url: 'https://placehold.co/100x100/f9c6d0/333333?text=🍽'},
-  {id: 5, texto: 'Feliz', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://placehold.co/100x100/b5e6b5/333333?text=😊'},
-  {id: 6, texto: 'Triste', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://placehold.co/100x100/b5e6b5/333333?text=😢'},
-  {id: 7, texto: 'Enojado', categoria_id: 3, categoria_nombre: 'Emociones', imagen_url: 'https://placehold.co/100x100/b5e6b5/333333?text=😠'},
-  {id: 8, texto: 'Jugar', categoria_id: 4, categoria_nombre: 'Acciones', imagen_url: 'https://placehold.co/100x100/f0e5f5/333333?text=J'},
-  {id: 9, texto: 'Dormir', categoria_id: 4, categoria_nombre: 'Acciones', imagen_url: 'https://placehold.co/100x100/f0e5f5/333333?text=D'},
-  {id: 10, texto: 'Manzana', categoria_id: 8, categoria_nombre: 'Comida', imagen_url: 'https://placehold.co/100x100/efbfbf/333333?text=🍎'},
-  {id: 11, texto: 'Pan', categoria_id: 8, categoria_nombre: 'Comida', imagen_url: 'https://placehold.co/100x100/efbfbf/333333?text=🍞'}
-];
+
 
 function addChip(text) {
   const span = document.createElement('span');
@@ -236,16 +224,16 @@ function iniciarAutoRecarga() {
 // Cargar datos al iniciar
 document.addEventListener('DOMContentLoaded', function() {
   console.log('=== DOM CARGADO ===');
-  
+
   // Inicializar elementos
   sentenceEl = document.getElementById('sentence');
   grid = document.getElementById('pictogramGrid');
-  
+
   console.log('Grid encontrado:', !!grid);
-  
+
   if (grid) {
     console.log('✅ Iniciando carga de datos...');
-    
+
     // Configurar event listeners
     grid.addEventListener('click', (e) => {
       const tile = e.target.closest('.tile');
@@ -254,12 +242,31 @@ document.addEventListener('DOMContentLoaded', function() {
       addChip(text);
       speak(text);
     });
-    
+
+    // Configurar event listeners para los controles principales
+    const speakBtn = document.getElementById('speakSentence');
+    const clearBtn = document.getElementById('clearSentence');
+
+    if (speakBtn) {
+      speakBtn.addEventListener('click', () => {
+        const sentence = Array.from(sentenceEl.querySelectorAll('.chip'))
+          .map(c => c.textContent)
+          .join(' ');
+        speak(sentence);
+      });
+    }
+
+    if (clearBtn) {
+      clearBtn.addEventListener('click', () => {
+        sentenceEl.innerHTML = '';
+      });
+    }
+
     setTimeout(() => {
       cargarPictogramas();
       cargarCategorias();
     }, 100);
-    
+
     iniciarAutoRecarga();
   } else {
     console.error('❌ Grid no encontrado - revisar HTML');
