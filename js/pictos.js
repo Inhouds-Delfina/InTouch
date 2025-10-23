@@ -136,35 +136,7 @@ function mostrarPictogramas(pictos) {
     });
   }
   
-  // Agregar controles solo si no existen
-if (!controles) {
-  const controlesDiv = document.createElement('div');
-  controlesDiv.className = 'controls';
-  controlesDiv.innerHTML = `
-    <button id="speakSentence" class="btn-accent">🔊 Leer</button>
-    <button id="clearSentence" class="btn-muted">🧹 Borrar</button>
-  `;
-  currentGrid.appendChild(controlesDiv);
-
-  // Configurar event listeners para los controles
-  const speakBtn = document.getElementById('speakSentence');
-  const clearBtn = document.getElementById('clearSentence');
-
-  if (speakBtn) {
-    speakBtn.addEventListener('click', () => {
-      const sentence = Array.from(sentenceEl.querySelectorAll('.chip'))
-        .map(c => c.textContent)
-        .join(' ');
-      speak(sentence);
-    });
-  }
-
-  if (clearBtn) {
-    clearBtn.addEventListener('click', () => {
-      sentenceEl.innerHTML = '';
-    });
-  }
-}
+  // Los controles ahora están en el HTML principal, no se crean dinámicamente
   
   console.log('Pictogramas mostrados en grid:', currentGrid.children.length - 1); // -1 por los controles
   console.log('=== CARGA COMPLETADA ===');
