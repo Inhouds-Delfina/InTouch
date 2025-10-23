@@ -3,19 +3,22 @@ session_start();
 include 'conexion.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Debug: mostrar datos recibidos
-    echo "Datos recibidos:<br>";
-    echo "Nombre: " . ($_POST['nombre'] ?? 'no recibido') . "<br>";
-    echo "Email: " . ($_POST['email'] ?? 'no recibido') . "<br>";
-    echo "Contraseña recibida: " . (isset($_POST['contraseña']) ? 'sí' : 'no') . "<br>";
-    echo "Avatar recibido: " . (!empty($_FILES['avatar']['name']) ? 'sí' : 'no') . "<br>";
     $nombre = trim($_POST['nombre']);
     $email = trim($_POST['email']);
     $raw_password = $_POST['contraseña'] ?? '';
+
+    // Validación de contraseña
     if (strlen($raw_password) < 6) {
         echo "La contraseña debe tener al menos 6 caracteres.";
         exit;
     }
+
+    // Validación de email
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        echo "Email inválido.";
+        exit;
+    }
+
     $contraseña = password_hash($raw_password, PASSWORD_DEFAULT);
     $rol = "usuario";
     $fecha_creacion = date("Y-m-d H:i:s");
@@ -35,12 +38,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Ruta accesible desde las vistas: php/uploads/avatars/...
             $avatar_url = "php/uploads/avatars/" . $fileName;
         }
-    }
-
-    // Validaciones básicas
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        echo "Email inválido.";
-        exit;
     }
 
     // Evitar emails duplicados
@@ -75,11 +72,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             throw new Exception("Error al crear la cuenta");
         }
     } catch (Exception $e) {
-        // En caso de error, mostrar un mensaje amigable
-        echo "<div style='text-align: center; padding: 20px; margin: 20px; background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; border-radius: 4px;'>";
-        echo "❌ No se pudo crear la cuenta. Por favor, intenta nuevamente.";
-        echo "<br><br><a href='javascript:history.back()' style='color: #721c24; text-decoration: underline;'>← Volver al formulario</a>";
-        echo "</div>";
+        // En caso de error, mostrar mensaje simple
+        echo "Error al crear la cuenta. Inténtalo de nuevo.";
     }
 }
 ?>
