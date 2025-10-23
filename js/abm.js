@@ -268,7 +268,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const categoria_id = formData.get('categoria_id');
       const pictoId = formData.get('id');
 
-      console.log('Enviando formulario - ID:', pictoId, 'Texto:', texto, 'Categoría:', categoria_id);
+      console.log('=== FORM SUBMIT DEBUG ===');
+      console.log('Texto:', texto);
+      console.log('Categoria ID:', categoria_id);
+      console.log('Picto ID:', pictoId);
+      console.log('FormData entries:');
+      for (let [key, value] of formData.entries()) {
+        console.log(key + ': ' + value);
+      }
 
       if (!texto || !categoria_id) {
         mostrarNotificacion('Por favor completa todos los campos obligatorios', 'error');
@@ -276,11 +283,13 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       try {
+        console.log('Enviando petición a ../php/api.php');
         const res = await fetch("../php/api.php", {
           method: "POST",
           body: formData
         });
 
+        console.log('Respuesta HTTP status:', res.status);
         const data = await res.json();
         console.log('Respuesta del servidor:', data);
 

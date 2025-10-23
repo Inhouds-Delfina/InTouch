@@ -46,38 +46,45 @@ if ($method === 'POST' && !isset($_POST['_method'])) {
     }
 
     try {
-            // Obtener id de usuario desde la sesión si existe
-            $session_user_id = $_SESSION['usuario_id'] ?? null;
-            $session_rol = $_SESSION['rol'] ?? null;
+             // Obtener id de usuario desde la sesión si existe
+             $session_user_id = $_SESSION['usuario_id'] ?? null;
+             $session_rol = $_SESSION['rol'] ?? null;
 
-            if ($id) {
-            // Actualizar
-                // Comprobar propietario
-                $ownerCheckSql = "SELECT usuario_id FROM pictogramas WHERE id = ?";
-                $ownerStmt = $conn->prepare($ownerCheckSql);
-                $ownerStmt->bind_param("i", $id);
-                $ownerStmt->execute();
-                $ownerRes = $ownerStmt->get_result();
-                $owner = $ownerRes->fetch_assoc();
-                $ownerStmt->close();
+             // Debug: Log de la petición
+             error_log("API POST - ID: " . ($id ?: 'null') . ", Texto: $texto, Categoria: $categoria_id, Usuario: " . ($session_user_id ?: 'null'));
 
-                if ($owner && $owner['usuario_id'] && $owner['usuario_id'] != $session_user_id && $session_rol !== 'admin') {
-                    $response = ["status" => "error", "msg" => "No autorizado para actualizar este pictograma"];
-                } else {
-                    if ($imagenUrl) {
-                        $sql = "UPDATE pictogramas SET texto=?, categoria_id=?, imagen_url=? WHERE id=?";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->bind_param("sisi", $texto, $categoria_id, $imagenUrl, $id);
-                    } else {
-                        $sql = "UPDATE pictogramas SET texto=?, categoria_id=? WHERE id=?";
-                        $stmt = $conn->prepare($sql);
-                        $stmt->bind_param("sii", $texto, $categoria_id, $id);
-                    }
-                    $ok = $stmt->execute();
-                    $response = ["status" => $ok ? "ok" : "error", "msg" => $ok ? "Pictograma actualizado" : $stmt->error];
-                    $stmt->close();
-                }
-        } else {
+             if ($id) {
+             // Actualizar
+                 error_log("API POST - Actualizando pictograma ID: $id");
+                 // Comprobar propietario
+                 $ownerCheckSql = "SELECT usuario_id FROM pictogramas WHERE id = ?";
+                 $ownerStmt = $conn->prepare($ownerCheckSql);
+                 $ownerStmt->bind_param("i", $id);
+                 $ownerStmt->execute();
+                 $ownerRes = $ownerStmt->get_result();
+                 $owner = $ownerRes->fetch_assoc();
+                 $ownerStmt->close();
+
+                 if ($owner && $owner['usuario_id'] && $owner['usuario_id'] != $session_user_id && $session_rol !== 'admin') {
+                     $response = ["status" => "error", "msg" => "No autorizado para actualizar este pictograma"];
+                     error_log("API POST - Error de autorización para actualizar pictograma $id");
+                 } else {
+                     if ($imagenUrl) {
+                         $sql = "UPDATE pictogramas SET texto=?, categoria_id=?, imagen_url=? WHERE id=?";
+                         $stmt = $conn->prepare($sql);
+                         $stmt->bind_param("sisi", $texto, $categoria_id, $imagenUrl, $id);
+                     } else {
+                         $sql = "UPDATE pictogramas SET texto=?, categoria_id=? WHERE id=?";
+                         $stmt = $conn->prepare($sql);
+                         $stmt->bind_param("sii", $texto, $categoria_id, $id);
+                     }
+                     $ok = $stmt->execute();
+                     $response = ["status" => $ok ? "ok" : "error", "msg" => $ok ? "Pictograma actualizado" : $stmt->error];
+                     error_log("API POST - Resultado actualización: " . ($ok ? "OK" : "ERROR: " . $stmt->error));
+                     $stmt->close();
+                 }
+         } else {
+             error_log("API POST - Creando nuevo pictograma");
             // Crear nuevo
             if (!$imagenUrl) {
                 $imagenUrl = "https://placehold.co/100x100/a3c9f9/333333?text=" . urlencode(substr($texto, 0, 1));
