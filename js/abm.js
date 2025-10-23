@@ -72,7 +72,9 @@ async function cargarDatosPictograma(id) {
     const picto = pictogramas.find(p => p.id == id);
     if (picto) {
       console.log('Pictograma encontrado:', picto);
-      document.getElementById("pictoId").value = picto.id;
+      const idField = document.getElementById("pictoId");
+      idField.value = picto.id;
+      idField.name = "id"; // Asegurar que el campo tenga el atributo name correcto
       document.getElementById("texto").value = picto.texto;
       document.getElementById("categoria_id").value = picto.categoria_id;
       // Limpiar el campo de archivo ya que no podemos precargarlo
@@ -192,6 +194,7 @@ function abrirModal(id = null) {
     title.textContent = '➕ Nuevo Pictograma';
     form.reset();
     document.getElementById("pictoId").value = "";
+    document.getElementById("pictoId").name = "id"; // Asegurar que el campo tenga el atributo name
   }
 
   modal.style.display = 'flex';

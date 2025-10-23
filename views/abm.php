@@ -79,7 +79,7 @@ error_reporting(E_ALL);
         <button class="close-btn" onclick="cerrarModal()">&times;</button>
       </div>
       <form id="pictoForm" enctype="multipart/form-data">
-        <input type="hidden" id="pictoId" name="id" value="">
+        <input type="hidden" id="pictoId" value="">
         
         <div class="form-group">
           <label for="texto">📝 Texto del pictograma</label>
