@@ -67,6 +67,7 @@ function actualizarEstadisticas() {
 async function cargarDatosPictograma(id) {
   try {
     console.log('Cargando datos del pictograma ID:', id);
+    console.log('Pictogramas disponibles:', pictogramas.length);
     // Para obtener un pictograma específico, necesitamos modificar la API o hacer una consulta diferente
     // Por ahora, buscaremos en la lista ya cargada
     const picto = pictogramas.find(p => p.id == id);
@@ -75,6 +76,7 @@ async function cargarDatosPictograma(id) {
       const idField = document.getElementById("pictoId");
       idField.value = picto.id;
       idField.name = "id"; // Asegurar que el campo tenga el atributo name correcto
+      console.log('Campo ID configurado - value:', idField.value, 'name:', idField.name);
       document.getElementById("texto").value = picto.texto;
       document.getElementById("categoria_id").value = picto.categoria_id;
       // Limpiar el campo de archivo ya que no podemos precargarlo
@@ -83,6 +85,7 @@ async function cargarDatosPictograma(id) {
       mostrarNotificacion('Datos cargados para edición', 'info');
     } else {
       console.error('Pictograma no encontrado en la lista local');
+      console.log('IDs disponibles:', pictogramas.map(p => p.id));
       mostrarNotificacion('Error: Pictograma no encontrado', 'error');
     }
   } catch (error) {
@@ -274,7 +277,9 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log('=== FORM SUBMIT DEBUG ===');
       console.log('Texto:', texto);
       console.log('Categoria ID:', categoria_id);
-      console.log('Picto ID:', pictoId);
+      console.log('Picto ID desde formData.get("id"):', pictoId);
+      console.log('Campo pictoId.value:', document.getElementById("pictoId").value);
+      console.log('Campo pictoId.name:', document.getElementById("pictoId").name);
       console.log('FormData entries:');
       for (let [key, value] of formData.entries()) {
         console.log(key + ': ' + value);
