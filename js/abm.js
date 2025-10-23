@@ -85,16 +85,24 @@ async function cargarDatosPictograma(id) {
 // Cargar y mostrar lista de pictogramas
 async function cargarPictogramas() {
   try {
+    console.log('Cargando pictogramas...');
     const res = await fetch("../php/api.php");
+    console.log('Respuesta HTTP:', res.status, res.statusText);
     const data = await res.json();
+    console.log('Datos recibidos:', data);
 
     if (data.status === "ok") {
       pictogramas = data.data;
+      console.log('Pictogramas cargados:', pictogramas.length);
       mostrarPictogramas();
       document.getElementById('totalPictogramas').textContent = pictogramas.length;
+    } else {
+      console.error('Error en respuesta:', data.msg);
+      mostrarNotificacion('Error al cargar pictogramas: ' + data.msg, 'error');
     }
   } catch (error) {
     console.error('Error cargando pictogramas:', error);
+    mostrarNotificacion('Error de conexión al cargar pictogramas', 'error');
   }
 }
 

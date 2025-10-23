@@ -103,18 +103,31 @@ if ($method === 'GET') {
     try {
         // Devolver solo los pictogramas del usuario logueado
         $session_user_id = $_SESSION['usuario_id'] ?? null;
+        $session_rol = $_SESSION['rol'] ?? null;
+
+        // Debug: Log de sesión
+        error_log("API GET - Usuario ID: " . ($session_user_id ?: 'null') . ", Rol: " . ($session_rol ?: 'null'));
+
         if ($session_user_id) {
-            $sql = "SELECT p.*, c.nombre as categoria_nombre FROM pictogramas p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.usuario_id = ? ORDER BY p.creado DESC";
-            $stmt = $conn->prepare($sql);
-            $stmt->bind_param("i", $session_user_id);
+            // Si es admin, mostrar todos los pictogramas, sino solo los del usuario
+            if ($session_rol === 'admin') {
+                $sql = "SELECT p.*, c.nombre as categoria_nombre, u.nombre as usuario_nombre FROM pictogramas p LEFT JOIN categorias c ON p.categoria_id = c.id LEFT JOIN usuarios u ON p.usuario_id = u.id ORDER BY p.creado DESC";
+                $stmt = $conn->prepare($sql);
+            } else {
+                $sql = "SELECT p.*, c.nombre as categoria_nombre FROM pictogramas p LEFT JOIN categorias c ON p.categoria_id = c.id WHERE p.usuario_id = ? ORDER BY p.creado DESC";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $session_user_id);
+            }
             $stmt->execute();
             $result = $stmt->get_result();
         } else {
             // Si no hay usuario logueado, devolver array vacío
+            error_log("API GET - No hay usuario logueado");
             echo json_encode(["status" => "ok", "data" => []]);
             exit;
         }
         if (!$result) {
+            error_log("API GET - Error en SELECT: " . $conn->error);
             echo json_encode(["status" => "error", "msg" => "Error en SELECT: " . $conn->error]);
             exit;
         }
@@ -123,8 +136,11 @@ if ($method === 'GET') {
         while ($row = $result->fetch_assoc()) {
             $pictos[] = $row;
         }
+
+        error_log("API GET - Pictogramas encontrados: " . count($pictos));
         echo json_encode(["status" => "ok", "data" => $pictos]);
     } catch (Exception $e) {
+        error_log("API GET - Error: " . $e->getMessage());
         echo json_encode(["status" => "error", "msg" => "Error al obtener pictogramas: " . $e->getMessage()]);
     }
     exit;
