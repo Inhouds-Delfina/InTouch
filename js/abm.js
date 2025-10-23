@@ -138,7 +138,7 @@ function mostrarPictogramas() {
         <p class="categoria">${picto.categoria_nombre || 'Sin categoría'}</p>
       </div>
       <div class="picto-actions">
-        <button class="btn-edit" onclick="abrirModal(${picto.id})" title="Editar">
+        <button class="btn-edit" onclick="console.log('Botón editar clickeado, ID:', ${picto.id}); abrirModal(${picto.id})" title="Editar">
           ✏️
         </button>
         <button class="btn-delete" onclick="eliminarPictograma(${picto.id})" title="Eliminar">
