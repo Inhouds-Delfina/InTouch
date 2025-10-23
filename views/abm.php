@@ -56,6 +56,19 @@ error_reporting(E_ALL);
         </div>
       </div>
     </section>
+
+    <!-- Lista de pictogramas existentes -->
+    <section class="pictogramas-section">
+      <div class="section-header">
+        <h2>📋 Mis Pictogramas</h2>
+        <button class="btn-refresh" onclick="cargarPictogramas()" title="Actualizar lista">
+          🔄 Actualizar
+        </button>
+      </div>
+      <div id="pictogramasList" class="pictogramas-grid">
+        <!-- Los pictogramas se cargan dinámicamente -->
+      </div>
+    </section>
   </main>
 
   <!-- Modal para agregar/editar pictograma -->
@@ -130,7 +143,7 @@ error_reporting(E_ALL);
       }
     }
   </script>
-  <script src="../js/session.js"></script>
   <script src="../js/abm.js"></script>
+  <script src="../js/session.js"></script>
 </body>
 </html>
