@@ -143,7 +143,7 @@ function mostrarPictogramas() {
         <p class="categoria">${picto.categoria_nombre || 'Sin categoría'}</p>
       </div>
       <div class="picto-actions">
-        <button class="btn-edit" onclick="console.log('Botón editar clickeado, ID:', ${picto.id}); event.stopPropagation(); abrirModal(${picto.id})" title="Editar">
+        <button class="btn-edit" onclick="console.log('Botón editar clickeado, ID:', ${picto.id}); event.stopPropagation(); try { abrirModal(${picto.id}); } catch(e) { console.error('Error en abrirModal:', e); }" title="Editar">
           ✏️
         </button>
         <button class="btn-delete" onclick="eliminarPictograma(${picto.id})" title="Eliminar">
