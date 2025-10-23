@@ -41,24 +41,33 @@ body {
 /* Header */
 .app header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  padding: 20px 0;
 }
 
-.logo {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 15px;
+.logo-large {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
 }
 
-.chip {
-  display: inline-block;
-  background: var(--white);
-  color: var(--text-dark);
-  padding: 8px 16px;
-  border-radius: 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  box-shadow: var(--shadow);
+.title-large {
+  font-size: 3rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 10px;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  font-weight: 500;
+  margin: 0;
 }
 
 /* Barra de información */
